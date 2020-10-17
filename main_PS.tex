@@ -1,0 +1,341 @@
+\documentclass[a4paper]{article}
+\usepackage{pgf,tikz,pgfplots}
+\usetikzlibrary{arrows,decorations.markings}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%% Useful packages
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{eqnarray}
+\usepackage{float}
+\usepackage{esint}
+\usepackage{wrapfig}
+\usepackage{gensymb}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{mathtools}
+\DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\cosec}{cosec}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\R}{R}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\Var}{Var}
+\newtheorem{ans}{Answer}[section]
+
+\definecolor{darkblue}{RGB}{	0, 0, 139}
+\newtheoremstyle{new}% <name>
+{2pt}% <Space above>
+{2pt}% <Space below>
+{\color{darkblue}}% Body font
+{}% <Indent amount>
+{\bfseries\color{black}}% Theorem head font
+{:}% <Punctuation after theorem head>
+{.5em}% <Space after theorem headi>
+{}% <Theorem head spec (can be left empty, meaning `normal')>
+\theoremstyle{new}
+\newtheorem{qns}{Problem}[section]
+\setlength{\parindent}{0cm}
+\title{\textbf{Part II EO Problem Sheet Solutions}}
+\author{Tai Yingzhe, Tommy (ytt26)}
+\date{}
+\setlength{\parindent}{0cm}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{Problem Sheet 1}
+\subsection*{Polarization}
+\begin{qns}
+Without using any special device, how can the direction of the polarizing axis of a polaroid sheet be determined?
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+What are the time- and space-dependences of the electric and magnetic fields for light with the complex representations $E_+ = E_1 + iE_2$ and $E_-= E_1 − iE_2$, where $E_{1,2}$ represent the electric fields of $\pm z$-going waves of angular frequency $\omega$, linearly polarized along the $x$- and $y$-directions respectively.\\[5pt]
+Classify $E_\pm$ as describing LCP or RCP light, distinguishing clearly between the cases of positive and negative wavevector $k_z$.
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+Show that the Jones matrix for a polaroid sheet with its transmitting axis at an angle $\theta$ to the $x$-axis is
+$$J_\theta=\begin{pmatrix}\cos^2\theta&\sin\theta\cos\theta\\\sin\theta\cos\theta&\sin^2\theta\\\end{pmatrix}$$
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+Explain how a uniaxial birefringent material can be used to make a quarter-wave plate. If the principal refractive indices are $n_o$, $n_o$ and $n_e$, what is the minimum thickness the plate can be for light of free-space wavelength $\lambda$?
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+A light beam is elliptically polarized with an axial ratio of 3 to 1 and the major axis vertical. What are the possible orientations of linearly polarized light which can be obtained by passing the beam through a quarter-wave plate?
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\begin{qns}
+When a light beam is passed through a linear polarizing filter, maximum and minimum intensities (5 and 2 units respectively) are found for vertical and horizontal planes of polarization. When the beam is passed through a quarter-wave plate with the fast axis vertical and then through the polarizing filter the maximum intensity is found at an angle of 26.6\degree to the vertical. What intensity is transmitted in this case? What is the degree of polarization before and after passing through the quarter-wave plate?
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+Young’s double slit arrangement is illuminated with plane polarized, monochromatic light. The slits are covered by quarter-wave plates oriented to produce circular polarizations of opposite handedness. The “fringe” system is observed through a plane polarizing filter. What is observed as this filter is rotated?
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item Using Jones matrices, show that ideal crossed linear polarizers extinguish light of any polarization.
+\item A quarter-wave plate is inserted between crossed polarizers, with its fast axis at an angle $\theta$ to the transmission axis Ox of the first polarizer. What is the resulting Jones matrix?
+\item If unpolarized light of intensity $I$ is incident on this system, how does the transmitted intensity depend on $\theta$? What is the maximum transmitted intensity, and at what values of $\theta$ does this occur?
+\end{enumerate}
+\end{qns}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item 
+
+\item 
+
+\item 
+
+\end{enumerate}
+\end{ans}
+\newpage
+\begin{qns}
+A non-magnetic uniaxial crystal has principal refractive indices $n_o$, $n_o$ and $n_e$ in a Cartesian co-ordinate system with the z-axis aligned with the optic axis. A planewave with wavevector $\mathbf{k} = k(\sin\theta, 0, \cos \theta)$ has fields
+$$\mathbf{D}(\mathbf{r},t)=D(-\cos\theta,0,\sin\theta)e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$$
+$$\mathbf{H}(\mathbf{r},t)=H(0,1,0)e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$$
+\begin{enumerate}[label=(\alph*)]
+\item Find the corresponding $\mathbf{E}$ and $\mathbf{B}$ fields, and show that these fields satisfy all of Maxwell’s Equations provided the speed of the wave is $c/n_b$, with
+$$\frac{n_b^2\sin^2\theta}{n_e^2}+\frac{n_b^2\cos^2\theta}{n_p^2}=1$$
+\item What is the direction of the Poynting vector?
+\end{enumerate}
+\end{qns}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item 
+
+\item 
+
+\item 
+
+\end{enumerate}
+\end{ans}
+\begin{qns}
+Born has demonstrated that a “molecule” composed of four identical polarizable spheres, interacting by Coulomb fields, can produce optical rotation. Would this be true if the spheres were at the corners of a regular tetrahedron? Might one expect optical rotation from a tri-atomic molecule?
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\begin{qns}
+An EM cavity of length $L$ in the $z$-direction is formed between two perfect plane mirrors. What are the frequencies of the cavity modes (i.e. the standing waves of light with wavevector parallel to the $z$-axis) in the cases where the cavity contains:
+\begin{enumerate}[label=(\alph*)]
+\item a non-magnetic uniaxial crystal with principal refractive indices $n_o$ and $n_e$ with the optic axis aligned (i) parallel; (ii) perpendicular to the z-axis;
+\item an optically active material with average refractive index $n$ and specific rotatory power $\alpha$;
+\item a Faraday medium with average refractive index $n$ and Verdet constant $\mathcal{V}$ with a magnetic field $\mathbf{B}$ along the $z$-axis.
+\end{enumerate}
+\end{qns}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item 
+
+\item 
+
+\item 
+
+\end{enumerate}
+\end{ans}
+\begin{qns}
+Show that for a plasma in a magnetic field $\mathbf{B}$ at low frequencies ($\omega<<\omega_c$, $\omega<<\omega_p^2/\omega_c$), where $\omega_p$ and $\omega_c$ is the plasma and cyclotron frequencies) there exist propagating LCP modes with wavevector $\mathbf{k}\parallel\mathbf{B}$, but no such propagating RCP modes. Derive the dispersion relation of the propagating modes at low frequency, and obtain an expression for their group velocity.\\[5pt]
+[The propagating modes are “helicon” modes, and are responsible for “whistlers”, a characteristic type of audio-frequency radio interference most commonly encountered at high latitudes. They are brief, intermittent pulses at audible frequencies, rapidly descending in pitch.]
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+For the structure shown in Fig. 2.25, calculate the effective refractive index $n$ for low frequency waves travelling along the $z$-axis and hence estimate the mid-gap frequency for the lowest bandgap.
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\subsection*{Coherence}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\section{Problem Sheet 2}
+\subsection*{Electrodynamics}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\subsection*{Radiation}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\section{Problem Sheet 3}
+\subsection*{Relativistic Electrodynamics and Radiation}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\newpage
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\begin{qns}
+
+\end{qns}
+\begin{ans}
+
+\end{ans}
+\end{document}

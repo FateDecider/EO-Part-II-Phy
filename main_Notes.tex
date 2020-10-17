@@ -1,0 +1,398 @@
+\documentclass[a4paper]{article}
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[caption=false]{subfig}
+\setcounter{section}{-1}
+%% Useful packages
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{eqnarray}
+\usepackage{float}
+\usepackage{esint}
+\usepackage{wrapfig}
+\usepackage{gensymb}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.markings}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\cosech}{cosech}
+\DeclareMathOperator{\cov}{Cov}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\R}{R}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\diag}{diag}
+\newtheorem{defi}{Definition}[section]
+\newtheorem{remarks}{Remarks}[section]
+\newtheorem{note}{Note}[section]
+\newtheorem{law}{Law}[section]
+\newtheorem{eg}{Example}[section]
+\newtheorem{notation}{Notation}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[section]
+
+\definecolor{darkblue}{RGB}{	0, 0, 139}
+\newtheoremstyle{new}% <name>
+{5pt}% <Space above>
+{5pt}% <Space below>
+{\color{black}}% Body font
+{}% <Indent amount>
+{\bfseries\color{darkblue}}% Theorem head font
+{:}% <Punctuation after theorem head>
+{.5em}% <Space after theorem headi>
+{}% <Theorem head spec (can be left empty, meaning `normal')>
+\theoremstyle{new}
+\newtheorem{Note}{Note}[section]
+\title{\textbf{EO (Electrodynamics and Optics) Part II Phy}}
+\author{Tai Yingzhe, Tommy (ytt26)}
+\date{}
+\setlength{\parindent}{0cm}
+\begin{document}
+\maketitle
+\tableofcontents
+%5 lectures from DAMTP electrodynamics, self read antenna and scattering and optics
+
+\newpage
+\section{Review of IB Electromagnetism}
+\begin{defi}[Dielectric]
+A dielectric material has no mobile charges that can move freely in an applied field but they nevertheless have a significant effect on applied electric fields. 
+\end{defi}
+\begin{defi}[Polarization]
+The dipole moment per unit volume is called polarization $\mathbf{P}$.
+\end{defi}
+\begin{defi}[Electric Displacement]
+We define the electric displacement to be
+$$\mathbf{D}=\varepsilon_0\mathbf{E}+\mathbf{P}$$
+\end{defi}
+\begin{defi}[Linear Dielectric]
+For linear dielectrics, the induced polarization $\mathbf{P}$ is proportional to the externally applied electric field $\mathbf{E}$.
+\end{defi}
+\begin{defi}[Electric Susceptibility]
+The electric susceptibility is the constant of proportionality for the linear dielectric relation.
+$$\mathbf{P}=\varepsilon_0\chi_e\mathbf{E}$$
+\end{defi}
+\begin{defi}[Permittivity and Dielectric Constant]
+We define the permittivity of the material to be $\varepsilon:=\varepsilon_0(1+\chi_e)$ and $\varepsilon_r:=1+\chi_e$.
+\end{defi}
+\begin{cor}
+In a linear dielectric, the displacement is also proportional to the field.
+\end{cor}
+\begin{proof}
+$\mathbf{D}=\varepsilon_0\mathbf{E}+\mathbf{P}=\varepsilon_0(1+\chi_e)\mathbf{E}=\varepsilon\mathbf{E}$.
+\end{proof}
+\begin{defi}[Magnetic Material]
+All materials are in some sense magnetic since they contain microscopic, atomic-scale currents and magnets which are themselves sources of magnetic field. When magnetically polarized, the material develops a magnetization.
+\end{defi}
+\begin{defi}[Magnetization]
+Magnetization is the magnetic dipole moment per unit volume.
+$$\mathbf{M}:=\frac{\boldsymbol{m}}{V}$$
+\end{defi}
+\begin{defi}[Auxiliary Field]
+We define the auxiliary field to be
+$$\mathbf{H}=\frac{1}{\mu_0}\mathbf{B}-\mathbf{M}$$
+\end{defi}
+\begin{defi}[Linear Magnetic Material]
+For linear magnetic media, $\mathbf{M}$ is directly proportional to $\mathbf{H}$.
+\end{defi}
+\begin{defi}[Magnetic Susceptibility]
+The magnetic susceptibility is the constant of proportionality for the linear magnetic media relation.
+$$\mathbf{M}=\chi_m\mathbf{H}$$
+\end{defi}
+\begin{defi}[Relative Permeability]
+We define the relative permeability $\mu_r:=1+\chi_m$.
+\end{defi}
+\begin{cor}
+In a linear magnetic medium, the magnetic field is also proportional to the auxiliary field.
+\end{cor}
+\begin{proof}
+$\mathbf{B}=\mu_0(\mathbf{H}+\mathbf{M})=\mu_0(1+\chi_m)\mathbf{H}=\mu\mathbf{H}$.
+\end{proof}
+\begin{Note}[Maxwell's Macroscopic Equations]
+The Maxwell's equations in matter are:
+$$\varepsilon_0\boldsymbol{\nabla}\cdot\mathbf{E}=\rho_f+\rho_b=\rho_f-\boldsymbol{\nabla}\cdot\mathbf{P}\implies\int_{\mathcal{S}}\mathbf{D}\cdot d\mathbf{S}=\int_{\mathcal{V}}\rho_fdV,\quad\boldsymbol{\nabla}\cdot\mathbf{D}=\rho_f$$
+$$\int_{\mathcal{S}}\mathbf{B}\cdot d\mathbf{S}=0,\quad \boldsymbol{\nabla}\cdot\mathbf{H}=0$$
+$$\oint_{\mathcal{C}}\mathbf{E}\cdot d\mathbf{l}=-\frac{d}{dt}\int_{\mathcal{S}}\mathbf{B}\cdot d\mathbf{S},\quad \boldsymbol{\nabla}\times\mathbf{E}=-\frac{\partial\mathbf{B}}{\partial t}$$
+$$\frac{1}{\mu_0}\boldsymbol{\nabla}\times\mathbf{B}=\mathbf{J_f}+\mathbf{J_m}+\mathbf{J_b}+\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}\implies\oint_{\mathcal{C}}\mathbf{H}\cdot d\mathbf{l}=\int_{\mathcal{S}}\mathbf{J_f}\cdot d\mathbf{S}+\frac{d}{dt}\int_{\mathcal{S}}\mathbf{D}\cdot d\mathbf{S},\quad\boldsymbol{\nabla}\times\mathbf{H}=\mathbf{J_f}+\frac{\partial\mathbf{D}}{\partial t}$$
+\end{Note}
+\begin{prop}[Statement of Conservation of Charge]
+Consider a domain $D$ with boundary $S=\partial D$, the rate of change of charge density $\rho$ is related to the current density $\mathbf{J}$:
+$$\frac{\partial\rho}{\partial t}+\boldsymbol{\nabla}\cdot\mathbf{J}=0$$
+\end{prop}
+\begin{prop}[Poisson's Equation]
+The scalar electric potential $\phi$ satisfies the Poisson's equation, which is a linear PDE.
+$$\nabla^2\phi=-\rho/\varepsilon_0$$
+\end{prop}
+\begin{prop}
+The energy density of an electromagnetic field in a material is
+$$u=\frac{1}{2}\mathbf{E}\cdot\mathbf{D}+\frac{1}{2}\mathbf{B}\cdot\mathbf{H}$$
+The Poynting vector for these waves are $\mathbf{N}=\mathbf{E}\times\mathbf{H}$.
+\end{prop}
+\begin{prop}
+The fields $\mathbf{E}$ and $\mathbf{B}$ can be written in terms of the potentials $\phi$ and $\mathbf{A}$. 
+$$\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A},\quad\mathbf{E}=-\boldsymbol{\nabla}\phi-\frac{\partial\mathbf{A}}{\partial t}$$
+These potential have gauge freedom.
+\end{prop}
+\begin{Note}[Boundary Conditions]
+$$B_{\text{top}}^{\perp}=B_{\text{bottom}}^{\perp},\quad E_{\text{top},\parallel}=E_{\text{bottom},\parallel}$$
+$$D_{\text{top}}^{\perp}-D_{\text{bottom}}^{\perp}=\sigma_f,\quad H_{\text{top}}^{\parallel}-H_{\text{bottom}}^{\parallel}=\mathbf{K_f}\times\mathbf{\hat{n}}$$
+\end{Note}
+\begin{prop}[Electromagnetic Waves]
+The solution to Maxwell's equations in the case where $\rho=0$ and $\mathbf{J}=0$ (free space) is the equation of electromagnetic waves.
+\end{prop}
+\begin{remarks}\leavevmode
+\begin{enumerate}
+    \item Complex wavevector $\mathbf{k}+i\boldsymbol{\kappa}$ would mean the EM waves are damped. If $\mathbf{k}$ is parallel to $\boldsymbol{\kappa}$, the EM wave is homogeneous. Otherwise, it is inhomogeneous.
+    \item The EM waves satisfy
+    $$\mathbf{k}\cdot\mathbf{D}=0,\quad\mathbf{k}\cdot\mathbf{B}=0$$
+    $$\mathbf{k}\times\mathbf{E}=\omega\mathbf{B},\quad\mathbf{k}\times\mathbf{H}=-\omega\mathbf{D}$$
+    i.e. $\{\mathbf{B},\mathbf{k},\mathbf{E}\}$ and $\{\mathbf{D},\mathbf{k},\mathbf{H}\}$ are separately mutually orthogonal sets, while $\mathbf{E}$ and $\mathbf{H}$ are not necessarily perpendicular to $\mathbf{k}$. (It is, if the material is isotropic.)
+\end{enumerate}
+\end{remarks}
+\begin{prop}
+Some of the incident light on the interface of a linear media will be reflected and some will be transmitted. For s-polarization (light polarized in a direction perpendicular to the plane of incidence), the reflection and transmission ratios will be:
+$$
+r_s=\frac{\cos(\theta_i)-\sqrt{(\frac{n_t}{n_i})^2-\sin^2(\theta_i)}}{\cos(\theta_i)+\sqrt{(\frac{n_t}{n_i})^2-\sin^2(\theta_i)}},\quad t_s=\frac{2\cos(\theta_i)}{\cos(\theta_i)+\sqrt{(\frac{n_t}{n_i})^2-\sin^2(\theta_i)}}$$
+For p-polarization (light polarized in a direction parallel to the plane of incidence), the reflection and transmission ratios will be:
+$$
+r_p=\frac{-(\frac{n_t}{n_i})^2\cos(\theta_i)+\sqrt{(\frac{n_t}{n_i})^2-\sin^2(\theta_i)}}{(\frac{n_t}{n_i})^2\cos(\theta_i)+\sqrt{(\frac{n_t}{n_i})^2-\sin^2(\theta_i)}},\quad t_p=\frac{2\cos(\theta_i)}{(\frac{n_t}{n_i})^2\cos(\theta_i)+\sqrt{(\frac{n_t}{n_i})^2-\sin^2(\theta_i)}}$$
+\end{prop}
+\begin{prop}[Plasma oscillations]
+At the plasma frequency $\omega=\omega_p$, $\varepsilon(\omega_p)=0$, the wave is longitudinal with $\mathbf{k}$ parallel to $\mathbf{E}$.
+\end{prop}
+\newpage
+\section{Optics}
+\subsection{Polarization}
+\begin{defi}[Linearly Polarized Waves]
+A solution with real $\mathbf{E_0}$, $\mathbf{B_0}$, $\mathbf{k}$ is said to be linearly polarized.
+\end{defi}
+\begin{defi}[Elliptically Polarized Waves]
+If $\mathbf{E_0}$ and $\mathbf{B_0}$ are complex, then it is said to be elliptically polarized.
+\end{defi}
+\begin{defi}[Circularly Polarized Waves]
+For an elliptically polarized wave, if $|\boldsymbol{\alpha}| = |\boldsymbol{\beta}|$ and $\boldsymbol{\alpha}\cdot\boldsymbol{\beta}=0$, where $\mathbf{E_0}=\boldsymbol{\alpha}+i\boldsymbol{\beta}$.
+\end{defi}
+\begin{eg}
+Take
+$$\mathbf{E_T}=E_0(\mathbf{\hat{x}}e^{i(kz-\omega t)}+\mathbf{\hat{y}}e^{i(kz-(\omega t-0.5\pi))})$$
+then $E_y$ lags behind $E_x$ by $\delta=\pi/2$. This is defined as a left-handed circularly polarized wave (LCP). An observer towards whom the light is propagating sees $\mathbf{E_T}(z=0)$ rotates anti-clockwise.
+\end{eg}
+\begin{eg}
+For $|a_1|\neq|a_2|$ and $\delta\neq\pm\pi/2$, $\mathbf{E}$ is elliptically polarized with the major/minor axes along directions in the $xy$ plane determined as follows. With $a_1=a$, $a_2=be^{i\delta}$ such that $a,b\in\mathbb{R}$:
+$$E_x=a\cos\omega t,\quad E_y=b\cos(\omega t-\delta)$$
+which gives
+$$\frac{E_y}{b}=\cos\omega t\cos\delta+\sin\omega t\sin\delta=\frac{E_x}{a}\cos\delta+\bigg(1-\frac{E_x^2}{a^2}\bigg)^{1/2}\sin\delta\implies\frac{E_x^2}{a^2}+\frac{E_y^2}{b^2}-2\cos\delta\frac{E_x}{a}\frac{E_y}{b}=\sin^2\delta$$
+where $\alpha=0.5\tan^{-1}\frac{2ab\cos\delta}{a^2-b^2}$ is the angle the ellipse's axes are inclined to with respect to $E_x$ and $E_y$ directions.
+\end{eg}
+\begin{defi}[Jones Notation]
+The complex amplitudes $a_1$ and $a_2$ of the two $x$ and $y$ linearly polarized waves can be used as the basis for a useful matrix approach for handling the effect of various optical devices on the polarization state.
+\end{defi}
+\begin{eg}
+By definition, $x$- and $y$-polarized light are represented by $(1,0)$ and $(0,1)$ respectively, while $\theta$-polarized light is represented by $(\cos\theta,\sin\theta)$. Right circularly polarized and left circularly polarized light respectively represented by $(1/\sqrt{2})(1,-i)$ and $(1/\sqrt{2})(1,i)$. A general elliptically polarized light will be represented by $(a,be^{i\delta})$. Linear combinations, with appropriate phases, of the various polarization states can be used to form other polarization states. For instance, adding both RCP and LCP waves gives $x$-polarized waves.
+\end{eg}
+\subsection{Anisotropic Media}
+\subsubsection{Dichroism}
+\begin{defi}[Dichroic materials]
+Dichroic materials absorb light linearly polarized in one direction more than light polarized in the other.
+\end{defi}
+\begin{eg}
+A polaroid film is a plastic containing conducting polymeric chains aligned by stretching. If the sheet is anisotropic, conducting along $\mathbf{\hat{y}}$ but not along $\mathbf{\hat{x}}$, then light with $\mathbf{E}$ parallel to $\mathbf{\hat{y}}$ is absorbed while those parallel to $\mathbf{\hat{x}}$ is not. The Jones matrix representation for this polaroid is
+$$J_x=\begin{pmatrix}1&0\\0&0\\\end{pmatrix}$$
+In general, a polaroid with transmitting axis oriented at $\theta$ to $\mathbf{\hat{x}}$ is represented by
+$$J_\theta=\begin{pmatrix}\cos^2\theta&\sin\theta\cos\theta\\\sin\theta\cos\theta&\sin^2\theta\\\end{pmatrix}$$
+\end{eg}
+\begin{eg}[Malus's Law]
+For initially $x$-polarized light of intensity $I_0$ which then passes through polarizer $J_\theta$, the output is
+$$J_\theta L_x=\begin{pmatrix}\cos^2\theta&\sin\theta\cos\theta\\\sin\theta\cos\theta&\sin^2\theta\\\end{pmatrix}\begin{pmatrix}1\\0\\\end{pmatrix}\sqrt{I_0}$$
+so the transmitted intensity is
+$$I(\theta)=I_0(\cos^4\theta+\sin^2\theta\cos^2\theta)=I_0\cos^2\theta$$
+\end{eg}
+\subsubsection{Birefringence}
+\begin{defi}[Birefringence]
+Birefringence is the optical property of a material having a refractive index that depends on the polarization and propagation direction of light. These optically anisotropic materials are said to be birefringent. It can be found from
+$$\Delta n=n_e-n_o$$
+where $n_e$ and $n_o$ are refractive indices along the extraordinary and ordinary ray.
+\end{defi}
+\begin{defi}[Permittivity/dielectric tensor]
+For a materials with an anisotropic crystal structure, $\mathbf{E}$ is not necessarily parallel to $\mathbf{D}$ and we thus require a rank two tensor for permittivity, i.e.
+$$D_i=\varepsilon_0\sum_j\varepsilon_{ij}E_j$$
+\end{defi}
+\begin{prop}
+If the system has no energy loss, the dielectric tensor must be Hermitian.
+\end{prop}
+\begin{proof}
+We have the rate of change of energy density in a material to be
+$$\frac{du}{dt}=\frac{1}{2}\frac{d}{dt}(\mathbf{E}\cdot\mathbf{D}+\mathbf{B}\cdot\mathbf{H})=\frac{1}{2}(\mathbf{\dot{E}}\cdot\mathbf{D}+\mathbf{E}\cdot\mathbf{\dot{D}}+\mathbf{\dot{H}}\cdot\mathbf{B}+\mathbf{H}\cdot\mathbf{\dot{B}})$$
+By Poynting theorem, this must be equal to $-\boldsymbol{\nabla}\cdot\mathbf{N}-\mathbf{J}\cdot\mathbf{E}$, but $\mathbf{N}=\mathbf{E}\times\mathbf{H}$ and the vector identity $\boldsymbol{\nabla}\cdot(\mathbf{a}\times\mathbf{b})=\mathbf{b}\cdot(\boldsymbol{\nabla}\times\mathbf{a})-\mathbf{a}\cdot(\boldsymbol{\nabla}\times\mathbf{b})$, hence by Maxwell equations,
+$$\frac{du}{dt}=\mathbf{H}\cdot\mathbf{\dot{B}}+\mathbf{E}\cdot(\mathbf{J}+\mathbf{\dot{D}})-\mathbf{J}\cdot\mathbf{E}=\mathbf{H}\cdot\mathbf{\dot{B}}+\mathbf{E}\cdot\mathbf{\dot{D}}$$
+Compare the first and last lines, we have
+$$(\mathbf{\dot{E}}\cdot\mathbf{D}-\mathbf{E}\cdot\mathbf{\dot{D}})+(\mathbf{\dot{H}}\cdot\mathbf{B}-\mathbf{H}\cdot\mathbf{\dot{B}})=0$$
+The dielectric and magnetic responses can usually be taken to be independent, so each of these bracketed terms must be zero. When $\mathbf{E}$ and $\mathbf{D}$ might be complex, it is necessary to take the real parts first
+$$\text{Re}(\mathbf{E})\cdot\text{Re}(\mathbf{\dot{D}})=\text{Re}(\mathbf{D})\cdot\text{Re}(\mathbf{\dot{E}})$$
+Assume $\mathbf{E}$ and $\mathbf{D}$ are varying time harmonically, then using 
+$$\langle\text{Re}(a)\text{Re}(b)\rangle=\frac{1}{2}\text{Re}(a^*b),\quad a,b\in\mathbb{C}\implies\text{Re}(\mathbf{E^*}\cdot\mathbf{\dot{D}})=\text{Re}(\mathbf{\dot{E}})\cdot\text{Re}(\mathbf{D^*})$$
+We then have $\varepsilon_{ij}=\varepsilon_{ji}^*$, i.e. Hermitian tensor.
+\end{proof}
+\begin{remarks}
+For lossless media and in the absence of optical activity (see later), the dielectric tensor is real and hence symmetric. Thus, it can be diagonalized.
+\end{remarks}
+\begin{defi}[Principal refractive indices]
+For a material with symmetric dielectric tensor, there is a set of orthogonal axes, known as the principal axes, such that we can cast the tensor as a diagonal matrix.
+$$\varepsilon=\diag(\varepsilon_1,\varepsilon_2,\varepsilon_3)=\diag(n_1^2,n_2^2,n_3^2)$$
+\end{defi}
+\begin{defi}[Uniaxial and biaxial]
+Materials with all three principal refractive indices being different is biaxial. If the material has two equal principal refractive indices, then it is uniaxial.
+\end{defi}
+\begin{eg}[Calcite]
+Calcite (CaCO3) is a naturally occuring mineral that crystallizes in a trigonal crystal structure. The crystal plane perpendicular to the optical axis has three-fold symmetry. The refractive index depends on the whether the direction of the electric field is in the plane of the triangular CO$_3$ clusters or perpendicular to them. Conventional to take $n_1=n_2\neq n_3$ for uniaxial system. Then, $n_3:=n_e$ where $e$ labels the extraordinary direction for the optic axis. We also have $n_1=n_2:=n_o$ for the ordinary direction. The birefringence for calcite is
+$$\Delta n=n_e-n_o=-0.172$$
+\end{eg}
+\begin{remarks}\leavevmode
+\begin{enumerate}
+    \item If $\mathbf{E}$ lies along one of the principal axes of a uniaxial or biaxial medium, $\mathbf{D}$ is parallel to $\mathbf{E}$.
+    \item If $\mathbf{E}$ is perpendicular to the optic axis of a uniaxial medium, $\mathbf{D}$ is parallel to $\mathbf{E}$.
+\end{enumerate}
+\end{remarks}
+\subsubsection{Linearly polarized EM waves in anisotropic media}
+\begin{eg}\leavevmode
+\begin{enumerate}
+    \item If $\mathbf{D}$ lies along a principal axis, then $\mathbf{E}$ is parallel to $\mathbf{D}$, and then $\mathbf{E}\times\mathbf{H}=\mathbf{N}$ is parallel to $\mathbf{k}$. The wave equation is then identical to that for an isotropic medium with an $\varepsilon$ corresponding to that for the axis along which $\mathbf{D}$ and $\mathbf{E}$ are directed.
+    \item For a uniaxial material, even if $\mathbf{D}$ is not parallel to either principal axes with equal refractive indices $n_o$, but lies in the plane containing both such axes, then $\mathbf{D}$ is parallel to $\mathbf{E}$. The wave velocity is $c/n_o$. The Poynting vector $\mathbf{N}=\mathbf{E}\times\mathbf{H}$ is therefore not necessarily parallel to $\mathbf{k}$, i.e. the phase and the energy may propagate in different directions.
+\end{enumerate}
+\end{eg}
+\begin{defi}[Optical indicatrix]
+With $\varepsilon_0\mathbf{D}\cdot\mathbf{E}=1$, we can define an ellipsoid
+$$\frac{D_x^2}{\varepsilon_x}+\frac{D_y^2}{\varepsilon_y}+\frac{D_z^2}{\varepsilon_z}=1$$
+called the optical indicatrix. For each polarization of $\mathbf{D}$ the corresponding $\mathbf{E}$ can easily be shown to be normal to the ellipsoid surface at the tip of $\mathbf{D}$.
+\end{defi}
+\begin{prop}
+The length of the radius vector of the ellipsoid in each particulr direction equals the refractive index for a wave with polarization vector $\mathbf{D}$ in that direction.
+\end{prop}
+\begin{proof}
+The refractive index experienced by a wave with polarization vector $\mathbf{D}$ is given by
+$$n^2=\frac{c^2\mu_0D}{E\cos\alpha}=\frac{\varepsilon_0c^2\mu_0D^2}{\varepsilon_0ED\cos\alpha}=D^2$$
+where $|\mathbf{k}\times\mathbf{k}\times\mathbf{E}|=k^2E\cos\alpha=\mu_0\omega^2D$ and $v^2=\omega^2/k^2$, and $\alpha$ is the angle between $\mathbf{E}$ and the plane perpendicular to $\mathbf{k}$.
+\end{proof}
+\begin{remarks}
+It is the polarization direction, not the propagation direction that determines the wave velocity.
+\end{remarks}
+\begin{Note}[Huygens wavelets]
+This can equivalently be represented in terms of the speed of Huygen's wavelets emanating from a point in the crystal and traveling in a particular propagation direction.
+\begin{itemize}
+    \item For wavelets with $\mathbf{D}$ perpendicular to the optic axis (without loss in generality, $z$-axis), the speed of the wavelet is $v_o=c/n_o$ and independent of their direction. These are `ordinary' wavelets and form spherical wavefronts.
+    \item For the linear polarizations orthogonal to the previous case, $\mathbf{D}$ lies in the $\mathbf{k_w}$-$\mathbf{\hat{e}_3}$ plane (where $\mathbf{k_w}$ is the wavevector of the wavelet) and in general $\mathbf{E}$ is not parallel to $\mathbf{D}$. The wavelet speed is $v_e=c/n_b$, where the effective refractive index $n_b$ is
+    $$\frac{(n_b\sin\theta)^2}{n_e^2}+\frac{(n_b\cos\theta)^2}{n_o^2}=1$$
+    where $\theta$ is the angle between the wavelet direction and $\mathbf{\hat{e}_3}$. These are `extraordinary' wavelets and form ellipsoidal wavefronts since the system has cylindrical symmetry around $\mathbf{\hat{z}}$.
+\end{itemize}
+\end{Note}
+\begin{eg}[Double refraction]
+Consider linearly polarized light normally incident on a surface $S$ of a uniaxial crystal: $\mathbf{k_{inc}}$ is parallel to the surface normal $\mathbf{\hat{n}_S}$. Take the optic axis $\mathbf{\hat{e}_3}$ to be at an angle $\theta$ to $\mathbf{\hat{n}_3}$ in the plane of the figure. Inside the crystal, $\mathbf{k}$ is the wavevector for the transmitted ray formed from the superposition of many Huygens wavelets propagating in all directions. $\mathbf{k}$ is parallel to $\mathbf{\hat{n}_S}$ and so $\mathbf{k}$ makes an angle $\theta$ with $\mathbf{\hat{e}_3}$.
+\begin{itemize}
+    \item $\mathbf{D}\perp\mathbf{\hat{e}_3}$, $\mathbf{D}$ lies in the $\mathbf{\hat{e}_1}$-$\mathbf{\hat{e}_2}$ plane again, so $\mathbf{E}\parallel\mathbf{D}$ whatever its direction in this plane. The wavelets for the Huygen construction have speed $c/n_o$, independent of direction, and are therefore spherical and
+    $$\mathbf{E}\times\mathbf{H}=\mathbf{N}\parallel\mathbf{k}$$
+    This is the `ordinary' ray. At non-normal incidence, the ordinary ray would refract in the usual way in a medium with effective refractive index $n_o$.
+    \item For the linear polarization orthogonal to the first case, $\mathbf{D}$ lies in the plane including $\mathbf{\hat{e}_3}$, and in general $\mathbf{E}$ is not parallel to $\mathbf{D}$. The wavelet speed is $c/n_b$, and the Huygens wavelets are ellipsoidal. The tangent planes to the superposition of these ellipsoidal wavelets give the overall wavefronts for the propagating ray, and the direction of $\mathbf{k}$ for this ray remains normal to $S$. $\mathbf{D}$ is necessarily perpendicular to $\mathbf{k}$, but in general $\mathbf{E}$ is not parallel to $\mathbf{D}$, so $\mathbf{E}\times\mathbf{H}=\mathbf{N}$ is not parallel to $\mathbf{k}$. So while the phase again propagates along the surface normal $\mathbf{\hat{n}_S}$, the energy propagates at an angle to the normal: the `extraordinary' ray is therefore laterally shifted when it emerges from the crystal.
+\end{itemize}
+So an object viewed through a uniaxial crystal produces two images, one for the ordinary ray and one for the extraordinary ray - double refraction.
+\end{eg}
+\begin{eg}[Negative dielectric constant]
+Some common metals such as Silver exhibit $\text{Re}[\varepsilon]=-2.4<0$. Imagine a multilayer structure of alternating layers from such a metal and a transparent dielectric with layer thickness $d_1$, $d_2$ and dielectric constants $\varepsilon_1<0$ and $\varepsilon_2>0$. This is an example of a metamaterial. Using the boundary conditions for the fields $\mathbf{D}$ and $\mathbf{E}$, we can calculate the effective dielectric constant for such a structure.
+\begin{itemize}
+    \item When the electric field is polarized parallel to the layers, $E_\parallel$ is conserved and the mean field $\overline{D}$ is the weighted mean of the fields $D=\varepsilon E$ in each of the layers
+    $$\varepsilon_\parallel=\frac{\overline{D}}{E}=\frac{d_1\varepsilon_1+d_2\varepsilon_2}{d_1+d_2}$$
+    On the other hand, when the electric field is polarized perpendicular to the layers, $D_\perp$ is conserved and
+    $$\varepsilon_\perp=\frac{D}{\overline{E}}=\frac{d_1+d_2}{(d_1/\varepsilon_1)+(d_2/\varepsilon_2)}$$
+\end{itemize}
+If $\varepsilon_1\varepsilon_2<0$, then $(\varepsilon_1+\varepsilon_2)(\varepsilon_1^{-1}+\varepsilon_2^{-1})<0$, then in the range $|\varepsilon_1/\varepsilon_2|<d_{1,2}<|\varepsilon_2/\varepsilon_1|$, the effective dielectric constants satisfy
+$$\varepsilon_{\parallel}\varepsilon_\perp<0$$
+One such multilayer structure can be like alternating layers of Silver and a transparent dielectric Al$_2$O$_3$ with $\varepsilon_2=3.2$. This behaves like a uniaxial material with $\varepsilon_\parallel=+0.4$ and $\varepsilon_\perp=-9.6$. The optical indicatrix $\mathbf{D}\varepsilon\mathbf{E}=1$ is now a hyperboloid of one sheet:
+$$\frac{D_x^2}{\varepsilon_\parallel}+\frac{D_y^2}{\varepsilon_\parallel}+\frac{D_z^2}{\varepsilon_\perp}=1$$
+The refractive index surface is still a sphere for the ordinary waves, but becomes a hyperboloid of two sheets for the extraordinary waves. The two surfaces touch along the optical axis $\mathbf{\hat{z}}$.
+\end{eg}
+\newpage
+\subsection{Optical Elements}
+\begin{defi}[Waveplates]
+A waveplate or retarder is an optical device that alters the polarization state of a light wave travelling through it. Two common types of waveplates are the half-wave plate, which shifts the polarization direction of linearly polarized light, and the quarter-wave plate, which converts linearly polarized light into circularly polarized light and vice versa. A quarter-wave plate can be used to produce elliptical polarization as well.
+\end{defi}
+\begin{eg}
+Consider a waveplate such that the principal axes are along $\mathbf{\hat{x}}$, $\mathbf{\hat{y}}$ and $\mathbf{\hat{z}}$, with $n_x=n_f<n_y=n_s$, i.e. the $\mathbf{\hat{x}}$ and $\mathbf{\hat{y}}$ are the fast and slow axes respectively. A plane polarized EM wave $e^{i(kz-\omega t)}$ travels along $\mathbf{\hat{z}}$ at different speeds $c/n_f$ or $c/n_s$ depending on whether $\mathbf{E}$ is parallel to $\mathbf{\hat{x}}$ or $\mathbf{\hat{y}}$. The plate applies phase terms depending on the different optical thickness, i.e. $e^{i\omega nfd/c}$ and $e^{i\omega n_sd/c}$ to $L_x$ and $L_y$ respectively. So, the Jones matrix for the plate is
+$$J_{\text{plate}}=\begin{pmatrix}e^{-i\Delta\phi/2}&0\\0&e^{i\Delta\phi/2}\\\end{pmatrix},\quad\Delta\phi=\omega\frac{d}{c}(n_s-n_f)$$
+which is the phase difference induced by the plate for waves polarized along the fast and slow axes. For quarter-wave plate, $\Delta\phi=\pi/2\iff\lambda/4$ in vacuum, whereas for half-wave plate, $\Delta\phi=\pi\iff\lambda/2$ in vacuum.\\[5pt]
+Suppose a plane polarized wave is incident on a wave plate (fast axis along $\mathbf{\hat{x}}$) with $\mathbf{E}$ at angle $\theta$ to $\mathbf{\hat{x}}$, i.e. incident wave represented by $(\cos\theta,\sin\theta)^T$, so the transmitted wave is $(e^{-i\Delta\phi/2}\cos\theta,e^{i\Delta\phi/2}\sin\theta)$. 
+\begin{itemize}
+    \item If $\Delta\phi=\pi/2$, we have an elliptically polarized light with $\alpha=0$, i.e. $(\cos\theta,i\sin\theta)$ with axes of ellipses lie along $\mathbf{\hat{x}}$ and $\mathbf{\hat{y}}$ have lengths $\cos\theta$ and $\sin\theta$. 
+    \item If $\Delta\phi=\pi$, we have rotated plane polarized light. This time, with $\mathbf{E}$ directed at $-\theta$ to $\mathbf{\hat{x}}$.
+\end{itemize}
+\end{eg}
+\subsection{Induced Birefringence}
+\begin{defi}[Photoelasticity]
+Photoelasticity (or stress birefringence) is the birefringence induced when an otherwise isotropic material is subjected to stress.
+\end{defi}
+\begin{defi}[Kerr Effect]
+In an applied electric field $\mathbf{E_0}$ an otherwise isotropic material can become uniaxially birefringent, with the optic axis along $\mathbf{E_0}$. In liquids and gases, this can be understood as arising from the alignment of anisotropic molecules by the field. Since in an otherwise isotropic liquid or gas the optical properties cannot be sensitive to the sign of the field the change in the refractive index must be quadratic in the electric field to lowest order: $\Delta n=\lambda_0KE^2$ where $K$ is the Kerr constant. 
+\end{defi}
+\begin{defi}[Pockels Effect]
+In solids a similar effect, the so-called Pockels effect, is associated with the lowering of the crystal symmetry by the induced macroscopic dielectric polarization. Crystals that do not have a centre of inversion symmetry could distinguish between positive and negative filds. Therefore, a linear electric field dependence is possible for the Pockels effect.
+\end{defi}
+Suitable materials can therefore be used to make voltage-controlled wave-plates.
+\newpage
+\subsection{Optical Activity}
+\subsubsection{Chiral materials}
+\subsubsection{Faraday effect}
+\newpage
+\subsection{Interference and Partial Polarization}
+\subsection{Metamaterials and Photonic Structures}
+
+
+\newpage
+\subsection{Coherence}
+
+
+\newpage
+\section{Electrodynamics}
+
+
+
+\newpage
+\section{Dipole Radiation}
+
+
+\newpage
+\section{Antenna}
+
+\newpage
+\section{Light Scattering}
+\subsection{Polarization of Scattered Waves}
+\subsection{Various Scattering Mechanisms}
+%Rayleigh, Thomson, Raman
+
+\newpage
+\section{Relativistic Electrodynamics}
+
+\newpage
+\section{Radiation}
+\end{document}
