@@ -36,6 +36,7 @@
 \usepackage{mathtools}
 \DeclareMathOperator{\Proj}{Proj}
 \DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\sinc}{sinc}
 \DeclareMathOperator{\cosec}{cosec}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\Span}{span}
@@ -75,52 +76,88 @@
 \newpage
 \section{Problem Sheet 1}
 \subsection*{Polarization}
-\begin{qns}
+\begin{qns}[Brewster angle]
 Without using any special device, how can the direction of the polarizing axis of a polaroid sheet be determined?
 \end{qns}
 \begin{ans}
-
+We need a natural source of polarized light, like the Sun, with a known polarization axis. The Brewster angle is defined as the angle of incidence where the reflection coefficient for light polarized parallel to the plane of incidence being zero. This is given by $\tan\theta_B=n_o/n$. For light travelling from air $(n_o=1)$ to a material of high refractive index $n$ (non-conducting and shiny surface), this will be close to 45\degree. As a result, light reflected at near 45\degree incidence from the surface is (mostly) vertically polarized. We then rotate the polaroid to a position where the transmission intensity is the minimum. The polarizing axis will be perpendicular to this orientation of the polaroid.
 \end{ans}
-\begin{qns}
+\begin{qns}[Circular Polarization]
 What are the time- and space-dependences of the electric and magnetic fields for light with the complex representations $E_+ = E_1 + iE_2$ and $E_-= E_1 − iE_2$, where $E_{1,2}$ represent the electric fields of $\pm z$-going waves of angular frequency $\omega$, linearly polarized along the $x$- and $y$-directions respectively.\\[5pt]
 Classify $E_\pm$ as describing LCP or RCP light, distinguishing clearly between the cases of positive and negative wavevector $k_z$.
 \end{qns}
 \begin{ans}
-
+We have
+$$\mathbf{E_1}=E_0e^{i(kz-\omega t)}\mathbf{\hat{x}},\quad\mathbf{E_2}=E_0e^{i(kz-\omega t)}\mathbf{\hat{y}}$$
+assuming $x$ and $y$ components have the same amplitude. We then have
+$$\mathbf{E_+}=\mathbf{E_1}+i\mathbf{E_2}=E_0\begin{pmatrix}e^{i(kz-\omega t)}\\ie^{i(kz-\omega t)}\\0\\\end{pmatrix},\quad\mathbf{E_-}=\mathbf{E_1}-i\mathbf{E_2}=E_0\begin{pmatrix}e^{i(kz-\omega t)}\\-ie^{i(kz-\omega t)}\\0\\\end{pmatrix}$$
+At $z=0$ and $t=0$ respectively, we deduce the temporal and spatial variation
+$$\text{Re}[\mathbf{E_+}(z=0,t)]=E_0(\cos\omega t\mathbf{\hat{x}}+\sin\omega t\mathbf{\hat{y}}),\quad\text{Re}[\mathbf{E_+}(z,t=0)]=E_0(\cos kz\mathbf{\hat{x}}-\sin kz\mathbf{\hat{y}})$$
+$$\text{Re}[\mathbf{E_-}(z=0,t)]=E_0(\cos\omega t\mathbf{\hat{x}}-\sin\omega t\mathbf{\hat{y}}),\quad\text{Re}[\mathbf{E_-}(z,t=0)]=E_0(\cos kz\mathbf{\hat{x}}+\sin kz\mathbf{\hat{y}})$$
+The magnetic field will then be
+$$\mathbf{H_+}=\frac{E_0}{Z_0}\begin{pmatrix}-ie^{i(kz-\omega t)}\\e^{i(kz-\omega t)}\\0\\\end{pmatrix},\quad\mathbf{H_-}=\frac{E_0}{Z_0}\begin{pmatrix}ie^{i(kz-\omega t)}\\e^{i(kz-\omega t)}\\0\\\end{pmatrix}$$
+Again, at $z=0$ and $t=0$ respectively, we deduce the temporal and spatial variation
+$$\text{Re}[\mathbf{H_+}(z=0,t)]=\frac{E_0}{Z_0}(-\sin\omega t\mathbf{\hat{x}}+\cos\omega t\mathbf{\hat{y}}),\quad\text{Re}[\mathbf{H_+}(z,t=0)]=\frac{E_0}{Z_0}(\sin kz\mathbf{\hat{x}}+\cos kz\mathbf{\hat{y}})$$
+$$\text{Re}[\mathbf{H_-}(z=0,t)]=\frac{E_0}{Z_0}(\sin\omega t\mathbf{\hat{x}}+\cos\omega t\mathbf{\hat{y}}),\quad\text{Re}[\mathbf{H_-}(z,t=0)]=\frac{E_0}{Z_0}(-\sin kz\mathbf{\hat{x}}+\cos kz\mathbf{\hat{y}})$$
+$\mathbf{E_+}$ is LCP for $k_z>0$ and RCP for $k_z<0$. $\mathbf{E_-}$ is RCP for $k_z>0$ and LCP for $k_z<0$.
 \end{ans}
-\begin{qns}
+\newpage
+\begin{qns}[Jones]
 Show that the Jones matrix for a polaroid sheet with its transmitting axis at an angle $\theta$ to the $x$-axis is
 $$J_\theta=\begin{pmatrix}\cos^2\theta&\sin\theta\cos\theta\\\sin\theta\cos\theta&\sin^2\theta\\\end{pmatrix}$$
 \end{qns}
 \begin{ans}
-
+Since the polaroid sheet has the transmitting axis inclined $\theta$ to the $x$-axis, rays with polarization axis aligned with this transmission axis will pass through completely. The Jones vector representation of this transmitted ray is $j_1=(\cos\theta,\sin\theta)^T$. This ray is invariant under the action of the polaroid, with Jones matrix representation $J_\theta$, i.e. $J_\theta j_1=j_1$.\\[5pt]
+On the other hand, rays with polarization axis aligned perpendicular to this transmission axis will not pass through. The Jones vector representation of the incident ray is $j_2=(\sin\theta,-\cos\theta)^T$. We must have $J_\theta j_2=0$.\\[5pt]
+To find the Jones matrix $J_\theta$, we need to solve both
+$$J_\theta\begin{pmatrix}\cos\theta\\\sin\theta\\\end{pmatrix}=\begin{pmatrix}\cos\theta\\\sin\theta\\\end{pmatrix},\quad J_\theta\begin{pmatrix}\sin\theta\\-\cos\theta\\\end{pmatrix}=\begin{pmatrix}0\\0\\\end{pmatrix}$$
+which gives out desired result, unique up to a multiplicative factor. Here, $j_1$ and $j_2$ are eigenvectors of $J_\theta$ with eigenvalues 1 and 0 respectively.
 \end{ans}
-\begin{qns}
+\begin{qns}[Birefringence]
 Explain how a uniaxial birefringent material can be used to make a quarter-wave plate. If the principal refractive indices are $n_o$, $n_o$ and $n_e$, what is the minimum thickness the plate can be for light of free-space wavelength $\lambda$?
 \end{qns}
 \begin{ans}
-
+The uniaxial birefringent material should be oriented with its principal axes such that $n_o$ and $n_e$ directions lie on the plane of incidence of the wave. To be a quarter-wave plate, the difference in phase it imparts on the fast and slow ray is exactly $\pi/2$. Consider an incident ray along the $z$-axis of the quarter-wave plate, then the introduced phase difference between the $x$-polarized and $y$-polarized component needs to be $\pi/2$ (or $(2n+1)\pi/2$ for $n\in\mathbb{Z}^+$), i.e.
+$$J=\begin{pmatrix}e^{i\omega n_od/c}&0\\0&e^{i\omega n_ed/c}\\\end{pmatrix},\quad\Delta\phi=\frac{\omega}{c}|n_o-n_e|d=\frac{\pi}{2}\implies d=\frac{\lambda}{4|n_o-n_e|}$$
 \end{ans}
-\begin{qns}
+\begin{qns}[Quarter wave plate]
 A light beam is elliptically polarized with an axial ratio of 3 to 1 and the major axis vertical. What are the possible orientations of linearly polarized light which can be obtained by passing the beam through a quarter-wave plate?
 \end{qns}
 \begin{ans}
-
+The Jones vector representation for an elliptically polarized ray is $(a,be^{i\delta})$. We are given $a=3$, $b=1$ and $\alpha=\pi/2$ (major axis vertical), where
+$$\tan2\alpha=\frac{2ab}{a^2-b^2}\cos\delta\implies\cos\delta=0\implies\delta=\frac{\pi}{2}(2n+1)$$
+So we have $(3,i)$. The Jones matrix for a quarter-wave plate (unique up to an unimportant multiplicative factor) is
+$$J_{\lambda/4}=\begin{pmatrix}1&0\\0&\pm i\\\end{pmatrix}$$
+where $\pm$ depends on the orientation of the fast and slow axes. This gives two possible linear polarizations:
+$$\begin{pmatrix}1&0\\0&i\\\end{pmatrix}\begin{pmatrix}3\\i\\\end{pmatrix}=\begin{pmatrix}3\\-1\\\end{pmatrix}=\begin{pmatrix}1&0\\0&-i\\\end{pmatrix}\begin{pmatrix}3\\-i\\\end{pmatrix}$$
+$$\begin{pmatrix}1&0\\0&-i\\\end{pmatrix}\begin{pmatrix}3\\i\\\end{pmatrix}=\begin{pmatrix}3\\1\\\end{pmatrix}=\begin{pmatrix}1&0\\0&i\\\end{pmatrix}\begin{pmatrix}3\\-i\\\end{pmatrix}$$
+We then have these two possible orientations of linearly polarized light, with the vertical axis to be above and below, at an angle $\theta=\tan^{-1}(1/3)$ relative to the $x$-axis.
 \end{ans}
-\newpage
-\begin{qns}
+\begin{qns}[Quarter wave plate, partially polarized]
 When a light beam is passed through a linear polarizing filter, maximum and minimum intensities (5 and 2 units respectively) are found for vertical and horizontal planes of polarization. When the beam is passed through a quarter-wave plate with the fast axis vertical and then through the polarizing filter the maximum intensity is found at an angle of 26.6\degree to the vertical. What intensity is transmitted in this case? What is the degree of polarization before and after passing through the quarter-wave plate?
 \end{qns}
 \begin{ans}
-
+If the light beam is purely polarized, then the ratio of intensities should have been 4 to 1, rather than 5 to 2. The optical components do not attenuate intensities. Hence, the light beam is partially polarized. Let the unpolarized intensity be $I_u$. The polarized part is given to have a maximum along the $y$-axis, so the most generic Jones vector representation is $(a,ib)$, where $b>a$. Given that the maximum and minimum intensities satisfy
+$$5=b^2+I_u,\quad 2=a^2+I_u$$
+The unpolarized part is unaffected by the quarter-wave plate. But, the polarized part after passing through the quarter wave plate, becomes linearly polarized
+$$\begin{pmatrix}1&0\\0&-i\\\end{pmatrix}\begin{pmatrix}a\\ib\\\end{pmatrix}=\begin{pmatrix}a\\b\\\end{pmatrix}$$
+at a given angle 26.6\degree$=\tan^{-1}(a/b)$ from the vertical, i.e. $a/b$ is the ratio of the amplitudes of the polarized components of the fields. From Fresnel-Arago laws, the unpolarized and polarized rays cannot interfere. The maximum intensity after the quarter-wave plate is $a^2+b^2+I_u$. Solve
+$$a=b\tan26.6\degree,\quad 3=b^2-a^2,\implies b=\sqrt{\frac{3}{1-\tan^2(26.6\degree)}},\quad  a=\sqrt{3\bigg(\frac{1}{1-\tan^2(26.6\degree)}-1\bigg)}$$
+which gives
+$$I_u=5-b^2=2-a^2=5-\frac{3}{1-\tan^2(26.6\degree)}\implies a^2+b^2+I_u=\frac{3}{1-\tan^2(26.6\degree)}+2=6.004$$
+and $a^2+b^2=5.008$. The degree of polarization before and after are respectively
+$$\frac{b^2}{I_u+b^2}=\frac{4.004}{5}=0.8,\quad\frac{a^2+b^2}{I_u+a^2+b^2}=\frac{5.008}{6.004}=0.83$$
 \end{ans}
-\begin{qns}
+\begin{qns}[Quarter wave plate]
 Young’s double slit arrangement is illuminated with plane polarized, monochromatic light. The slits are covered by quarter-wave plates oriented to produce circular polarizations of opposite handedness. The “fringe” system is observed through a plane polarizing filter. What is observed as this filter is rotated?
 \end{qns}
 \begin{ans}
-
+The quarter-wave plates placed in front of the slits produce circularly polarized light of opposite handedness. Two opposite-handed circular polarized rays give a linearly polarized ray when superposed. The orientation of polarization depends on the phase difference between them (related to the path difference $kd\sin\theta$ between the two rays in this double slit arrangement), i.e.
+$$\mathbf{E_L}=E_0\begin{pmatrix}1\\i\\\end{pmatrix}e^{i(kx-\omega t)},\quad\mathbf{E_R}=E_0\begin{pmatrix}1\\-i\\\end{pmatrix}e^{i(kx-\omega t)}e^{i\Delta }\implies\mathbf{E}=\mathbf{E_L}+\mathbf{E_R}=E_0e^{i(kx-\omega t)}\begin{pmatrix}\cos\Delta /2\\\sin \Delta/2\\\end{pmatrix}$$
+where $\Delta=kd\sin\theta$ and $d$ is the distance between the two slits. When two circular polarized waves are in quadrature (phase difference of $\pi/2$), the horizontal components constructively interfere and the vertical components destructively interfere. This gives a 'Fraunhofer diffraction pattern' of uniform intensity but with the direction of the polarization axis varying across the screen, i.e. fringes of alternating vertical and horizontal polarization. As the polarizing filter is rotated, the light fringes on the screen are shifted accordingly, i.e. a shift of one fringe spacing for every rotation of $\pi/2$ for the polarizer.
 \end{ans}
-\begin{qns}\leavevmode
+\newpage
+\begin{qns}[Optical elements]\leavevmode
 \begin{enumerate}[label=(\alph*)]
 \item Using Jones matrices, show that ideal crossed linear polarizers extinguish light of any polarization.
 \item A quarter-wave plate is inserted between crossed polarizers, with its fast axis at an angle $\theta$ to the transmission axis Ox of the first polarizer. What is the resulting Jones matrix?
@@ -129,16 +166,16 @@ Young’s double slit arrangement is illuminated with plane polarized, monochrom
 \end{qns}
 \begin{ans}\leavevmode
 \begin{enumerate}[label=(\alph*)]
-\item 
-
-\item 
-
-\item 
-
+\item To extinguish light, $J_{\text{result}}$ must be the zero matrix, i.e.
+$$J_{\text{result}}=J_xJ_y=\begin{pmatrix}1&0\\0&0\\\end{pmatrix}\begin{pmatrix}0&0\\0&1\\\end{pmatrix}=\boldsymbol{0}$$
+\item Multiply the Jones matrix representations of all the optical elements involved:
+$$J_yR_\theta J_{\lambda/4}R_\theta^{-1}J_x=\begin{pmatrix}0&0\\(1-i)\sin\theta\cos\theta&0\\\end{pmatrix}$$
+\item After the first linear polarizer, the intensity is halved, so $\mathbf{E}=(1/\sqrt{2},0)$. The final field is
+$$\mathbf{E_f}=J_yR_\theta e^{i\pi/4}\begin{pmatrix}1&0\\0&i\\\end{pmatrix}R_\theta^{-1}\begin{pmatrix}1/\sqrt{2}\\0\\\end{pmatrix}=\begin{pmatrix}0\\\sin\theta\cos\theta(1-i)\\\end{pmatrix}\frac{1}{\sqrt{2}}e^{i\pi/4}$$
+The intensity is maximum at $\theta=\pi/4$ by inspection. the final intensity is $(1/\sqrt{2})^2(0.5I)=0.25 I$.
 \end{enumerate}
 \end{ans}
-\newpage
-\begin{qns}
+\begin{qns}[Double refraction]
 A non-magnetic uniaxial crystal has principal refractive indices $n_o$, $n_o$ and $n_e$ in a Cartesian co-ordinate system with the z-axis aligned with the optic axis. A planewave with wavevector $\mathbf{k} = k(\sin\theta, 0, \cos \theta)$ has fields
 $$\mathbf{D}(\mathbf{r},t)=D(-\cos\theta,0,\sin\theta)e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$$
 $$\mathbf{H}(\mathbf{r},t)=H(0,1,0)e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$$
@@ -148,24 +185,39 @@ $$\frac{n_b^2\sin^2\theta}{n_e^2}+\frac{n_b^2\cos^2\theta}{n_p^2}=1$$
 \item What is the direction of the Poynting vector?
 \end{enumerate}
 \end{qns}
+\newpage
 \begin{ans}\leavevmode
 \begin{enumerate}[label=(\alph*)]
-\item 
-
-\item 
-
-\item 
-
+\item The dielectric tensor is $\varepsilon=\diag(n_o^2,n_o^2,n_e^2)$ since the optic axis is given to be along $z$. We have
+$$\mathbf{E}=\frac{1}{\varepsilon_0}\varepsilon^{-1}\mathbf{D}=\frac{D}{\varepsilon_0}e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}\begin{pmatrix}-\cos\theta/n_o^2\\0\\\sin\theta/n_e^2\\\end{pmatrix},\quad\mathbf{B}=\mu_0\mathbf{H}=\mu_0H\begin{pmatrix}0\\1\\0\\\end{pmatrix}e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$$
+The Maxwell equations in matter (with no free charges and current) are
+$$\boldsymbol{\nabla}\cdot\mathbf{D}=0,\quad\boldsymbol{\nabla}\cdot\mathbf{B}=0,\quad\boldsymbol{\nabla}\times\mathbf{E}=-\mathbf{\dot{B}},\quad\boldsymbol{\nabla}\times\mathbf{H}=\mathbf{\dot{D}}$$
+For EM waves, we could simplify $\boldsymbol{\nabla}$ using $\mathbf{k}$ and $\omega$. We have
+$$\boldsymbol{\nabla}\cdot\mathbf{D}=\mathbf{k}\cdot\mathbf{D}=kD\begin{pmatrix}\sin\theta\\0\\\cos\theta\\\end{pmatrix}\cdot\begin{pmatrix}-\cos\theta\\0\\\sin\theta\\\end{pmatrix}e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}=kDe^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}(-\cos\theta\sin\theta+\sin\theta\cos\theta)=0$$
+$$\boldsymbol{\nabla}\cdot\mathbf{B}=\mathbf{k}\cdot\mathbf{B}=\mu_0Hk\begin{pmatrix}\sin\theta\\0\\\cos\theta\\\end{pmatrix}\cdot\begin{pmatrix}0\\1\\0\\\end{pmatrix}e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}=0$$
+$$\boldsymbol{\nabla}\times\mathbf{E}=-\mathbf{\dot{B}}\implies\mathbf{k}\times\mathbf{E}=\omega\mathbf{B},\quad\boldsymbol{\nabla}\times\mathbf{H}=\mathbf{\dot{D}}\implies\mathbf{k}\times\mathbf{H}=-\omega\mathbf{D}$$
+Check LHS for Faraday's equation:
+$$\mathbf{k}\times\mathbf{E}=\begin{vmatrix}\mathbf{\hat{x}}&\mathbf{\hat{y}}&\mathbf{\hat{z}}\\\sin\theta&0&\cos\theta\\-\cos\theta/n_o^2&0&\sin\theta/n_e^2\\\end{vmatrix}\frac{Dk}{\varepsilon_0}e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}=-\mathbf{\hat{y}}\bigg(\frac{\cos^2\theta}{n_o^2}+\frac{\sin^2\theta}{n_e^2}\bigg)\frac{Dk}{\varepsilon_0}e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$$
+and RHS for Faraday's law: $\omega\mathbf{B}=\mu_0\omega H\mathbf{\hat{y}}e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$. Faraday's Law is satisfied if 
+$$\frac{\cos^2\theta}{n_o^2}+\frac{\sin^2\theta}{n_e^2}=-\mu_0\varepsilon_0\frac{\omega}{k}\frac{H}{D}$$
+Check LHS for Ampere's law:
+$$\mathbf{k}\times\mathbf{H}=\begin{vmatrix}\mathbf{\hat{x}}&\mathbf{\hat{y}}&\mathbf{\hat{z}}\\\sin\theta&0&\cos\theta\\0&1&0\\\end{vmatrix}kHe^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}=\begin{pmatrix}-\cos\theta\\0\\\sin\theta\\\end{pmatrix}kHe^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$$
+and RHS for Ampere's Law: $\mathbf{D}=D(-\mathbf{\hat{x}}\cos\theta+\mathbf{\hat{z}}\sin\theta)e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}$. For Ampere's Law to be satisfied, we must have $\frac{H}{D}=-\omega/k$. This is true since $\mathbf{k}\times\mathbf{H}=-\omega\mathbf{D}$ (exactly one of $\mathbf{k}$, $\mathbf{H}$ and $\mathbf{D}$ must be negative since $\{\mathbf{k},\mathbf{H},\mathbf{D}\}$ form a left-handed set) Hence,
+$$\frac{\cos^2\theta}{n_o^2}+\frac{\sin^2\theta}{n_e^2}=-\frac{1}{c^2}\frac{\omega}{k}\bigg(-\frac{\omega}{k}\bigg)=\frac{1}{n_b^2}$$
+where $\omega/k=c/n_b$ is the speed of the wavelet, with $n_b$ being an effective refractive index for the plane wave with arbitrary wavevector $\mathbf{k}$.
+\item The Poynting vector is
+$$\mathbf{N}=\frac{1}{2}\text{Re}[\mathbf{E}\times\mathbf{H}^*]=\frac{DH}{2\varepsilon_0}\begin{vmatrix}\mathbf{\hat{x}}&\mathbf{\hat{y}}&\mathbf{\hat{z}}\\-\cos\theta/n_o^2&0&\sin\theta/n_e^2\\0&1&0\\\end{vmatrix}=\frac{DH}{2\varepsilon_0}\begin{pmatrix}-\sin\theta/n_e^2\\0\\-\cos\theta/n_o^2\\\end{pmatrix}$$
+In the limit of $n_o\approx n_e$, then $\mathbf{N}$ is anti-parallel to $\mathbf{k}$.
 \end{enumerate}
 \end{ans}
-\begin{qns}
+\begin{qns}[Optical activity]
 Born has demonstrated that a “molecule” composed of four identical polarizable spheres, interacting by Coulomb fields, can produce optical rotation. Would this be true if the spheres were at the corners of a regular tetrahedron? Might one expect optical rotation from a tri-atomic molecule?
 \end{qns}
 \begin{ans}
-
+Regular tetrahedral molecule may be chiral (its mirror image cannot be superimposed with the original) only if we have 4 different groups. In this case, it is not. A triatomic molecule can never be chiral.
 \end{ans}
 \newpage
-\begin{qns}
+\begin{qns}[Optical activity]
 An EM cavity of length $L$ in the $z$-direction is formed between two perfect plane mirrors. What are the frequencies of the cavity modes (i.e. the standing waves of light with wavevector parallel to the $z$-axis) in the cases where the cavity contains:
 \begin{enumerate}[label=(\alph*)]
 \item a non-magnetic uniaxial crystal with principal refractive indices $n_o$ and $n_e$ with the optic axis aligned (i) parallel; (ii) perpendicular to the z-axis;
@@ -175,98 +227,217 @@ An EM cavity of length $L$ in the $z$-direction is formed between two perfect pl
 \end{qns}
 \begin{ans}\leavevmode
 \begin{enumerate}[label=(\alph*)]
-\item 
-
-\item 
-
-\item 
-
+\item Consider an EM wave of electric field 
+$$\mathbf{E}=\mathbf{\hat{x}}(E_1e^{ik_1z}+E_2e^{-ik_2z})e^{-i\omega t}+\mathbf{\hat{y}}(E_3e^{ik_3z}+E_4e^{-ik_4z})e^{-i\omega t}$$
+The dielectric tensors for (i) and (ii) respectively are $\diag(n_o,n_o,n_e)$ and $\diag(n_e,n_o,n_o)$. Apply boundary conditions for $\mathbf{E}=\boldsymbol{0}$ at $z=0$ and $z=L$ respectively: 
+$$E_1+E_2=0,\quad E_3+E_4=0$$
+$$k_{1,2}=\frac{m\pi}{L},\quad k_{3,4}=\frac{m'\pi}{L},\quad m,m'\in\mathbb{Z}$$
+For (i), it will just be $k_1=k_2=k_3=k_4=\frac{\omega n_o}{c}$, and hence a single frequency $\omega=\frac{m\pi c}{Ln_o}$. For (ii), it will be $k_1=k_2=\omega n_o/c$ and $k_3=k_4=\omega n_e/c$, according to the dielectric tensor. There is thus two frequencies:
+$$\text{ along }\mathbf{\hat{y}}:~\omega_0=\frac{c\pi m}{Ln_o},\quad\text{ along }\mathbf{\hat{x}}:~\omega_e=\frac{c\pi m'}{L n_e}$$
+\item By definition of chiral materials, 
+$$n_L=n_0+\frac{c\alpha}{\omega},\quad n_R=n_0-\frac{c\alpha}{\omega}$$
+The electric field of the EM wave is
+$$\mathbf{E}=E_1\begin{pmatrix}1\\i\\0\\\end{pmatrix}e^{i(k_1z-\omega t)}+E_4\begin{pmatrix}1\\-i\\0\\\end{pmatrix}e^{-i(k_1z+\omega t)}+E_2\begin{pmatrix}1\\i\\0\\\end{pmatrix}e^{-i(k_2z+\omega t)}+E_3\begin{pmatrix}1\\-i\\0\\\end{pmatrix}e^{i(k_3z-\omega t)}$$
+where the first two terms are LCP and the last two terms are RCP. We also have $k_1=k_4=\omega n_L/c$ and $k_2=k_3=\omega n_R/c$. Apply boundary conditions for $\mathbf{E}=\boldsymbol{0}$ at $z=0$ and $z=L$:
+$$E_1+E_2+E_3+E_4=0,\quad E_1+E_2-E_3-E_4=0\implies E_1=-E_2,~E_3=-E_4$$
+$$k_1+k_2=\frac{2\pi m}{L},\quad k_3+k_4=\frac{2\pi m}{L},\quad m\in\mathbb{Z}$$
+We then have $\omega(n_R+n_L)=2\pi mc/L\implies\omega=\frac{2\pi cm}{(n_L+n_R)L}=\frac{\pi cm}{nL}$.
+\item By definition, we have $\theta=\mathcal{V}Bd=\frac{\omega}{2c}(n_L-n_R)d$, we then have
+$$n_L=n+\frac{\mathcal{V}Bc}{\omega},\quad n_R=n-\frac{\mathcal{V}Bc}{\omega}$$
+We then have $k_1=\frac{\omega n_R}{c}=k_2$ and $k_3=\frac{\omega n_L}{c}=k_4$. Apply boundary conditions again, we finally have
+$$\omega_{1,2}=\frac{m\pi c}{nL}+\frac{\mathcal{V}Bc}{n},\quad\omega_{3,4}=\frac{m\pi c}{nL}-\frac{\mathcal{V}Bc}{n},\quad m\in\mathbb{Z}$$
 \end{enumerate}
 \end{ans}
-\begin{qns}
+\begin{qns}[Optical activity]
 Show that for a plasma in a magnetic field $\mathbf{B}$ at low frequencies ($\omega<<\omega_c$, $\omega<<\omega_p^2/\omega_c$), where $\omega_p$ and $\omega_c$ is the plasma and cyclotron frequencies) there exist propagating LCP modes with wavevector $\mathbf{k}\parallel\mathbf{B}$, but no such propagating RCP modes. Derive the dispersion relation of the propagating modes at low frequency, and obtain an expression for their group velocity.\\[5pt]
 [The propagating modes are “helicon” modes, and are responsible for “whistlers”, a characteristic type of audio-frequency radio interference most commonly encountered at high latitudes. They are brief, intermittent pulses at audible frequencies, rapidly descending in pitch.]
 \end{qns}
+\newpage
 \begin{ans}
-
+This is a plasma with field $\mathbf{B}=B_0\mathbf{\hat{z}}$ in Faraday geometry $\mathbf{k}\parallel\mathbf{B}$. The electron's equation of motion is
+$$m\mathbf{\ddot{r}}=-e(\mathbf{E}+\mathbf{\ddot{r}}\times\mathbf{B})$$
+Try LCP: $\mathbf{E}=E(1,i)^Te^{-i\omega t}\implies\mathbf{r}=a(1,i)^Te^{-i\omega t}$, then we have
+$$\omega^2a=\frac{eE}{m}+a\omega\omega_c$$
+The polarization in plasma is $\mathbf{P}=-ena(1,i)^T=\varepsilon_0\chi_LE(1,i)^T$ where $n$ is the number of electrons per unit volume. We then have
+$$\chi_L=-\frac{ena}{\varepsilon_0E}=-\frac{e^2na}{\varepsilon_0ma(\omega^2-\omega\omega_c)}=-\frac{\omega_p^2}{\omega^2-\omega\omega_c}\sim\frac{\omega_p^2}{\omega\omega_c}>>1$$
+We then have the refractive index to be real, and thus we have a propagating wave with dispersion relation at low frequencies to be:
+$$\varepsilon_L=n_L^2=1+\chi_L\approx 1+\frac{\omega_p^2}{\omega\omega_c}\implies k=\frac{\omega n}{c}\in\mathbb{R}=\frac{\omega}{c}\sqrt{1+\frac{\omega_p^2}{\omega\omega_c}}$$
+At low frequency, the group velocity is then
+$$v_g=\frac{\partial\omega}{\partial k}=\bigg(\frac{\partial}{\partial\omega}\frac{\omega}{c}\sqrt{1+\frac{\omega_p^2}{\omega\omega_c}}\bigg)^{-1}=\frac{2c\sqrt{\omega^2+(\omega_p^2\omega/\omega_c)}}{2\omega-(\omega_p^2/\omega_c)}\approx\frac{2c}{\omega_p}\sqrt{\omega\omega_c}$$
+For RCP, we have $\mathbf{E}=E(1,-i)^Te^{-i\omega t}$, then
+$$n_R^2=1-\frac{\omega_p^2}{\omega\omega_c}<0\implies in_R\in\mathbb{R}$$
+In another words, $n_R$ and hence $k_R$ is imaginary and the RCP mode is an evanescent wave.
 \end{ans}
-\begin{qns}
+\begin{qns}[Photonic structures]
 For the structure shown in Fig. 2.25, calculate the effective refractive index $n$ for low frequency waves travelling along the $z$-axis and hence estimate the mid-gap frequency for the lowest bandgap.
 \end{qns}
 \begin{ans}
-
+For low frequency waves, the wavelength is much larger than the length scale of the dielectric multilayer. The effective averaged refractive index is
+$$\varepsilon_{\text{eff}}=\frac{\varepsilon_aa+\varepsilon_bb}{a+b}\implies n_{\text{eff}}=\sqrt{\frac{n_a^2a+n_b^2b}{a+b}}$$
+We have $n=c/v$ and $v=\omega/k$, hence $n=ck/\omega$.
+$$\implies\omega=\frac{ck}{n_{\text{eff}}}=\sqrt{\frac{a+b}{n_a^2a+n_b^2b}}ck$$
+We thus have an effectively linear dispersion relation. The midgap frequency is estimated to be
+$$\omega_{\text{mid}}=\omega(k=\pi/(a+b))=c\frac{\pi}{a+b}\sqrt{\frac{a+b}{n_a^2a+n_b^2b}}=\frac{\pi c}{\sqrt{(a+b)(n_a^2a+n_b^2b)}}$$
+\begin{center}
+\begin{tikzpicture}
+      \draw[->] (0,0) -- (2,0) node[right] {$k$};
+      \draw[->] (0,0) -- (0,4) node[left] {$\omega(k)$};
+      \draw[domain=1.57:3.14,smooth,variable=\x,red] plot ({\x},{2*sqrt(0.5*(1+2+sqrt((1-2)^2+15*(cos(deg(\x))^2))))});
+      \draw[domain=0:1.57,smooth,variable=\x,blue] plot ({\x},{2*sin(deg(\x))});
+      \draw (1.57,0) node[below]{$\frac{\pi}{a+b}$};
+      \draw (0,2.5) node[left]{$\omega_{\text{mid}}$};
+\end{tikzpicture}
+\end{center}
 \end{ans}
 \newpage
 \subsection*{Coherence}
-\begin{qns}
-
+\begin{qns}[Line broadening]
+A star ejects atomic hydrogen in the form of a thin luminous gaseous shell. A Michelson interferometer is used as a Fourier transform spectrometer to examine radiation from an area of sky near the star so as to include contributions from the front and back of the shell but not from the star itself. The visibility curve obtained for the H spectral line of wavelength 656 nm is sketched below. Explain its general form and estimate the velocity of expansion of the shell, and the apparent linewidth. If the linewidth arises from thermal broadening, what temperature is implied?
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{EOQ14.JPG}
+\end{figure}
 \end{qns}
 \begin{ans}
-
+The power spectrum $P(\omega)$ is related to the Fourier transform of the visibility $\mathcal{F}[V(\tau)]$ where $\tau$ is related to the path difference $c\tau$. If the shell of the star is not expanding, the power spectrum will just be a Gaussian due to thermal broadening with linewidth $2.36\sigma$, where $\sigma=\frac{\omega_0}{c}\sqrt{\frac{k_BT}{m}}$. The expansion causes an overall shift in frequency due to the Doppler effect $\Delta\omega=\frac{\omega_0v}{c}$ where $v$ is the velocity of the expansion. This is manifested in the power spectrum by a shift in $\omega$-space, i.e. convolve the centred Gaussian with a pair of delta functions $\delta(\omega_0-\Delta\omega)+\delta(\omega_0+\Delta\omega)$. The power spectrum is then
+$$P(\omega)\sim e^{-\omega^2/2\sigma}*\bigg[\delta(\omega_0-\Delta\omega)+\delta(\omega_0+\Delta\omega)\bigg]$$
+giving a visibility profile of
+$$V(\tau)\sim e^{-\sigma^2\tau^2/2}\cos(\Delta\omega~\tau)$$
+The visibility is exactly zero when $\cos(\Delta\omega~\tau)=0$ at $\Delta\omega~\tau=\pi/2$. From the graph, we have $c\tau=2$ mm. Hence, from the Doppler shift, we have
+$$\frac{\omega_0v}{c}=\Delta\omega=\frac{\pi}{2\tau}=\frac{\pi c}{2(2\times10^{-3})}\implies v=\frac{\pi}{2}\frac{c^2}{\omega_0(2\times10^{-3})}=\frac{\lambda_0c}{4}\frac{1}{2\times10^{-3}}=24.6~km/s$$
+The coherent length $\ell_c$ is the path difference at which the visibility falls by $1/e=0.63$. From graph, we have $\ell-c=3.6$ mm. The frequency linewidth is 
+$$\delta\omega=2.36\sigma\approx\frac{2.36\sqrt{2}c}{\ell_c}=\frac{2.36\sqrt{2}}{3.6\times10^{-3}}c=2.78\times10^{11}s^{-1}$$
+If the linewidth is solely due to thermal broadening, we have
+$$\sigma=\omega_0\sqrt{\frac{k_BT}{mc^2}}=\frac{c\sqrt{2}}{\ell_c}\implies T=\frac{\lambda_0^22c^2m}{(2\pi)^2\ell_c^2k_B}=\frac{(656\times10^{-9})^22(3\times10^8)^2(1.67\times10^{-27})}{(2\pi)^2(3.6\times10^{-3})^2(1.38\times10^{-23}}=18300 K$$
+\textcolor{red}{value too large?}
 \end{ans}
-\begin{qns}
-
+\newpage
+\begin{qns}[Temporal coherence]
+A Michelson interferometer forms fringes with cadmium red light of wavelength 643.847 nm and linewidth 0.0013 nm.
+\begin{enumerate}[label=(\alph*)]
+\item Estimate the coherence length for the light.
+\item  Estimate the visibility of the fringes when one mirror is moved by distances $d= 10 mm$ and 50 mm from the position of zero path difference between the arms.
+\item If the line-shape were a top-hat function, at what mirror position $d$ would the visibility first fall to zero?
+\end{enumerate}
 \end{qns}
-\begin{ans}
-
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item The frequency linewidth is $\delta\omega=2.36\sigma$, but
+$$\delta\omega=2\pi c\delta(1/\lambda)\sim2\pi c\delta\lambda/\lambda^2$$
+The coherence length is
+$$\ell_c\sim\frac{c\sqrt{2}}{\sigma}\sim c\sqrt{2}\frac{2.36}{2\pi c}\frac{\lambda^2}{\delta\lambda}=\frac{2.36}{\pi\sqrt{2}}\frac{643.847^2}{0.0013}10^{-9}=0.169m$$
+\item the visibility is
+$$V=\exp(-2\sigma^2d^2/c^2)\approx\exp(-(2d)^2/\ell_c^2)$$
+The path difference $2d$ will then be 20 mm and 100 mm:
+$$V(d=10)\approx\exp(-0.02^2/0.16^2)=0.98,\quad V(d=50)\approx\exp(-0.1^2/0.16^2)=0.68$$
+\item The line-shape is a top-hat function centred at $\omega_0$ and width $\delta\omega=2\pi c\delta\lambda/\lambda^2$. Its Fourier transform will be a sinc curve $\sinc(\delta\omega t/2)$. The first zero occurs at $(t\delta\omega/2)=\pi$. We have $2d=ct$ and so
+$$d=\frac{\pi c}{\delta\omega}=\frac{\lambda^2}{2\delta\lambda}=\frac{643.847^2}{0.0013}10^{-9}=0.16 m$$
+\end{enumerate}
 \end{ans}
-\begin{qns}
-
+\begin{qns}[Spatial coherence]
+A long hot wire of width $w = 0.1$ mm is placed in the focal plane of a lens of focal length $f = 100$ mm. Light from the glowing wire passes through the lens and a filter which transmits only a very small range of wavelengths near $\lambda=600$ nm, and falls onto a screen placed normal to the axis behind the lens. Show that the degree of lateral coherence $\gamma$ for light arriving at two points on the screen separated by $d$ in a direction perpendicular to the wire is:
+$$\gamma(d)=\sinc\frac{\pi wd}{f\lambda}$$
+What is the smallest separation $d$ for which the degree of coherence is zero?
 \end{qns}
 \begin{ans}
-
+The van Cittert-Zernike theorem states that the degree of lateral coherence is the Fourier transform of the angular intensity distribution of the source $I(\theta)$, i.e.
+$$\gamma(u)=\frac{1}{I_0}\int I(\theta)e^{-iu\theta}d\theta$$
+The intensity profile $I(\theta)$ is a top-hat function with maximum angular span $\theta=\pm\frac{w}{2f}$, so
+$$\gamma(u)=\frac{1}{I_0}\int_{-w/2f}^{w/2f}I_0e^{-iu\theta}d\theta=-\frac{1}{i}\bigg[\frac{e^{-iuw/2f}}{w/2f}-\frac{e^{iuw/2f}}{-w/2f}\bigg]=\sinc\frac{uw}{2f}$$
+But $u=kd$, so $\gamma(d)=\sinc\frac{\pi dw}{\lambda f}$. The first zero occurs at 
+$$\frac{wd}{f\lambda}=1\implies d=\frac{f\lambda}{w}=\frac{(100\times10^{-3})(600\times10^{-9})}{0.1\times10^{-3}}=0.6mm$$
 \end{ans}
 \newpage
 \section{Problem Sheet 2}
 \subsection*{Electrodynamics}
-\begin{qns}
-
+\begin{qns}[Magnetic vector potential]
+Starting from the relevant expressions for the magnetic field components
+$$B_r=\frac{\mu_0m\cos\theta}{2\pi r^3},\quad B_\theta=\frac{\mu_0m\sin\theta}{4\pi r^3}$$
+find a magnetic vector potential $\mathbf{A}(\mathbf{r})$ suitable for describing the fields due to a static magnetic dipole moment $\mathbf{m}$ aligned along Oz.
 \end{qns}
 \begin{ans}
-
+In spherical polars, we have
+$$B_r=\frac{1}{r^2\sin\theta}\bigg[\frac{\partial}{\partial\theta}(rA_\phi\sin\theta)-\frac{\partial}{\partial\phi}(rA_\theta)\bigg],\quad B_\theta=\frac{1}{r\sin\theta}\bigg[\frac{\partial}{\partial\phi}A_r-\frac{\partial}{\partial r}(rA_\phi\sin\theta)\bigg],\quad B_\phi=\frac{1}{r}\bigg[\frac{\partial}{\partial r}(rA_\theta)-\frac{\partial}{\partial\theta} A_r\bigg]$$
+We then solve
+$$B_r=\frac{\mu_0m\cos\theta}{2\pi r^3}=\frac{1}{r^2\sin\theta}\frac{\partial}{\partial\theta}(rA_\phi\sin\theta)\implies rA_\phi\sin\theta=-\frac{\mu_0m}{8\pi r}\cos2\theta+f(r,\phi)=-\frac{\mu_0m}{8\pi r}+\frac{\mu_0m}{4\pi r}\sin^2\theta+f(r,\phi)$$
+$$B_\theta=\frac{\mu_0m\sin\theta}{4\pi r^3}=\frac{-1}{r\sin\theta}\frac{\partial}{\partial r}(rA_\phi\sin\theta)\implies rA_\phi\sin\theta=-\frac{\mu_0m\sin^2\theta}{4\pi r^2}+g(\theta,\phi)$$
+Comparing gives $f(r,\phi)=\frac{\mu_0m}{8\pi r}$ and $g(\theta,\phi)=0$, hence
+$$\mathbf{A}=\frac{\mu_0m\sin\theta}{4\pi r^2}\boldsymbol{\hat{\phi}}$$
 \end{ans}
-\begin{qns}
-
+\begin{qns}[Magnetic vector potential]
+Show that (b) below represents the components of a real magnetic field, whereas (a) does not. For the case (b) find the current density distribution $\mathbf{J}$ required to produce the field, and the corresponding vector potential $\mathbf{A}$.
+\begin{enumerate}[label=(\alph*)]
+\item $\frac{B_0b}{r^3}((x-y)z,(x-y)z,x^2-y^2)$ in Cartesian co-ordinates.
+\item $B_0b^2(zr/(b^2+z^2)^2,0,1/(b^2+z^2))$ in cylindrical polar coordinates.
+\end{enumerate}
 \end{qns}
 \begin{ans}
-
+The general procedure is to first check $\mathbf{B}$ satisfies $\boldsymbol{\nabla}\cdot\mathbf{B}=0$. otherwise, the magnetic field is not physical.
+\begin{enumerate}[label=(\alph*)]
+\item We see that this given magnetic field is not physical: 
+\begin{align}
+    \boldsymbol{\nabla}\cdot\mathbf{B}&=B_0b\bigg[\frac{\partial}{\partial x}\bigg(\frac{(x-y)z}{r^3}\bigg)+\frac{\partial}{\partial y}\bigg(\frac{(x-y)z}{r^3}\bigg)+\frac{\partial}{\partial z}\bigg(\frac{x^2-y^2}{r^3}\bigg)\bigg]\nonumber\\&=B_0b\bigg[\frac{z}{r^3}-\frac{3x^2z}{r^4}+\frac{3xyz}{r^4}-\frac{3xzy}{r^4}-\frac{z}{r^3}+\frac{3y^2z}{r^4}-\frac{3x^2z}{r^4}-\frac{3y^2z}{r^4}\bigg]\nonumber\\&=B_0b\bigg(-\frac{6x^2z}{r^4}\bigg)\neq 0\nonumber
+\end{align}
+\item This field is physical!
+$$\boldsymbol{\nabla}\cdot\mathbf{B}=B_0b^2\bigg[\frac{1}{r}\frac{\partial}{\partial r}\bigg(\frac{r^2z}{(b^2+z^2)^2}\bigg)+\frac{\partial}{\partial z}\bigg(\frac{1}{b^2+z^2}\bigg)\bigg]=B_0b^2\bigg[\frac{1}{r}\frac{2rz}{(b^2+z^2)^2}-\frac{2z}{(b^2+z^2)^2}\bigg]=0$$
+Next, use Ampere's Law to find the current source $\mathbf{J}$:
+$$\boldsymbol{\nabla}\times\mathbf{B}=\mu_0\mathbf{J},\quad B_r=\frac{rz}{(b^2+z^2)^2},\quad B_\phi=0,\quad B_z=\frac{1}{b^2+z^2}$$
+$$\implies J_r=\frac{B_0b^2}{\mu_0}\bigg[\frac{1}{r}\frac{\partial B_z}{\partial\phi}-\frac{1}{r}\frac{\partial(rB_\phi)}{\partial z}\bigg]=\frac{B_0b^2}{\mu_0r}\frac{\partial}{\partial\phi}\frac{1}{b^2+z^2}=0,\quad J_z=\frac{1}{r}\frac{\partial}{\partial r}(rB_\phi)-\frac{1}{r}\frac{\partial B_r}{\partial\phi}=0$$
+$$J_\phi=\frac{\partial B_r}{\partial z}-\frac{\partial B_z}{\partial r}=\frac{B_0b^2r}{\mu_0}\frac{(b^2+z^2)^2-2z(b^2+z^2)2z}{(b^2+z^2)^4}=\frac{r(b^2-3z^2)}{(b^2+z^2)^3}\frac{B_0b^2}{\mu_0}$$
+By Poisson's equation, we have $\nabla^2\mathbf{A}\propto\mathbf{J}$, hence $\mathbf{J}$ only has non-zero component in the $\phi$ direction:
+$$B_r=-\frac{1}{r}\frac{\partial}{\partial z}(rA_\phi)\implies rA_\phi=\frac{B_0b^2r^2}{2(b^2+z^2)}+f(r,\phi)$$
+$$B_z=\frac{1}{r}\frac{\partial}{\partial r}(rA_\phi)\implies rA_\phi=\frac{B_0b^2r^2}{2(b^2+z^2)}+g(z,\phi)$$
+Comparing gives $f=g=0$, and hence $\mathbf{A}=\frac{B_0b^2r}{2(b^2+z^2)}\boldsymbol{\hat{\phi}}$.
+\end{enumerate}
 \end{ans}
-\newpage
 \subsection*{Radiation}
 \begin{qns}
-
+A dipole antenna is enclosed in a sealed plastic box and radiates at a wavelength of 10 cm. Suggest (non-destructive) experiments to determine its orientation and whether it is an electric or a magnetic dipole.\\[5pt]
+How could this information be deduced if the dipole antenna is disconnected from any power supply and its terminals shorted with a matched load?
 \end{qns}
 \begin{ans}
 
 \end{ans}
-\begin{qns}
 
+\newpage
+\begin{qns}
+A magnetic dipole at the origin lies in the x-y-plane and is rotating at constant angular frequency about the $z$-axis.
+\begin{enumerate}[label=(\alph*)]
+\item Show that in the x-y-plane the radiation pattern is circular and the emitted radiation is polarized parallel to Oz.
+\item What is the polarization of the radiation emitted at an angle $\theta$ to the rotation axis Oz?
+\end{enumerate}
 \end{qns}
 \begin{ans}
 
 \end{ans}
 \newpage
 \begin{qns}
-
+A pulsar is can be represented as a constant magnetic moment $\mathbf{M}$ rotating with
+an angular velocity $\omega$ in vacuum about an axis perpendicular to $\mathbf{M}$. By considering the rotating magnet as equivalent to two orthogonal magnets varying in phase quadrature, show that the energy loss due to radiation causes $\omega$ to obey the equation $\omega\ddot{\omega}=3\dot{\omega}^2$.\\[5pt]
+[Assume the formula for radiation loss for a magnetic dipole, and that $\dot{\omega}<<\omega^2$.]\\[5pt]
+For the pulsar in the Crab Nebula, the period $T = $33 ms and $\dot{T}=$ 36 ns/day. Assuming that it is a sphere (of uniform density) with radius 7 km and a mass equal to that of the Sun ($2\times 10^{30}$ kg), estimate $\mathbf{M}$ and hence the magnetic field at its equator.
 \end{qns}
 \begin{ans}
 
 \end{ans}
 \begin{qns}
-
+What are meant by the radiation resistance and power gain of an antenna? For an antenna which consists of a plane loop of wire of area $a^2$ operating at a frequency $\omega<<c/a$, calculate the radiation resistance and power gain.\\[5pt]
+Radiation, linearly-polarized with its magnetic field perpendicular to the plane of the loop, is incident from a direction in that plane. Find the cross-section for combined scattering and absorption when the antenna is connected to a matched load.\\[5pt]
+[Assume without proof that such a loop radiates mean power $\mu_0I_0^2\omega^4a^4/(12\pi c^3)$ when a current $I_0\cos\omega t$ flows in it.]
 \end{qns}
 \begin{ans}
 
 \end{ans}
 \newpage
 \begin{qns}
-
+Estimate the number of molecules above each m$^2$ of the Earth’s surface. Hence, on the assumption that a molecule can be represented as a perfectly conducting sphere of radius 0.1 nm, estimate the reduction in the (ultra-violet) radiation with wavelength $\lambda=$ 320 nm arriving from the Sun at noon on the Equator due to scattering by the atmosphere.
+[Assume that half of the radiation scattered still reaches the Earth’s surface and ignore multiple scattering.]
 \end{qns}
 \begin{ans}
 
 \end{ans}
 \begin{qns}
-
+Estimate the degree of polarization of the overhead sky at noon on a clear spring day (say March 21) in Cambridge.
 \end{qns}
 \begin{ans}
 
