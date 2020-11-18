@@ -51,7 +51,7 @@
 \DeclareMathOperator{\Log}{Log}
 \DeclareMathOperator{\sech}{sech}
 \DeclareMathOperator{\Var}{Var}
-\newtheorem{ans}{Answer}[section]
+\newtheorem{ans}{Answer}
 
 \definecolor{darkblue}{RGB}{	0, 0, 139}
 \newtheoremstyle{new}% <name>
@@ -64,7 +64,7 @@
 {.5em}% <Space after theorem headi>
 {}% <Theorem head spec (can be left empty, meaning `normal')>
 \theoremstyle{new}
-\newtheorem{qns}{Problem}[section]
+\newtheorem{qns}{Problem}
 \setlength{\parindent}{0cm}
 \title{\textbf{Part II EO Problem Sheet Solutions}}
 \author{Tai Yingzhe, Tommy (ytt26)}
@@ -391,56 +391,118 @@ Comparing gives $f=g=0$, and hence $\mathbf{A}=\frac{B_0b^2r}{2(b^2+z^2)}\boldsy
 \end{enumerate}
 \end{ans}
 \subsection*{Radiation}
-\begin{qns}
+\begin{qns}[Dipole radiation]
 A dipole antenna is enclosed in a sealed plastic box and radiates at a wavelength of 10 cm. Suggest (non-destructive) experiments to determine its orientation and whether it is an electric or a magnetic dipole.\\[5pt]
 How could this information be deduced if the dipole antenna is disconnected from any power supply and its terminals shorted with a matched load?
 \end{qns}
 \begin{ans}
-
+For $\lambda=10$ cm, the far field approximation is valid at least several metres away. We can use the dipole antenna as a radiation detector, by moving the source of known directionality. Whenever no radiation is detected, we are in line with the dipole. Now if we detect perpendicular to that direction (staying in the far field limit):
+\begin{itemize}
+    \item if the dipole is electric: $\mathbf{B}$ field is azimuthal, with $\mathbf{E}$ field in $\theta$ direction
+    \item if the dipole is magnetic: $\mathbf{E}$ field is azimuthal, with $\mathbf{B}$ field in $\theta$ direction.
+\end{itemize}
+This can be differentiated by the motion of a charge (Lorentz force law), or by taking voltage measurements across a dielectric placed in the field.\\[5pt]
+For the case where the dipole antenna is shorted with a matched load, the power delivered to the matched load resistor is half the incident power from the EM wave. We distinguish electric and magnetic dipole using the radiation resistance $R_r$: first compute for the electric dipole scenario, i.e.
+$$\langle P^{\text{ED}}\rangle=\frac{\omega^4p_0^2}{12\pi\varepsilon_0c^3}=\frac{\omega^2\langle\dot{p}^2\rangle}{6\pi c^3\varepsilon_0}=\frac{\omega^2d^2\langle I^2\rangle}{6\pi c^2\varepsilon_0}$$
+where $\dot{p}=-i\omega p_0e^{-i\omega_0t}$ such that $\langle\dot{p}^2\rangle=\frac{1}{2}\omega^2p_0^2$. The radiation resistance is
+$$R_r^{\text{ED}}=\frac{\langle P^{\text{ED}}\rangle}{\langle I^2\rangle}=\frac{\omega^2d^2}{6\pi c\varepsilon_0}\bigg(\frac{2\pi}{\lambda}\bigg)^2=\frac{2\pi}{3}Z_0\frac{d^2}{\lambda^2}$$
+For the magnetic dipole case
+$$\langle P^{\text{MD}}\rangle=\frac{\mu_0\omega^4m_0^2}{12\pi c^3}=\frac{\mu_0\omega^2\langle\dot{m}^2\rangle}{6\pi c^3}=\frac{\mu_0d^4\omega^2\langle\dot{I}^2\rangle}{6\pi c^3}=\frac{\mu_0d^4\omega^4\langle I^2\rangle}{6\pi c^3}$$
+and the corresponding radiation resistance is
+$$R_r^{\text{MD}}=\frac{d^4}{6\pi c\varepsilon_0}\bigg(\frac{2\pi}{\lambda}\bigg)^2=(2\pi)^2\frac{2\pi}{3}Z_0\frac{d^4}{\lambda^4}$$
+So we vary the wavelength of the incoming light, if the radiation resistance show a $1/\lambda^2$ dependence, then the dipole antenna is an electric dipole. Otherwise, if $R_r\propto\lambda^{-4}$, then the dipole antenna is a magnetic dipole. Finally, for the orientation, this can be found by shining plane-polarized light, since $\langle P_{\text{load}}\rangle\propto\sin^2\theta$. Whenever there is zero power delivered to the load, the incoming light ray is parallel to the dipole.
 \end{ans}
-
 \newpage
-\begin{qns}
+\begin{qns}[Magnetic dipole radiation]
 A magnetic dipole at the origin lies in the x-y-plane and is rotating at constant angular frequency about the $z$-axis.
 \begin{enumerate}[label=(\alph*)]
 \item Show that in the x-y-plane the radiation pattern is circular and the emitted radiation is polarized parallel to Oz.
 \item What is the polarization of the radiation emitted at an angle $\theta$ to the rotation axis Oz?
 \end{enumerate}
 \end{qns}
-\begin{ans}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item We have $\mathbf{n}$ to be the unit vector, pointing in the direction from the origin to the point of interest. The magnetic dipole is
+$$\mathbf{m}=\begin{pmatrix}m_0\cos\omega t\\m_0\sin\omega t\\0\\\end{pmatrix}$$
+The magnetic vector potential that corresponds to magnetic dipole radiation is
+$$\mathbf{A}=\frac{ik\mu_0}{4\pi}(\mathbf{n}\times\mathbf{m})\frac{e^{ikr}}{r}$$
+The magnetic and electric fields are
+$$\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}=\frac{\mu_0k^2}{4\pi}[(\mathbf{n}\times\mathbf{m})\times\mathbf{n}]\frac{e^{ikr}}{r},\quad\mathbf{E}=\frac{iZ_0}{k\mu_0}\boldsymbol{\nabla}\times\mathbf{B}=-\frac{Z_0k^2}{4\pi}(\mathbf{n}\times\mathbf{m})\frac{e^{ikr}}{r}$$
+\textcolor{red}{stuck}
+\item \textcolor{red}{stuck}
 
+\end{enumerate}
 \end{ans}
 \newpage
-\begin{qns}
+\begin{qns}[Magnetic dipole]
 A pulsar is can be represented as a constant magnetic moment $\mathbf{M}$ rotating with
 an angular velocity $\omega$ in vacuum about an axis perpendicular to $\mathbf{M}$. By considering the rotating magnet as equivalent to two orthogonal magnets varying in phase quadrature, show that the energy loss due to radiation causes $\omega$ to obey the equation $\omega\ddot{\omega}=3\dot{\omega}^2$.\\[5pt]
 [Assume the formula for radiation loss for a magnetic dipole, and that $\dot{\omega}<<\omega^2$.]\\[5pt]
 For the pulsar in the Crab Nebula, the period $T = $33 ms and $\dot{T}=$ 36 ns/day. Assuming that it is a sphere (of uniform density) with radius 7 km and a mass equal to that of the Sun ($2\times 10^{30}$ kg), estimate $\mathbf{M}$ and hence the magnetic field at its equator.
 \end{qns}
 \begin{ans}
-
+Model the rotating magnet as two orthogonal magnets varying in quadrature. The magnetization is $\mathbf{M}=M_1\mathbf{\hat{x}}+M_2\mathbf{\hat{y}}=M\cos\omega t\mathbf{\hat{x}}+M\sin\omega t\mathbf{\hat{y}}$. The time-averaged Poynting vector is
+$$\langle\mathbf{N}\rangle=\langle(\mathbf{E_1}+\mathbf{E_2})\times(\mathbf{H_1}+\mathbf{H_2})\rangle=\langle\mathbf{E_1}\times\mathbf{H_1}\rangle+\langle\mathbf{E_2}\times\mathbf{H_2}\rangle=2\langle P_{\text{MD}}\rangle$$
+where the time-averaged cross-terms vanish since $M_1$ and $M_2$ are in quadrature. By Poynting theorem, the average power loss is two times that of the single magnetic dipole. Since $\dot{\omega}<<\omega^2$, the energy loss in one period is small compared to the stored energy $E=\frac{1}{2}I\omega^2$.
+$$\frac{1}{2}2I\omega\dot{\omega}=\frac{dE}{dt}=-\frac{\mu_0M^2\omega^4}{6\pi c^3}\implies I\ddot{\omega}=-\frac{3\mu_0M^2\omega^2}{6\pi c^3}\dot{\omega},\quad I\dot{\omega}=-\frac{\mu_0M^2}{6\pi c^3}\omega^3$$
+Take the ratio of the above results, we have
+$$\frac{\dot{\omega}}{\ddot{\omega}}=\frac{\omega}{3\dot{\omega}}\implies3\dot{\omega}^2=\ddot{\omega}\omega$$
+We are given $T=33$ ms and $\dot{T}=36$ ns/day. We then have
+$$\dot{\omega}=\frac{d}{dt}\frac{2\pi}{T}=-\frac{2\pi}{T^2}\dot{T}=-\frac{\omega^2}{2\pi}\dot{T}=-\frac{(2\pi/33\times10^{-3})^2}{2\pi}\frac{36\times10^{-9}}{24(3600)}=-2.404\times10^{-9}~rad/s$$
+Comparing with $\omega^2=3.625\times10^4$ rad$^2$ s$^{-2}$, we have $\omega^2>>\dot{\omega}$ indeed. We then have
+$$\dot{\omega}=-\frac{\mu_0M^2\omega^3}{6\pi c^3(2/5)mr^2}=-\frac{5\mu_0M^2\omega^3}{12\pi c^3mr^2}$$
+$$\implies M=\sqrt{\frac{-12\pi c^3mr^2\dot{\omega}}{5\mu_0\omega^3}}=\sqrt{\frac{-12\pi (3\times10^8)^3(2\times10^{30})(7\times10^3)^2(-2.404\times10^{-9})}{5(4\pi\times10^{-7})(2\pi/33\times10^{-3})^3}}=2.35\times10^{27}Am^2$$
+At $R=7$ km, we are indeed the far-field limit since
+$$\frac{2\pi c}{\omega}=\frac{2\pi(3\times10^8)}{(2\pi/33\times10^{-3})}=9.9\times10^6>>R=7\times10^3$$
+The equatorial radiation field of the magnetic dipole is then
+$$B_\theta=\frac{\mu_0M}{4\pi R^3}\sin\theta=\frac{(4\pi\times10^{-7})(2.35\times10^{27})}{4\pi(7\times10^3)^3}\sin\theta=6.85\times10^8~\sin\theta$$
 \end{ans}
-\begin{qns}
+\newpage
+\begin{qns}[Antenna]
 What are meant by the radiation resistance and power gain of an antenna? For an antenna which consists of a plane loop of wire of area $a^2$ operating at a frequency $\omega<<c/a$, calculate the radiation resistance and power gain.\\[5pt]
 Radiation, linearly-polarized with its magnetic field perpendicular to the plane of the loop, is incident from a direction in that plane. Find the cross-section for combined scattering and absorption when the antenna is connected to a matched load.\\[5pt]
 [Assume without proof that such a loop radiates mean power $\mu_0I_0^2\omega^4a^4/(12\pi c^3)$ when a current $I_0\cos\omega t$ flows in it.]
 \end{qns}
 \begin{ans}
-
+When the antenna is connected to a driving circuit, it dissipates energy in the form of radiation. This dissipation can be modelled as a resistor with an effective resistance $R_r$. 
+$$R_r=\frac{\langle P\rangle}{\langle I^2\rangle}$$
+where $P$ is the total radiated power. Power gain describes the directionality of the emitted radiation
+$$G(\theta,\phi)=\frac{N(\theta,\phi)}{(1/4\pi)\int N(\theta,\phi)d\Omega}$$
+where $N(\theta,\phi)$ is the time-averaged radial Poynting flux. Given that the loop radiates mean power $\frac{\mu_0I_0^2\omega^4a^4}{12\pi c^3}$, the radiation resistance is
+$$R_r=\frac{\langle P\rangle}{\langle I^2\rangle}=\frac{\mu_0I_0^2\omega^4a^4}{12\pi c^3}\frac{2}{I_0^2}=\frac{\mu_0\omega^4a^4}{6\pi c^3}$$
+For a magnetic dipole, $N(\theta,\phi)\propto\sin^2\theta$, and so the power gain is
+$$G(\theta,\phi)=\frac{A\sin^2\theta}{(A/4\pi)2\pi\int_0^\pi\sin^2\theta\sin\theta d\theta}=\frac{\sin^2\theta}{(1/2)(4/3)}=\frac{3}{2}\sin^2\theta$$
+By Faraday's law, the potential difference induced by the oscillating $B$ field is $a^2\dot{B}$, so
+$$\langle V^2\rangle=a^4\omega^2\langle B^2\rangle$$
+The time-averaged incident Poynting flux is
+$$\langle N_{\text{inc}}\rangle=\langle EH\rangle=\frac{c}{\mu_0}\langle B^2\rangle$$
+The total mean power for a matched load is
+$$\langle P_{\text{tot}}\rangle=\frac{\langle V^2\rangle}{2R_r}=\frac{a^4\omega^2\langle B^2\rangle6\pi c^3}{2\mu_0\omega^4a^4}=\frac{3\pi c^3\langle B^2\rangle}{\omega^2\mu_0}=\frac{3\pi c^2}{\omega^2}\langle N_{\text{inc}}\rangle$$
+The effective area (or the cross-section) is
+$$A_{\text{eff}}=\frac{\langle P_{\text{tot}}\rangle}{\langle N_{\text{inc}}\rangle}=\frac{3\pi c^2}{\omega^2}$$
 \end{ans}
 \newpage
-\begin{qns}
+\begin{qns}[Scattering]
 Estimate the number of molecules above each m$^2$ of the Earth’s surface. Hence, on the assumption that a molecule can be represented as a perfectly conducting sphere of radius 0.1 nm, estimate the reduction in the (ultra-violet) radiation with wavelength $\lambda=$ 320 nm arriving from the Sun at noon on the Equator due to scattering by the atmosphere.
+
 [Assume that half of the radiation scattered still reaches the Earth’s surface and ignore multiple scattering.]
 \end{qns}
 \begin{ans}
-
+Using ideal gas law, we have
+$$\frac{N}{A}=\frac{0.5p_0h}{k_BT}=\frac{10^5(16000)}{2(1.38\times10^{-23})(288)}=2.01\times10^{29}$$
+where half of the radiation scattered reaches Earth. Since $\lambda=320 nm>>0.1 nm$ (radius of the scatterers), the type of scattering is Rayleigh scattering with cross-section $\sigma=\frac{8\pi^2\mu_0^2c^4\alpha^2}{3\lambda^4}$. The ratio of power lost to incoming power is
+\begin{align}
+    \frac{\langle P_{\text{lost}}\rangle}{\langle P_{\text{incoming}}\rangle}&=\frac{\langle P_{\text{scattered}}\rangle}{2\langle P_{\text{incoming}}\rangle}\nonumber\\&=\frac{\sigma N}{2A}\nonumber\\&=\frac{8\pi^2\mu_0^2c^4(4\pi r^3\varepsilon_0)^2}{3\lambda^4}\frac{N}{2A}\nonumber\\&=\frac{128\pi^4r^6}{3\lambda^4}\frac{N}{2A}\nonumber\\&=\frac{128\pi^4}{3}\frac{(0.1\times10^{-9})^6}{(320\times10^{-9})^4}\frac{1}{2}(2\times10^{29})\nonumber\\&=0.04\nonumber
+\end{align}
+where $\alpha=4\pi r^3\varepsilon_0$ for a perfectly conducting sphere.
 \end{ans}
-\begin{qns}
+\begin{qns}[Scattering]
 Estimate the degree of polarization of the overhead sky at noon on a clear spring day (say March 21) in Cambridge.
 \end{qns}
 \begin{ans}
-
+The degree of polarization is
+$$P=\frac{I_{\text{pol}}}{I_{\text{tot}}}$$
+\textcolor{red}{stuck}
 \end{ans}
 \newpage
 \section{Problem Sheet 3}

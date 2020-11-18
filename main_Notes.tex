@@ -701,31 +701,541 @@ To create an image of the star one needs to know not the magnitude of the cohere
 \newpage
 \section{Electrodynamics}
 \subsection{Vector Potential from classical EM}
-
-
+Mostly revision from IB Physics B.
+\begin{thm}[Existence of Magnetic Vector Potential]
+For a magnetic field $\mathbf{B}$ in $\mathbb{R}^3$, $\exists$ a corresponding magnetic vector potential $\mathbf{A}$ such that $\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}$.
+\end{thm}
+\begin{proof}
+Since $\boldsymbol{\nabla}\cdot\mathbf{B}=0$ and the divergence of a curl must be zero, $\exists\mathbf{A}$ such that $\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}$. Note that $\mathbf{A}$ in $\mathbb{R}^n$ will only exist in a simply connected domain.
+\end{proof}
+\begin{thm}[Uniqueness of Magnetic Vector Potential]
+$\mathbf{A}$ uniquely determines $\mathbf{B}$ but $\mathbf{B}$ does not uniquely determine $\mathbf{A}$.
+\end{thm}
+\begin{proof}
+For the first part, suppose $\exists\mathbf{A_1},\mathbf{A_2}$ such that $\boldsymbol{\nabla}\times\mathbf{A_1}=\mathbf{B}$ and $\boldsymbol{\nabla}\times\mathbf{A_2}=\mathbf{B}$, then
+$$\boldsymbol{\nabla}\times(\mathbf{A_2}-\mathbf{A_1})=\mathbf{B}-\mathbf{B}=0\implies\mathbf{A_1}=\mathbf{A_2}$$
+But for the second part, consider evaluating
+$$\boldsymbol{\nabla}\times(\mathbf{A}+\boldsymbol{\nabla}f)=\boldsymbol{\nabla}\times\mathbf{A}$$
+where $f$ is some scalar function and hence $\boldsymbol{\nabla}\times(\boldsymbol{\nabla}f)=\boldsymbol{0}$ (curl of a gradient is zero). Hence, $\mathbf{B}$ is invariant under such gauge transformations. This is called gauge freedom.
+\end{proof}
+\begin{thm}[Poisson Equation for Magnetic Vector Potential]
+In the magnetostatic case, the magnetic vector potential $\mathbf{A}$ satisfies the Poisson Equation $\nabla^2\mathbf{A}=-\mu_0\mathbf{J}$ with solutions
+$$\mathbf{A}(\mathbf{r})=\frac{\mu_0}{4\pi}\int_{\mathcal{V}}\frac{\mathbf{J}(\mathbf{r'})}{|\mathbf{r}-\mathbf{r'}|}d^3r'$$
+where $\mathcal{V}$ is a finite volume such that $\mathbf{A}=0$ at infinity. This is true if $\boldsymbol{\nabla}\cdot\mathbf{A}=0$ (Coulomb gauge).
+\end{thm}
+\begin{proof}
+Assuming the Coulomb gauge holds, i.e. $\boldsymbol{\nabla}\cdot\mathbf{A}=0$: 
+$$\mu_0\mathbf{J}=\boldsymbol{\nabla}\times\mathbf{B}=\boldsymbol{\nabla}\times(\boldsymbol{\nabla}\times\mathbf{A})=-\nabla^2\mathbf{A}+\boldsymbol{\nabla}(\boldsymbol{\nabla}\cdot\mathbf{A})=-\nabla^2\mathbf{A}$$
+The corresponding solution will be $\mathbf{A}(\mathbf{r})=\int_V(-\mu_0\mathbf{J})G(\mathbf{r},\mathbf{r'})dV'$ where $G(\mathbf{r},\mathbf{r'})$ is the solution to $\nabla^2G(\mathbf{r},\mathbf{r'})=\delta(\mathbf{r'}-\mathbf{r})\implies G(\mathbf{r},\mathbf{r'})=-\frac{1}{4\pi|\mathbf{r}-\mathbf{r'}|}$, hence giving our result.
+\end{proof}
+\begin{cor}[Coulomb Gauge]
+The Coulomb gauge is always true in magnetostatics.
+\end{cor}
+\begin{proof}
+Here we will show the Coulomb gauge will always hold in magnetostatics. Suppose $\mathbf{A}$ is divergenceless but our original potential $\mathbf{A_0}$ is not, then if we add $\boldsymbol{\nabla}f$ for some scalar function $f$, the new divergence is $\boldsymbol{\nabla}\cdot\mathbf{A}=\boldsymbol{\nabla}\cdot\mathbf{A_0}+\nabla^2f$. Then we have $\nabla^2f=-\boldsymbol{\nabla}\cdot\mathbf{A_0}$ which is mathematically identical to the Poisson's equation in electrostatics. The corresponding solution will be
+$$f(\mathbf{r})=\frac{1}{4\pi}\int G(\mathbf{r},\mathbf{r'})(\boldsymbol{\nabla}\cdot\mathbf{A_0})d^3r'$$
+If $\boldsymbol{\nabla}\cdot\mathbf{A_0}$ does not go to zero at infinity, we will have to use other means to discover the appropriate $f$. Essentially, it is always possible to find a $f$ that obeys the Coulomb gauge, hence completing the proof. To verify this, we compute $\nabla\cdot\mathbf{A}$. Invoking the solution to Poisson's equation,
+\begin{eqnarray}
+\boldsymbol{\nabla}_r\cdot\mathbf{A}(\mathbf{r})&=&\frac{\mu_0}{4\pi}\int_{\mathcal{V}}\mathbf{J}(\mathbf{r'})\cdot\boldsymbol{\nabla}_{\mathbf{r}}\bigg(\frac{1}{|\mathbf{r}-\mathbf{r'}|}\bigg)d^3r'\nonumber\\&=&-\frac{\mu_0}{4\pi}\int_{\mathcal{V}}\mathbf{J}(\mathbf{r'})\cdot\boldsymbol{\nabla}_{\mathbf{r'}}\bigg(\frac{1}{|\mathbf{r}-\mathbf{r'}|}\bigg)d^3r'\nonumber\\&=&\frac{\mu_0}{4\pi}\bigg[\int_{\mathcal{V}}\boldsymbol{\nabla}_{\mathbf{r'}}\cdot\bigg(\frac{\mathbf{J}(\mathbf{r'})}{|\mathbf{r}-\mathbf{r'}|}\bigg)d^3r'-\int_{\mathcal{V}}(\boldsymbol{\nabla}_{\mathbf{r'}}\cdot\mathbf{J}(\mathbf{r'}))\bigg(\frac{1}{|\mathbf{r}-\mathbf{r'}|}\bigg)d^3r'\bigg]\nonumber\\&=&\frac{\mu_0}{4\pi}\bigg[\int_{\partial\mathcal{V}}\frac{\mathbf{J}(\mathbf{r'})}{|\mathbf{r}-\mathbf{r'}|}d^2r'+\int_{\mathcal{V}}\frac{\partial\rho(\mathbf{r')}}{\partial t}\frac{1}{|\mathbf{r}-\mathbf{r'}|}d^3r'\bigg]\nonumber
+\end{eqnarray}
+The first term vanish since currents are localized such that $\mathbf{J}=0$ on the boundary while the second term is zero since after invoking the continuity equation $\boldsymbol{\nabla}\cdot\mathbf{J}=-\frac{\partial\rho}{\partial t}$ (discussed later). But,  $\boldsymbol{\nabla}\cdot\mathbf{J}=0$ for magnetostatics, where we assumed $\rho=0$.
+\end{proof}
+\begin{cor}[Boundary Condition]
+$\mathbf{A_\parallel}$ is continuous.
+\end{cor}
+\begin{proof}
+By Stokes' theorem, the circulation of $\mathbf{A}$ around the loop equals the flux of $\mathbf{B}$ through the loop. As the width of the loop becomes infinitesimally small, the flux approaches zero and we recover the boundary condition.
+\end{proof}
+\begin{cor}[Biot-Savart Law]
+The magnetic field induced by a volume current density $\mathbf{J}$, or if the current is localized on a surface with surface current $\mathbf{K}$, or on a curve with line current $I$, then respectively we have
+$$\mathbf{B}=\frac{\mu_0}{4\pi}\int\mathbf{J}(\mathbf{r'})\times\frac{\mathbf{r}-\mathbf{r'}}{|\mathbf{r}-\mathbf{r'}|^3}dV',\quad\mathbf{B}=\frac{\mu_0}{4\pi}\int\mathbf{K}(\mathbf{r'})\times\frac{\mathbf{r}-\mathbf{r'}}{|\mathbf{r}-\mathbf{r'}|^3}dS',\quad\mathbf{B}=\frac{\mu_0I}{4\pi}\oint_Cd\mathbf{r'}\times\frac{\mathbf{r}-\mathbf{r'}}{|\mathbf{r}-\mathbf{r'}|^3}$$
+\end{cor}
+\begin{proof}
+Taking the curl of the solution of the Poisson's Equation for magnetostatics,
+$$\mathbf{B}=\frac{\mu_0}{4\pi}\int\boldsymbol{\nabla}_r\times\bigg(\frac{\mathbf{J}(\mathbf{r'})}{|\mathbf{r}-\mathbf{r'}|}\bigg)d^3r'=\frac{\mu_0}{4\pi}\int\mathbf{J}(\mathbf{r'})\times\frac{\mathbf{r}-\mathbf{r'}}{|\mathbf{r}-\mathbf{r'}|^3}d^3r'$$
+The other results are obtained by noting that $\mathbf{J}dV=\mathbf{K}dS=Id\mathbf{r}$.
+\end{proof}
+\begin{thm}[Equivalence of Biot-Savart and Ampere's Law]
+In magnetostatics, Biot-Savart Law and Ampere's law are equivalent.
+\end{thm}
+\begin{proof}
+We previously showed that Ampere's Law implies the Biot-Savart Law. Conversely, consider an arbitrary current loop such that current $I$ traverses a closed loop $\mathcal{C}_1$. We trace out an arbitrary closed Amperian loop $\mathcal{C}_2$ that encloses the current $I$. We want to show that $\oint_{\mathcal{C}_2}\mathbf{B}\cdot d\mathbf{l}_2=\mu_0I$ where $\mathbf{B}$ is the magnetic field due to the current loop. From Biot-Savart Law, this is
+$$\mathbf{B}=\int d\mathbf{B}=\oint_{\mathcal{C}_1}\frac{\mu_0I}{4\pi}\frac{d\mathbf{l_1}\times\mathbf{\hat{r}}}{r^2}$$
+Then, evaluating $\oint_{\mathcal{C}_2}\mathbf{B}\cdot d\mathbf{l_2}$,
+$$\oint_{\mathcal{C}_2}\mathbf{B}\cdot d\mathbf{l_2}=\frac{\mu_0I}{4\pi}\oint_{\mathcal{C}_1}\oint_{\mathcal{C}_2}\frac{(d\mathbf{l_1}\times\mathbf{\hat{r}})\cdot d\mathbf{l_2}}{r^2}=\frac{\mu_0I}{4\pi}\oint_{\mathcal{C}_1}\oint_{\mathcal{C}_2}\frac{(d\mathbf{l}_2\times d\mathbf{l}_1)\cdot\mathbf{\hat{r}}}{r^2}$$
+But $(d\mathbf{l_2}\times d\mathbf{l}_1)$ is an area element $d\mathbf{A}$, which is the infinitesimal area bounded by $\mathcal{C}_2$ and $\mathcal{C}_2$ displaced in the $d\mathbf{l_1}$ direction. Further, $-\frac{\mathbf{\hat{r}}\cdot d\mathbf{A}}{r^2}$ is the solid angle subtended by $d\mathbf{A}$ viewed from the point on the current loop $\mathcal{C}_1$. Adding all the solid angles as we traverse around the current loop, we will get the net change from an initial point to a final point, both on the current loop.\\[5pt]
+If $\mathcal{C}_2$ encloses the current $I$, then this net change in solid angle is $4\pi$. This is true since the initial solid angle is $2\pi$, which upon traversing the current loop, it decreases, becomes zero at some point, and then $-2\pi$. Otherwise, if $\mathcal{C}_2$ does not enclose the current $I$, then the net change in solid angle is clearly zero. Hence, proving Ampere's Law.
+\end{proof}
+\begin{Note}[Procedure for Biot-Savart Law]
+The general methodology for problems involving line currents will be:
+\begin{enumerate}
+    \item Identify the position vector of the source point.
+    \item Identify the position vector of the field point.
+    \item Find the unit relative position vector which points from the source point to the field point, $\mathbf{\hat{r}'}$.
+    \item Evaluate  $d\mathbf{s}\times\mathbf{\hat{r}'}$, where $d\mathbf{s}$ is parallel to the current $I$.
+    \item Evaluate Biot-Savart Law.
+\end{enumerate}
+\end{Note}
+\begin{remarks}
+The flux through any surface $S$ is equal to the line integral of $\mathbf{A}$ around the closed loop $L$. This follows from Stokes' theorem.
+$$\Phi_S=\int_S\mathbf{B}\cdot d\mathbf{S}=\oint_{\partial S}\mathbf{A}\cdot d\mathbf{l}$$
+Hence, the flux through any surface bounded by the closed path $L$ depends only on properties on the path $L$.
+\end{remarks}
+\begin{Note}
+The vector potential $\mathbf{A}$ can be calculated by:
+\begin{itemize}
+    \item direct calculation from the current distribution via the Poisson equation
+    \item integration of a known $\mathbf{B}$ field by definition
+    \item equating the line integral of $\mathbf{A}$ to the flux through any surface bounded by the path of the line integral.
+\end{itemize}
+\end{Note}
+\begin{prop}
+The fields $\mathbf{E}$ and $\mathbf{B}$ can be written in terms of the potentials $\phi$ and $\mathbf{A}$. These potential have gauge freedom.
+\end{prop}
+\begin{proof}
+From Faraday's Law and the definition of $\mathbf{A}$, we have
+$$\boldsymbol{\nabla}\times\bigg(\mathbf{E}+\frac{\partial\mathbf{A}}{\partial t}\bigg)=0$$
+We can set the expression $\mathbf{E}+\frac{\partial\mathbf{A}}{\partial t}$ to be $-\boldsymbol{\nabla}\phi$ such that it is still valid. For $\mathbf{B}$, we just have $\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}$. Now suppose $\mathbf{A}$ becomes $\mathbf{A'}=\mathbf{A}+\boldsymbol{\nabla}f$, then in order for $\frac{\partial\mathbf{A'}}{\partial t}+\boldsymbol{\nabla}\phi'=\frac{\partial\mathbf{A}}{\partial t}+\boldsymbol{\nabla}\phi$, we must have
+$$\phi'=\phi-\frac{\partial f}{\partial t}$$
+when we have $\mathbf{A'}=\mathbf{A}+\boldsymbol{\nabla}f$.
+\end{proof}
+\begin{defi}[Lorenz Gauge]
+The Lorenz gauge is $\boldsymbol{\nabla}\cdot\mathbf{A}=-\mu_0\varepsilon_0\frac{\partial\phi}{\partial t}$ which reduces to the Coulomb gauge when the fields are static.
+\end{defi}
+\begin{prop}
+The inhomogeneous wave equations in terms of potentials will be
+$$\nabla^2\mathbf{A}-\frac{1}{c^2}\frac{\partial^2\mathbf{A}}{\partial t^2}=-\mu_0\mathbf{J}$$
+$$\nabla^2\phi-\frac{1}{c^2}\frac{\partial^2\phi}{\partial t^2}=-\frac{\rho}{\varepsilon_0}$$
+\end{prop}
+\begin{proof}
+From Gauss' Law,
+$$\frac{\rho}{\varepsilon_0}=\boldsymbol{\nabla}\cdot\mathbf{E}=-\frac{\partial}{\partial t}\boldsymbol{\nabla}\cdot\mathbf{A}-\nabla^2\phi$$
+From Ampere's Law,
+$$\boldsymbol{\nabla}\times(\boldsymbol{\nabla}\times\mathbf{A})=\mu_0\mathbf{J}-\mu_0\varepsilon_0\frac{\partial}{\partial t}\bigg(\frac{\partial\mathbf{A}}{\partial t}+\boldsymbol{\nabla}\phi\bigg)$$
+The left hand side is simply $\boldsymbol{\nabla}(\boldsymbol{\nabla}\cdot\mathbf{A})-\nabla^2\mathbf{A}$ as before. So re-arranging
+$$\boldsymbol{\nabla}(\boldsymbol{\nabla}\cdot\mathbf{A}+\mu_0\varepsilon_0\frac{\partial\phi}{\partial t})=\nabla^2\mathbf{A}+\mu_0\mathbf{J}-\mu_0\varepsilon_0\frac{\partial^2\mathbf{A}}{\partial t^2}$$
+Taking the left hand side to be zero, i.e. Lorenz gauge, we recover both desired inhomogeneous wave equations.
+\end{proof}
+\begin{defi}[d'Alembertian]
+More common to write  $\nabla^2-\frac{1}{c^2}\frac{\partial^2}{\partial t^2}$ as the d'Alembertian $\Box$.
+\end{defi}
+\begin{thm}[Multipole Expansion for Current Density]
+The multipole expansion of $\mathbf{A}$ for a current-carrying loop $\mathcal{C}$ (does not need to be planar), where $|\mathbf{r}|>>|\mathbf{r'}|$, is
+$$\mathbf{A}=\frac{\mu_0I}{4\pi}\oint_{\mathcal{C}}\bigg(\frac{1}{|\mathbf{r}|}+\frac{\mathbf{r}\cdot\mathbf{r'}}{|\mathbf{r}|^3}+...\bigg)d\mathbf{r'}$$
+such that the leading order term is the magnetic dipole term which is equal to $\frac{\mu_0}{4\pi}\frac{I\mathbf{S}\times\mathbf{r}}{|\mathbf{r}|^3}$. 
+\end{thm}
+\begin{proof}
+Since $|\mathbf{r}|$ is a constant with respect to the integration variable $\mathbf{r'}$, the monopole term, involving the closed loop integral $\oint_{\mathcal{C}}d\mathbf{r'}$, will give zero. We evaluate the second term (dipole term). For a constant vector $\mathbf{C}$, and integrating about $\mathcal{C}=\partial S$, where $S$ is the surface bounded by the closed loop $\mathcal{C}$. Evaluating $\oint_{\mathcal{C}}(\mathbf{C}\cdot d\mathbf{r})\frac{\mathbf{r}\cdot\mathbf{r'}}{|\mathbf{r}|^3}$ gives
+$$\oint_{\mathcal{C}}\bigg(C_w\frac{r_jr_j'}{|\mathbf{r}|^3}\bigg)dr_w'=\int_{\mathcal{S}}\varepsilon_{kli}\frac{\partial}{\partial r_k'}\bigg(\frac{C_lr_jr_j'}{|\mathbf{r}|^3}\bigg)dS_i'=\int_{\mathcal{S}}\varepsilon_{ikl}\delta_{k,j}\frac{C_lr_j}{|\mathbf{r}|^3}dS_i'=\frac{C_lr_j}{|\mathbf{r}|^3}\varepsilon_{ijl}S_i=C_i\frac{r_j}{|\mathbf{r}|^3}\varepsilon_{lji}S_l$$
+where we used the Stokes' Theorem $\oint_{\partial\mathcal{S}}(\alpha C_w)dr_w=\int_{\mathcal{S}}\varepsilon_{ijk}\partial_i(\alpha C_j) dS_k$ and relabelled the dummy indices at the end. The right side is basically $\mathbf{C}\cdot(\mathbf{S}\times\frac{\mathbf{r}}{|\mathbf{r}|^3})$. Hence, $\oint_{\mathcal{C}}\frac{\mathbf{r}\cdot\mathbf{r'}}{|\mathbf{r}|^3}(\mathbf{C}\cdot d\mathbf{r})-\mathbf{C}\cdot(\mathbf{S}\times\frac{\mathbf{r}}{|\mathbf{r}|^3})=\mathbf{C}\cdot(\oint_{\mathcal{C}}\frac{\mathbf{r}\cdot\mathbf{r'}}{|\mathbf{r}|^3}d\mathbf{r}-\mathbf{S}\times\frac{\mathbf{r}}{|\mathbf{r}|^3})=0$ where $\mathbf{C}$ is a constant vector. Since $\mathbf{C}$ is arbitrary vector, the vector expression in the brackets is the null vector, and hence the dipole contribution is $\frac{\mu_0I}{4\pi}\oint_{\mathcal{C}}\frac{r_jr_j'}{|\mathbf{r}|^3}dr_i'=\frac{\mu_0I}{4\pi}\frac{\mathbf{S}\times\mathbf{r}}{|\mathbf{r}|^3}$. 
+\end{proof}
+\begin{cor}
+In terms of the current density, the magnetic dipole moment is $\frac{1}{2}\int\mathbf{r'}\times\mathbf{J}(\mathbf{r'})d^3r'$. 
+\end{cor}
+\begin{proof}
+We rewrite $\mathbf{A_{dipole}}$ as $\frac{\mu_0}{4\pi}\int\frac{(\mathbf{r}\cdot\mathbf{r'})}{|\mathbf{r}|^3}\mathbf{J}(\mathbf{r'})d^3r'$. Omitting the $\frac{\mu_0}{4\pi|\mathbf{r}|^3}$ factor, we have
+$$\int r_jr_j'J_id^3r'=-\frac{1}{2}r_j\int(r_i'J_j-r_j'J_i)d^3r'=-\frac{1}{2}\varepsilon_{ijk}r_j\int(\mathbf{r'}\times\mathbf{J})_kd^3r'=-\frac{1}{2}\mathbf{r}\times\bigg[\int(\mathbf{r'}\times\mathbf{J}(\mathbf{r'}))d^3r'\bigg]_i$$
+To have $\mathbf{A_{dipole}}=\frac{\mu_0}{4\pi}\frac{\mathbf{m}\times\mathbf{r}}{|\mathbf{r}|^3}$, we must have $\mathbf{m}=\frac{1}{2}\int\mathbf{r'}\times\mathbf{J}(\mathbf{r'})d^3r'$.
+\end{proof}
+\begin{remarks}
+By considering an infinite solenoid, one realizes that the magnetic field outside is zero (from Ampere's law). But yet, from
+$$\int_S\mathbf{B}\cdot d\mathbf{S}=\oint_{\partial S}\mathbf{A}\cdot d\mathbf{L}$$
+then, we have respectively $A_\phi=\frac{\mu_0nIr}{2}$ and $A_\phi=\frac{\mu_0nIa^2}{2r}$ inside and outside. Despite $\mathbf{B}=0$ outside, $\mathbf{A}\neq\boldsymbol{0}$.
+\end{remarks}
 \newpage
 \subsection{Vector Potential for quantum mechanics}
+A particle of mass $m$ and charge $q$ can be described by the Lagrangian $\mathcal{L}=\frac{1}{2}m|\mathbf{\dot{x}}|^2+q\mathbf{\dot{x}}\cdot\mathbf{A}-q\phi$ with corresponding equation of motion $m\mathbf{\ddot{x}}=q(\mathbf{E}+\mathbf{\dot{x}}\times\mathbf{B})$. 
+\begin{defi}[Canonical momentum]
+$$\mathbf{p}=\frac{\partial\mathcal{L}}{\partial\mathbf{\dot{x}}}=m\mathbf{\dot{x}}+q\mathbf{A}$$
+\end{defi}
+The Hamiltonian is 
+$$H=\mathbf{\dot{x}}\cdot\mathbf{p}-\mathcal{L}=\frac{1}{2m}(\mathbf{p}-q\mathbf{A})^2+q\phi$$
+This is called minimal coupling (shift of kinetic energy to include $\mathbf{A}$). 
+\begin{remarks}
+In the quantum theory, we have the canonical commutation relations $[x_i,p_j]=\delta_{ij}$ and $[x_i,x_j]=0=[p_i,p_j]$. $p$ is the canonical momentum and not $m\mathbf{\dot{x}}$.
+\end{remarks}
+\begin{remarks}
+The canonical momentum $\mathbf{p}$ is not gauge invariant since it transforms as $\mathbf{p}\rightarrow\mathbf{p}+q\boldsymbol{\nabla}\alpha$, and hence not physical. Only quantities that are gauge invariant should be viewed as physical. 
+\end{remarks}
+We promote the classical operators to quantum operators, i.e. $\mathbf{p}\rightarrow -i\hbar\boldsymbol{\nabla}$. Then the time-dependent Schr\"{o}dinger's equation is
+$$i\hbar\frac{\partial}{\partial t}\psi=H\psi=\frac{1}{2m}(-i\hbar\boldsymbol{\nabla}-q\mathbf{A})^2\psi+q\phi\psi$$
+We need to use the gauge fields $\mathbf{A}$ and $\phi$ to formulate the theory at the quantum level. Under a gauge transformation, the wavefunction should change as $\psi\mapsto e^{iq\alpha/\hbar}\psi$, so to ensure the physical probabilities $|\psi|^2$ invariant. With this choice, the Schr\"{o}dinger's equation is covariant. 
+\begin{prop}
+By defining the covariant derivatives as 
+$$D_t\psi:=\frac{\partial\psi}{\partial t}+i\frac{q\phi}{\hbar}\psi,\quad D_i\psi:=\frac{\partial\psi}{\partial x^i}-i\frac{qA_i}{\hbar}\psi$$
+then the Schr\"{o}dinger's equation has a covariant form
+$$i\hbar D_t\psi=-\frac{\hbar^2}{2m}D_iD_i\psi$$
+\end{prop}
+\begin{proof}
+Under a gauge transformation, $D_t\psi\mapsto e^{iq\alpha/\hbar}D_t\psi$ and $D_i\psi\mapsto e^{iq\alpha/\hbar}D_i\psi$. The Schr\"{o}dinger Equation becomes $i\hbar D_t\psi=-\frac{\hbar^2}{2m}D_iD_i\psi$ and this transforms covariantly.
+\end{proof}
+\subsubsection{Aharonov-Bohm Effect}
+\begin{Note}[Particles moving around a flux tube]
+A quantum particle can be offsetted by $\mathbf{A}\neq\boldsymbol{0}$, even in region where $\mathbf{B}=\boldsymbol{0}=\mathbf{E}$. Consider a particle moving on a circle around a solenoid of fixed radius $r$. Although $\mathbf{B}=\boldsymbol{0}$ on the circle, $\mathbf{A}\neq\boldsymbol{0}$ since
+$$\oint\mathbf{A}\cdot d\mathbf{x}=\int\mathbf{B}\cdot d\mathbf{S}=\Phi_{total}=\Phi$$
+We can take $A_\phi=\frac{\Phi}{2\pi r}$. The Hamiltonian is 
+$$H=\frac{1}{2m}(p_\phi-qA_\phi)^2=\frac{1}{2mr^2}\bigg(-i\hbar\frac{\partial}{\partial\phi}-q\frac{\Phi}{2\pi}\bigg)^2$$
+The energy eigenstates are $\psi=\frac{1}{\sqrt{2\pi r}}e^{in\phi}$, $n\in\mathbb{Z}$ with energy $E=\frac{1}{2mr^2}(n\hbar -q\frac{\Phi}{2\pi})^2=\frac{\hbar^2}{2mr^2}(n-\frac{\Phi}{\Phi_0})^2$ where $\Phi_0=\frac{2\pi\hbar}{q}$ is the quantum flux. The spectrum thus remains unchanged when $\Phi=m\Phi_0$, for $m\in\mathbb{Z}$. But it depends on $\Phi$ otherwise. Here, the energy of the particle knows about the flux $\Phi$ even though it never goes near the region with magnetic field.\\[5pt]
+Another way of seeing this: Outside the solenoid, $\mathbf{B}=\boldsymbol{0}=\mathbf{E}$ and so $\mathbf{A}=\boldsymbol{\nabla}\alpha$ with $\alpha=\frac{\Phi}{2\pi}\phi$. We can remove $\mathbf{A}$ by redefining the wavefunction
+$$\psi\rightarrow\tilde{\psi}=e^{-iq\alpha/\hbar}\psi=e^{-i\phi(\Phi/\Phi_0)}\psi$$
+But $\tilde{\psi}$ should be single-valued and so $\Phi/\Phi_0\in\mathbb{Z}$. Otherwise, we cannot remove $\mathbf{A}$. The above gauge transformation is only allowed if $\Phi$ is an integer multiple of $\Phi_0$. This gives a first glimpse of topology in quantum mechanics.
+\end{Note}
+\begin{Note}[Aharonov-Bohm Scattering]
+It was Aharonov and Bohm who first pointed out that a quantum particle can be affected by $\mathbf{A}$ even in regions void of $\mathbf{B}$. Consider a modification to the Young's double slit experiment where a solenoid is present. The particles do not enter the solenoid, yet the interference pattern depend on $\Phi/\Phi_0$. The particle obeys the Schr\"{o}dinger's equation
+$$H\psi=\frac{1}{2m}(-i\hbar\boldsymbol{\nabla}-q\mathbf{A})^2\psi=E\psi$$
+subject to some boundary conditions. We can formally remove $\mathbf{A}$ by writing 
+$$\psi(\mathbf{x})=\exp\bigg(\frac{iq}{\hbar}\int^x\mathbf{A}(\mathbf{x'})\cdot d\mathbf{x'}\bigg)\chi(x)$$
+where the integral is over any path. The phase picked up by the particle due to the gauge field differs depending on the path taken. How does the phase difference $\Delta\theta$ depend on the flux $\Phi$? Since $\chi(x)$ does not depend on $\mathbf{A}$, we can focus on the phase
+$$\Delta\theta=\frac{q}{\hbar}\oint\mathbf{A}\cdot d\mathbf{x}=q\hbar\int\mathbf{B}\cdot d\mathbf{S}=q\frac{\Phi}{\hbar}$$
+This is the Aharanov-Bohm phase. This manifests in the interference pattern seen on the screen. As $\Phi$ is changed, the interference pattern shifts, an effect which has been experimentally observed. Only when $\Phi$ is an integer multiple of $\Phi_0$ is the particle unaware of the presence of the solenoid.
+\end{Note}
+\begin{eg}[SQUID]
+The Aharonov-Bohm effect also forms the basis for the operation of the `SQUID' (Superconducting QUantum Interference Device). A SQUID comprises a superconducting ring with two Josephson junctions. The two halves of the ring are connected to external leads. When a magnetic flux penetrates the ring a screening current is set up in the ring, which increases the current through one half of the ring and reduces it in the other half. This modulates the critical current of the Josephson junctions. It can be shown
+that the current through the ring is 
+$$I=I_c\sin(\Delta\theta)\sin\frac{\pi\Phi}{\Phi_0}$$
+where $I_c$ is the critical current of the Josephson junctions in the absence of a magnetic flux and $\Phi_0$ is the flux quantum. Sensitivities of order $10^{−15}$ T are achievable, making SQUIDs useful for high sensitivity applications.
+\end{eg}
+\subsubsection{Superconductors}
+\begin{defi}[Messiner effect]
+Below some transition temperature $T_s$, superconductors exhibit zero resistance and expels all static magnetic fields.
+\end{defi}
+\begin{prop}[London equation]
+Model the superconductor as a semiclassical system of surface current $\mathbf{J_s}$ with no damping to the motion of the charges.
+$$\mathbf{J_s}=-\frac{1}{\mu_0\lambda_L^2}\mathbf{A}$$
+where $\lambda_L=\sqrt{\frac{m}{n_s\mu_0q^2}}$ is the London penetration depth.
+\end{prop}
+\begin{proof}
+We have
+$$\frac{d}{dt}\mathbf{J_s}=\frac{d}{dt}(n_sq\mathbf{v})=n_sq\frac{q\mathbf{E}}{m}$$
+Take the curl and use Faraday's equation, we then have $\boldsymbol{\nabla}\times\mathbf{J_s}+\frac{n_sq^2}{m}\mathbf{B}$ to be a constant. Since $\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}$, the result follows.
+\end{proof}
+\begin{cor}
+Under static conditions, magnetic fields decay exponentially in the superconductor.
+\end{cor}
+\begin{proof}
+Under static conditions $\boldsymbol{\nabla}\times\mathbf{B}=\mu_0\mathbf{J_s}$, we then have
+$$\boldsymbol{\nabla}\times(\boldsymbol{\nabla}\times\mathbf{B})=-\nabla^2\mathbf{B}=\mu_0\boldsymbol{\nabla}\times\mathbf{J_s}=-\frac{1}{\lambda_L^2}\boldsymbol{\nabla}\times\mathbf{A}$$
+which gives us $B(x)=B(0)e^{-x/\lambda_L}$, i.e. exponentially decaying field. The superconducting current must lie near the surface.
+\end{proof}
+\begin{Note}[Fluxoid]
+the carriers in a superconductors are in a Bose-condensed state with wavefunctions $\psi(l)=\sqrt{n_s}e^{i\theta(l)}$ where $l$ is the linear distance around the loop. The current density is
+$$\mathbf{J_s}=q\psi^*(l)\mathbf{\hat{v}}\psi(l)=\frac{n_sq}{m}(\hbar\boldsymbol{\nabla}\theta(l)-q\mathbf{A})$$
+Take a closed path $C$ through the interior of the loop, well away from its surface, so $\mathbf{B}=0$ and so $J_s=0$ by the London equation. The total phase change will round the contour $C$ will be
+$$\oint_C\boldsymbol{\nabla}\theta(l)\cdot d\mathbf{l}=\frac{q}{\hbar}\oint_C\mathbf{A}\cdot d\mathbf{l}=\frac{q}{\hbar}\Phi_C$$
+where $\Phi_C$ is the total magnetic flux through $C$. Since $\psi(l)$ must be single-valued, the total phase change round $C$ must be $2n\pi$, $n\in\mathbb{Z}$. Hence,
+$$\Phi_c=\frac{\hbar}{q}2n\pi=n\frac{h}{q}=n\frac{h}[2e],\quad n\in\mathbb{Z}$$
+The quanta $h/2e$ is called a fluxoid.
+\end{Note}
+\subsubsection{Magnetic Monopoles}
+\begin{defi}[Magnetic monopoles]
+A magnetic monopole is a hypothetical particle which emits a radial magnetic field
+$$\mathbf{B}=\frac{g}{4\pi r^2}\mathbf{\hat{r}}\implies\int_{\mathcal{S}^2}\mathbf{B}\cdot d\mathbf{S}=g$$
+where $g$ is the magnetic charge. They are forbidden by the Maxwell equation $\boldsymbol{\nabla}\cdot\mathbf{B}=0$, but most physicists expect that they exist. 
+\end{defi}
 
+
+\begin{Note}[Dirac quantization condition]
+Consider a particle of charge $q$ localized in some region of space. If it travels on a closed path $\mathcal{C}$, it picks up a Aharonov-Bohm phase $\psi\rightarrow e^{iq\alpha/\hbar}\psi$ with $\alpha=\oint_{\mathcal{C}}\mathbf{A}\cdot \mathbf{x}=\oint_S\mathbf{B}\cdot d\mathbf{S}$. This phase is really a phase difference. Consider the particle moving in the background of a magnetic monopole. If it moves a path $\mathcal{C}$, it returns with a phase $\alpha=\int_S\mathbf{B}\cdot d\mathbf{S}=\frac{\Omega}{4\pi}g$ where $\Omega$ is the solid angle subtended by $S$. But there is an ambiguity. We could have also chosen to use $S'$ (see Figure 24) such that the phase is instead $\alpha'=-\frac{4\pi-\Omega}{4\pi}g$. But for consistency, we must have
+$$e^{i\alpha q/\hbar}=e^{i\alpha'q/\hbar}\implies gq=2\pi\hbar m,\quad m\in\mathbb{Z}$$
+Any magnetic charge must be related to any electric charge in this way.
+\end{Note}
 \newpage
 \subsection{General solution for potentials}
+\begin{prop}
+Under Lorenz Gauge, the Maxwell's Equations become
+$$-\nabla^2\phi+\frac{1}{c^2}\frac{\partial^2\phi}{\partial t^2}=\frac{\rho}{\varepsilon_0},\quad-\nabla^2\mathbf{A}+\frac{1}{c^2}\frac{\partial^2\mathbf{A}}{\partial t^2}=\mu_0\mathbf{J}$$
+\end{prop}
+\begin{proof}
+In general, the electric field is written in terms of a scalar potential $\phi$ and a vector potential $\mathbf{A}$ such that
+$$\mathbf{E}=-\boldsymbol{\nabla}\phi-\frac{\partial\mathbf{A}}{\partial t}\implies-\mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}=\frac{1}{c^2}\boldsymbol{\nabla}\frac{\partial\phi}{\partial t}+\frac{1}{c^2}\frac{\partial^2\mathbf{A}}{\partial t^2}$$
+Recall Ampere-Maxwell's Law and the identity $\boldsymbol{\nabla}\times\mathbf{B}=\boldsymbol{\nabla}\times(\boldsymbol{\nabla}\times\mathbf{A})=\boldsymbol{\nabla}(\boldsymbol{\nabla}\cdot\mathbf{A})-\nabla^2\mathbf{A}$, then we have
+$$\mu_0\mathbf{J}=\boldsymbol{\nabla}\times\mathbf{B}-\mu_0\epsilon_0\frac{\partial\mathbf{E}}{\partial t}=-\nabla^2\mathbf{A}+\frac{1}{c^2}\frac{\partial^2\mathbf{A}}{\partial t^2}+\boldsymbol{\nabla}\bigg(\boldsymbol{\nabla}\cdot\mathbf{A}+\frac{1}{c^2}\frac{\partial\phi}{\partial t}\bigg)$$
+Under Lorenz gauge, i.e. $\boldsymbol{\nabla}\cdot\mathbf{A}=-\frac{1}{c^2}\frac{\partial\phi}{\partial t}$, the equivalent form of Ampere-Maxwell's law is
+$$-\nabla^2\mathbf{A}+\frac{1}{c^2}\frac{\partial^2\mathbf{A}}{\partial t^2}=\mu_0\mathbf{J}$$
+To recover the other equation, we look at Gauss' Law again
+$$\frac{\rho}{\varepsilon_0}=\boldsymbol{\nabla}\cdot\mathbf{E}=-\nabla^2\phi-\frac{\partial}{\partial t}(\boldsymbol{\nabla}\cdot\mathbf{A})=-\nabla^2\phi+\frac{1}{c^2}\frac{\partial^2\phi}{\partial t^2}$$
+where we invoked the Lorenz gauge again.
+\end{proof}
+\begin{remarks}
+These are wave equations with source terms given by the free charges and currents of the system. The general solutions take the form $f(t\pm r/c)$.
+\end{remarks}
+\begin{prop}
+The general solution will then be
+$$\phi(\mathbf{r},t)=\frac{1}{4\pi\epsilon_0}\int_{\mathbb{R}^3}\frac{\rho(\mathbf{r'},t-(|\mathbf{r}-\mathbf{r'}|/c))dV'}{|\mathbf{r}-\mathbf{r'}|},\quad \mathbf{A}(\mathbf{r},t)=\frac{1}{4\pi\epsilon_0}\int_{\mathbb{R}^3}\frac{\mathbf{J}(\mathbf{r'},t-(|\mathbf{r}-\mathbf{r'}|/c))dV'}{|\mathbf{r}-\mathbf{r'}|}$$
+These are the retarded potentials which allows for the propagation of information at a finite speed $c$. The potential at $\mathbf{r}$ at time $t$ depends on the source at $\mathbf{r'}$ at a time $|\mathbf{r}-\mathbf{r'}|/c$ earlier.
+\end{prop}
+\begin{proof}
+Consider a time varying charge at the origin $q(r=0,t)$. The solution for $\phi$ must be spherically symmetric and take the form 
+$$\phi(r,t)\sim\frac{1}{r}g(t-(r/c))$$
+which represents an outgoing wave. The solution at $\mathbf{r}$ at any time depends on the charge at a time earlier by $-r/c$, i.e. the retarded time. If the characteristic time over which the charge at the origin change sis $\tau$, then for $r<<c\tau$, the solution must be much like the static case, i.e. $\phi(\mathbf{r},t)=\frac{1}{4\pi\epsilon_0}q(t)/r$. We require continuity between the two solutions. Finally, take the superposition of such solutions since the wave equations are linear. Similar argument holds for each component of $\mathbf{A}$.
+\end{proof}
 \newpage
 \section{Dipole Radiation}
+We have shown that the retarded potentials are
+$$\Phi(\mathbf{r},t)=\frac{1}{4\pi\varepsilon_0}\int_{\mathbb{R}^3}\frac{\rho(\mathbf{r'},t-|\mathbf{r}-\mathbf{r'}|/c)dV'}{|\mathbf{r}-\mathbf{r'}|},\quad \mathbf{A}(\mathbf{r},t)=\frac{\mu_0}{4\pi}\int_{\mathbb{R}^3}\frac{\mathbf{J}(\mathbf{r'},t-|\mathbf{r}-\mathbf{r'}|/c)dV'}{|\mathbf{r}-\mathbf{r'}|}$$
+If sources change at time $t$, the field will only change at a time $r/c$ after $t$, due to the retardation effects in the propagation of potential. 
+\begin{prop}
+Only accelerating charges induce radiation.
+\end{prop}
+\begin{proof}
+For charge moving at constant velocity, one can find a frame in which it is stationary and therefore do not lose energy and cannot radiate.
+\end{proof}
+\begin{remarks}
+An oscillating dipole is a common example, which induces a change in electric field. The oscillating charges also involve currents, producing a magnetic field.
+\end{remarks}
 \subsection{Hertzian dipole}
-
-\newpage
+\begin{defi}[Hertzian dipole]
+The Hertzian dipole is a theoretical dipole antenna that consists of an infinitesimally small current source acting in free-space. 
+\end{defi}
+\begin{remarks}
+Although a true Hertzian dipole cannot physically exist, very short dipole antennas can make for a reasonable approximation.
+\end{remarks}
+\begin{prop}
+The fields of a Hertzian dipole are
+$$B_\phi=\frac{\mu_0\sin\theta}{4\pi}\bigg[\frac{\dot{p}}{r^2}+\frac{\ddot{p}}{rc}\bigg],\quad E_\theta=\frac{\sin\theta}{4\pi\varepsilon_0}\bigg[\frac{p}{r^3}+\frac{\dot{p}}{r^2c}+\frac{\ddot{p}}{rc^2}\bigg],\quad E_r=\frac{2\cos\theta}{4\pi\varepsilon_0}\bigg[\frac{p}{r^3}+\frac{\dot{p}}{r^2c}\bigg]$$
+where the dipole is retarded $p=p(t-r/c)$.
+\end{prop}
+\begin{proof}
+We have the two charges $q$ at O are separated by $d$ and vary harmonically in time  - so there must also be a current $I=\dot{q}=-i\omega q_0e^{-i\omega t}$ flowing between them. The dipole moment and the current are $\mathbf{p}=p_0e^{-i\omega t}\mathbf{\hat{z}}$ with $p_0=q_0d$, and $I=\dot{p}/d=-i\omega p_0e^{-i\omega t}/d$. $\omega$ is the frequency of oscillation of the dipole, and therefore that o fthe fields and any radiation it produces. The dipole's physical size is taken to be small compared to the wavelength of the expected radiaiton, i.e. $d<<\lambda=2\pi c/\omega$. This is the dipole approximation. We find the retarded potentials at the far-field limit, i.e. $r>>d$:
+$$\mathbf{A}(\mathbf{r},t)=\frac{\mu_0}{4\pi}\int\frac{\mathbf{J}(\mathbf{r'},t-r/c)dV'}{|\mathbf{r}-\mathbf{r'}|}\approx\frac{\mu_0}{4\pi r}\dot{q}(t-r/c)d\mathbf{\hat{z}}$$
+$\mathbf{A}$ is parallel to $\mathbf{\dot{p}}$, and it is in the $\mathbf{\hat{z}}$ direction. Its components in the polar coordinates are
+$$A_r=A\cos\theta,\quad A_\theta=-A\sin\theta,\quad A_\phi=0$$
+The only non-zero magnetic field component is
+$$B_\phi=-\sin\theta\frac{\partial A}{\partial r}=-\frac{\mu_0\sin\theta}{4\pi}\frac{\partial}{\partial r}\frac{\dot{p}(t-r/c)}{r}=\frac{\mu_0}{4\pi}\sin\theta\bigg(\frac{\dot{p}(t-r/c)}{r^2}+\frac{\ddot{p}(t-r/c)}{rc}\bigg)$$
+The potential at $P$ due to charges $q(t-r_+/c)$, $q(t-r_-/c)$ at distances $r_\pm$ is
+$$\Phi(r,\theta,t)=\frac{1}{4\pi\varepsilon_0}\bigg[\frac{q(t-r_+/c)}{r_+}-\frac{q(t-r_-/c)}{r_-}\bigg]$$
+For a Hertzian dipole, we have $d<<r$ and $r_\pm\approx r\mp (d/2)\cos\theta$, and the difference is
+$$\Phi(r,\theta,t)=\frac{r_+-r_-}{4\pi\varepsilon_0}\frac{\partial}{\partial r}\frac{q(t-r/c)}{r}=\frac{-d\cos\theta}{4\pi\varepsilon_0}\bigg[-\frac{q(t-r/c)}{r^2}-\frac{\dot{q}(t-r/c)}{rc}\bigg]=\frac{\cos\theta}{4\pi\varepsilon_0}\bigg[\frac{p(t-r/c)}{r^2}+\frac{\dot{p}(t-r/c)}{rc}\bigg]$$
+The remaining result follow by evaluating $\mathbf{E}=-\dot{\mathbf{A}}-\boldsymbol{\nabla}\Phi$.
+$$E_r=-\frac{\mu_0\cos\theta\ddot{p}(t-r/c)}{4\pi r}-\frac{\cos\theta}{4\pi\varepsilon_0}\bigg[-\frac{2p(t-r/c)}{r^3}-\frac{\dot{p}(t-r/c)}{r^2c}\bigg]-\frac{\cos\theta}{4\pi\varepsilon0}\frac{-1}{c}\bigg[\frac{\dot{p}(t-r/c)}{r^2}+\frac{\ddot{p}(t-r/c)}{rc}\bigg]$$
+$$E_\theta=\frac{\mu_0\sin\theta\ddot{p}(t-r/c)}{4\pi r}+\frac{\sin\theta}{4\pi\varepsilon_0 r}\bigg[\frac{p(t-r/c)}{r^2}+\frac{\dot{p}(t-r/c)}{rc}\bigg]$$
+\end{proof}
+\begin{remarks}
+Consider the magnitudes of various terms with $p=p_0e^{-i\omega t}$:
+\begin{itemize}
+    \item dipole term: dominates near dipole $d<<r<<\lambda$
+    $$\frac{p(t-r/c)}{r^3}\sim\frac{p_0}{r^3}\propto r^{-3}$$
+    \item induction term: never dominates
+    $$\frac{\dot{p}(t-r/c)}{r^2c}\sim\frac{p_0\omega}{r^2c}=\frac{p_0}{r^3}\frac{2\pi r}{\lambda}\propto r^{-2}$$
+    \item radiation term: dominates in far field limit
+    $$\frac{\ddot{p}(t-r/c)}{rc^2}\sim\frac{p_0\omega^2}{rc^2}=\frac{p_0}{r^3}\bigg(\frac{2\pi r}{\lambda}\bigg)^2\propto r^{-1}$$
+\end{itemize}
+In the far field region $r>>\lambda$, the non-zero fields are the radiation fields
+$$E_\theta=\frac{\sin\theta\ddot{p}(t-r/c)}{4\pi\varepsilon_0c^2}\frac{1}{r},\quad B_\phi=\frac{\mu_0\sin\theta\ddot{p}(t-r/c)}{4\pi c}\frac{1}{r}$$
+\begin{enumerate}
+    \item The field components are in phase with one another. The field components are proportional to each other, i.e. $E_\theta=cB_\phi$ and are orthogonal in space, i.e. $\mathbf{N}$ purely outwardly radial in far-field limit.
+    \item If the dipole consisted of two fixed charges $\pm q$ with oscillating separation, this would correspond to their acceleration.
+    \item The radiation is linearly polarized in the direction of $E_\theta$, and vertically polarized in the equatorial plane $\theta=\pi/2$.
+\end{enumerate}
+\end{remarks}
+\begin{prop}
+In the far-field limit, the angular distribution of the radiated power of a Hertzian dipole is 
+$$G(\theta,\phi)\propto\sin^2\theta$$
+\end{prop}
+\begin{proof}
+In the far-field limit, the instantaneous magnitude of the Poynting flux is 
+$$N(r,\theta,\phi)=\frac{1}{\mu_0}E_\theta B_\phi=\frac{\mu_0}{16\pi^2c}\sin^2\theta\frac{\ddot{p}(t-r/c)^2}{r^2}$$
+Result follows from its angular dependence.
+\end{proof}
+\begin{remarks}\leavevmode
+\begin{enumerate}
+\item The angular distribution of the radiated power of the Hertzian dipole is cylindrically symmetric. Maximum power is radiated in the equatorial plane of the dipole, and zero along its pole axes.
+\item The Poynting flux associated with the induction fields is not purely radial and since it falls off like $1/r^4$, it cannot represent a net outward energy flux, and merely redistributes energy within the fields close to the dipole.
+\end{enumerate}
+\end{remarks}
+\begin{cor}
+The instantaneous total radiated power $P$ is
+$$P=\frac{\mu_0}{6\pi c}\ddot{p}(t-r/c)^2$$
+\end{cor}
+\begin{proof}
+Integrate the Poynting flux over the surface of a sphere at radius $r$ to give
+$$P=\int\mathbf{N}\cdot d\mathbf{S}=\frac{\mu_0}{16\pi^2c}\int_0^\pi\sin^2\theta\frac{\ddot{p}(t-r/c)^2}{r^2}2\pi r^2\sin\theta d\theta=\frac{\mu_0}{6\pi c}\ddot{p}(t-r/c)^2$$
+\end{proof}
+\begin{remarks}
+$P$ is independent of $r$, so there is no accumulation of energy in space. All the energy from the radiation fields propagates outwards. the radiated power of an electric dipole is isotropic in the plane perpendicular to the dipole.
+\end{remarks}
+\begin{cor}
+The time-averaged Poynting flux and power radiated is
+$$\langle N(r,\theta,\phi)\rangle=\frac{\mu_0\omega^4p_0^2\sin^2\theta}{32\pi^2cr^2},\quad\langle P\rangle=\frac{\omega^4p_0^2}{12\pi\varepsilon_0c^3}$$
+\end{cor}
+\begin{proof}
+For $p=p_0e^{-i\omega t}$, $\ddot{p}=-\omega^2p_0e^{-i\omega t}$, so
+$$\langle\ddot{p}(t-r/c)^2\rangle=\frac{1}{2}\omega^4p_0^2$$
+where the retardation is irrelevant when time-averaging over a number of cycles. Result follows.
+\end{proof}
 \subsection{Multipole expansion in the far field}
+\begin{prop}
+For a generic sinusoidal current distribution $\mathbf{J}(\mathbf{r},t)=\mathbf{J}(\mathbf{r})e^{-i\omega t}$, the vector potential in the far-field limit can be approximated as a sum:
+$$\mathbf{A}(\mathbf{r})=\frac{\mu_0}{4\pi}\frac{e^{ikr}}{r}\sum_n\frac{(-ik)^n}{n!}\int\mathbf{J}(\mathbf{r'})(\mathbf{n}\cdot\mathbf{r'})^ndV'$$
+\end{prop}
+\begin{proof}
+In the far-field $kr>>1$, the generic vector potential can be approximated to 
+$$\mathbf{A}(\mathbf{r},t)=e^{-\i\omega t}\frac{\mu_0}{4\pi}\int\mathbf{J}(\mathbf{r'})\frac{e^{ik|\mathbf{r}-\mathbf{r'}|}}{|\mathbf{r}-\mathbf{r'}|}dV'=e^{-i\omega t}\frac{\mu_0e^{ikr}}{4\pi r}\int\mathbf{J}(\mathbf{r'})e^{-ik\mathbf{n}\cdot\mathbf{r'}}dV'$$
+where $|\mathbf{r}-\mathbf{r'}|\approx r-\mathbf{n}\cdot\mathbf{r'}$ such that $\mathbf{n}:=\mathbf{\hat{r}}$ in the direction of $\mathbf{r}$. If the source dimension $d$ is small compared to the wavelength, it is appropriate to expand in powers of $k$ to give our result.
+\end{proof}
+\begin{remarks}
+Since the magnitude of $\mathbf{r'}$ is on the order of $d$, and $kd<<1$ terms with $n>1$ fall off rapidly and the dominant terms in the expansion are the terms of $n=0$ and 1.
+\end{remarks}
+\begin{cor}
+$$\mathbf{A}(\mathbf{r})|_{n=0}=-\frac{i\omega\mu_0}{4\pi}\mathbf{p}\frac{e^{ikr}}{r}$$
+The $n=0$ term corresponds to the electric dipole radiation.
+\end{cor}
+\begin{proof}
+Take $n=0$, and use integration by parts:
+$$\mathbf{A}(\mathbf{r})=\frac{\mu_0e^{ikr}}{4\pi r}\int\mathbf{J}(\mathbf{r'})dV'=-\frac{\mu_0e^{ikr}}{4\pi r}\int\mathbf{r'}(\boldsymbol{\nabla'}\cdot\mathbf{J})dV'$$
+but the continuity equation gives $\boldsymbol{\nabla}\cdot\mathbf{J}=i\omega\rho$, and we obtain our result from defining $\mathbf{p}=\int\mathbf{r'}\rho(\mathbf{r'})dV'$.
+\end{proof}
+\begin{cor}
+$$\mathbf{A}(\mathbf{r})=\frac{ik\mu_0}{4\pi}(\mathbf{n}\times\mathbf{m})\frac{e^{ikr}}{r}$$
+where the magnetic dipole moment $\mathbf{m}$ of the current distribution $\mathbf{J}$ is $\mathbf{m}=\frac{1}{2}\int(\mathbf{r}\times\mathbf{J})dV$. This is the anti-symmetric part of the $n=1$ term and it corresponds to the magnetic dipole radiation emitted by the time-varying current distribution.
+\end{cor}
+\begin{proof}
+The $n=1$ term is
+$$\mathbf{A}(\mathbf{r})=\frac{\mu_0}{4\pi}\frac{e^{ikr}}{r}(-ik)\int\mathbf{J}(\mathbf{r'})(\mathbf{n}\cdot\mathbf{r'})dV'$$
+The anti-symmetric term is the second part of 
+$$(\mathbf{n}\cdot\mathbf{r'})\mathbf{J}=\frac{1}{2}[(\mathbf{n}\cdot\mathbf{r'})\mathbf{J}+(\mathbf{n}\cdot\mathbf{J})\mathbf{r'}]+\frac{1}{2}(\mathbf{r'}\times\mathbf{J})\times\mathbf{n}$$
+We then obtain our result.
+\end{proof}
+\begin{prop}
+Small magnetic dipoles ($a<<\lambda$) are much less efficient radiation sources than Hertzian electric dipoles.
+\end{prop}
+\begin{proof}
+The fields are obtained via $\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}$ and $\mathbf{E}=i\frac{Z_0}{k\mu_0}\boldsymbol{\nabla}\times\mathbf{B}$, and that we substitute $c\mathbf{p}\rightarrow\mathbf{m}$ to obtain
+$$\mathbf{B}(\mathbf{r})=\frac{\mu_0k^2}{4\pi}((\mathbf{n}\times\mathbf{m})\times\mathbf{n})\frac{e^{ikr}}{r},\quad\mathbf{E}(\mathbf{r})=-\frac{Z_0k^2}{4\pi}(\mathbf{n}\times\mathbf{m})\frac{e^{ikr}}{r}$$
+The time averaged total power radiated by the magnetic dipole is deduced to be
+$$\langle P^{\text{ED}}\rangle=\frac{\omega^4p_0^2}{12\pi\varepsilon_0c^3}\rightarrow\langle P^{\text{MD}}\rangle=\frac{\mu_0\omega^4m_0^2}{12\pi c^3}$$
+If the electric and magnetic dipoles carry similar currents of amplitude $I_0$ and have similar geometric sizes $a$:
+$$p_0\sim\frac{I_0}{\omega}a,\quad m_0\sim I_0a^2$$
+then we have the ratio to be
+$$\frac{\langle P^{\text{MD}}\rangle}{\langle P^{\text{ED}}\rangle}=\frac{m_0^2}{c^2p_0^2}\sim\frac{1}{c^2}\frac{I_0^2a^4\omega^2}{I_0^2a^2}\sim\bigg(\frac{2\pi a}{\lambda}\bigg)^2<<1$$
+\end{proof}
+\begin{defi}[Quadrupole moment tensor]
+$$Q_{\alpha\beta}=\int(3x_\alpha x_\beta -r^2\delta_{\alpha\beta})\rho(\mathbf{r})dV$$
+\end{defi}
+\begin{cor}
+$$\mathbf{A}(\mathbf{r})=-\frac{\mu_0ck^2e^{ikr}}{8\pi r}\int\mathbf{r'}(\mathbf{n}\cdot\mathbf{r'})\rho(\mathbf{r'})dV'$$
+The symmetric part of the $n=1$ term corresponds to the electric quadrupole radiation with fields
+$$\mathbf{B}=-\frac{ick^3\mu_0}{24\pi}\frac{e^{ikr}}{r}\mathbf{n}\times\mathbf{Q}(\mathbf{n}),\quad\mathbf{E}=\frac{ikZ_0}{\mu_0}((\mathbf{n}\times\mathbf{A})\times\mathbf{n})$$
+where $\mathbf{Q}(\mathbf{n})=3\int\mathbf{r'}(\mathbf{n}\cdot\mathbf{r'})\rho(\mathbf{r'})dV'$.
+\end{cor}
+\begin{proof}
+Transform the integral of the symmetric part of the $n=1$ term via integration by parts.
+$$\frac{1}{2}\int[(\mathbf{n}\cdot\mathbf{r'})\mathbf{J}+(\mathbf{n}\cdot\mathbf{J})\mathbf{r'}]dV'=-\frac{i\omega}{2}\int\mathbf{r'}(\mathbf{n}\cdot\mathbf{r'})\rho(\mathbf{r'})dV'$$
+The fields again obtained via $\mathbf{B}=ik(\mathbf{n}\times\mathbf{A}$ and $\mathbf{E}=\frac{iZ_0}{\mu_0}(\mathbf{B}\times\mathbf{n})$.
+\end{proof}
+\begin{remarks}
+The angular distribution of the quadrupole radiation is
+$$N(r,\theta,\phi)=\frac{\mu_0\omega^6}{1152\pi^2c^3r^2}|(\mathbf{n}\times\mathbf{Q}(\mathbf{n}))\times\mathbf{n}|^2$$
+with the total instantaneous power radiated to be
+$$\langle P^{\text{EQ}}\rangle=\frac{\mu_0\omega^6}{1440\pi c^3}\sum_{\alpha,\beta}|Q_{\alpha,\beta}|^2$$
+For the same $q$ and $a$, the quadrupole is much less effective as a radiator than the corresponding electric dipole if $ka<<1$. 
+\end{remarks}
+\begin{eg}
+Consider the lateral quadrupole defined by four charges in the $y$-$z$ plane, two charges $+q$ at $(0,a,a)$ and $(0,-a,-a)$ and two charges $-q$ at $(0,a,-a)$ and $(0,-a,a)$. Again, assume the magnitude of the charge to be oscillating. The quadrupole tensor will be
+$$Q=\begin{pmatrix}0&0&0\\0&0&3qa^2\\0&3qa^2&0\\\end{pmatrix}$$
+In contrast to the electric dipole, the radiated power of the quadrupole is no longer cylindrically symmetric, but has lobes along the $\pm y$ and $\pm z$-axes. No power is radiated along the $\pm x$ axes, since the geometric phases of the two dipoles are anti-phase, leading to complete cancellation.
+\end{eg}
 \newpage
 \section{Antenna}
-
+\begin{defi}[Radiation resistance]
+Any antenna will lose energy from whatever circuit is driving the charge/current oscillation. This is represented as a resistor, in circuit theory, with radiation resistance $R_r$:
+$$R_r:=\langle P\rangle/\langle I^2\rangle$$
+where $P$ is the total radiated power, and $I$ is the current at the antenna contact.
+\end{defi}
+\begin{prop}
+In the dipole approximation, the radiation resistance of a Hertzian dipole is
+$$R_r=789\bigg(\frac{d}{\lambda}\bigg)^2$$
+in unit of Ohms $\Omega$.
+\end{prop}
+\begin{proof}
+We have $\langle P\rangle=\frac{\mu_0\omega^4p_0^2}{12\pi c}=\frac{\mu_0\omega^4\langle p^2\rangle}{6\pi c}=\frac{\mu_0\omega^2\langle\dot{p}^2\rangle}{6\pi c}$ and $\dot{p}=Id$.
+$$R_r=\frac{\langle P\rangle}{\langle I^2\rangle}=\frac{1}{\langle I^2\rangle}\frac{\mu_0\omega^2}{6\pi c}\langle I^2\rangle d^2=\frac{\omega^2d^2}{6\pi\varepsilon_0c^3}=\frac{2\pi}{3}Z_0\frac{d^2}{\lambda^2}$$
+where the impedance of free space is $Z_0=\sqrt{\mu_0/\varepsilon_0}=377$ $\Omega$.
+\end{proof}
+\begin{defi}[Power gain]
+Power gain of an emitting antenna is the directionality of the emitted radiation.
+$$G(\theta,\phi)=\frac{N(\theta,\phi)}{(1/4\pi)\int N(\theta,\phi)d\Omega}$$
+where $d\Omega=\sin\theta d\theta d\phi$ is an infinitesimal solid angle.
+\end{defi}
+\begin{prop}
+In the dipole approximation, the power gain of a Hertzian dipole is
+$$G(\theta,\phi)=\frac{3}{2}\sin^2\theta$$
+\end{prop}
+\begin{proof}
+$$G(\theta,\phi)=\frac{\sin^2\theta}{0.5\int\sin^3\theta d\theta}=\frac{3}{2}\sin^2\theta$$
+\end{proof}
+\begin{defi}[Effective area]
+The performance of a receiving antenna is quantified by the power delivered to a load resistance for a given incident flux of radiation (which induces an open circuit voltage in the antenna). We thus define the effective area of an antenna (or absorption cross-section) to be
+$$A_{\text{eff}}(\theta,\phi)=\frac{\langle P_{\text{load}}\rangle}{\langle N_{\text{incident}}\rangle}$$
+when the polarization is oriented for best reception.
+\end{defi}
+\begin{eg}
+Consider incident EM radiation at an angle $\theta$ on a Hertzian dipole oriented in the plane of polarization (so as to maximize $\mathbf{E}$ along the dipole axis). The open circuit voltage across the antenna is $V=dE\sin\theta$. The mean power absorbed in a load $R_\text{load}$ is maximized for a matched load.
+$$\langle P_{\text{load}}\rangle=\langle I^2\rangle R_{\text{load}}=\langle V^2\rangle\frac{R_{\text{load}}}{(R_r+R_{\text{load}})^2}$$
+which maximum gives $\frac{\langle V^2\rangle}{4R_r}$. The mean power absorbed in a matched load $R_r$ is
+$$\langle P_{\text{load}}\rangle=\frac{\langle V^2\rangle}{4R_r}=\frac{\langle E^2\rangle d^2\sin^2\theta}{4R_r}=\frac{\langle E^2\rangle 3\lambda^2\sin^2\theta}{8\pi Z_0}=\frac{3\lambda^2\sin^2\theta}{8\pi}\langle N_{\text{incident}}\rangle$$
+hence, the effective area is $\frac{3\lambda^2\sin^2\theta}{8\pi}$. But since we used the dipole approximation $d<<\lambda$, we have $A_{\text{eff}}>>d^2$, i.e. greater than the actual geometrical area of the antenna.\\[5pt]
+This is possible because of re-radiated or scattered power. Current flows in the circuit, so the receiving antenna also radiates and hence some of the incident power is re-radiated. This re-radiated power $\langle P_{\text{rad}}\rangle$ is the difference between the total power absorbed and the power delivered to the load. For a matched load:
+$$\langle P_{\text{rad}}\rangle=\langle P_{\text{tot}}\rangle-\langle P_{\text{load}}\rangle=\frac{\langle V^2\rangle}{2R_r}-\frac{\langle V^2\rangle}{4R_r}=\frac{\langle V^2\rangle}{4R_r}=\langle P_{\text{load}}$$
+i.e. as much power is scattered from the antenna as is absorbed by the load.
+\end{eg}
+\begin{prop}
+$$A_{\text{eff}}(\theta,\phi)=\frac{\lambda^2}{4\pi}G(\theta,\phi)$$
+This relation is true for any antenna, independent of any details of its construction, and even of its size.
+\end{prop}
+\begin{proof}
+We prove this thermodynamically. Consider any antenna of effective area $A_{\text{eff}}(\theta,\phi)$ and power gain $G(\theta,\phi)$ connected to a matched load $R_r$, all in thermal equilibrium at temperature $T$ in a black-body environment with radiation energy density $U(\nu)$. Assume in the classical limit $h\nu<<k_BT$, then $U(\nu)$ is given by the Rayleigh-Jeans formula $U(\nu)=8\pi\nu^2k_BT/c^2$. Since the antenna only responds to one polarization, the effective incident energy flux in the frequency range $[\nu,\nu+d\nu]$ from a solid angle $d\Omega=\sin\theta d\theta d\phi$ is therefore
+$$dW=\frac{1}{2}U(\nu)d\nu~c\frac{d\Omega}{4\pi}=\frac{\nu^2}{c^2}k_BTd\Omega~d\nu$$
+The antenna absorbs some of this radiation, and the power dissipated in the matched load $R_r$ is
+$$P_{\text{abs}}=A_{\text{eff}}(\theta,\phi)dW=A_{\text{eff}}(\theta,\phi)\frac{\nu^2}{c^2}k_BTd\Omega d\nu$$
+In thermal equilibrium, detailed balance requires there to be a compensating backflow of power from $R_r$ into space. This arises from the Johnson noise voltage fluctuations of $R_r$. The classical Nyquist formula for the mean-square voltage fluctuation in the frequency range $\nu\rightarrow\nu+d\nu$ is
+$$\langle V^2\rangle=4k_BTR_rd\nu$$
+For the equivalent circuit of the load-matched antenna, $I=V/2R_r$, we have
+$$\langle I^2\rangle=\frac{k_BT}{R_r}d\nu$$
+Using the definition of the antenna power gain $G(\theta,\phi)$, the power radiated into $d\Omega$ is
+$$P_{\text{rad}}=\langle I^2\rangle R_r\frac{G(\theta,\phi)}{4\pi}d\Omega=k_BT\frac{G}{4\pi}d\Omega d\nu$$
+Equuating with $P_{\text{abs}}$ in equilibrium:
+$$A_{\text{eff}}(\theta,\phi)\frac{\nu^2}{c^2}k_BTd\Omega d\nu=k_BT\frac{G(\theta,\phi)}{4\pi}d\Omega d\nu$$
+Finally, with $\lambda=c/\nu$, we obtain our result.
+\end{proof}
+\begin{eg}[Centre-fed linear antennas]
+The Hertzian dipole consists of two point charges oscillating out of phase, and a uniform oscillating current joining them. This is not realistic. Practical antennas are made from wires, and simple examples can be imagined by opening up the ends of a long parallel-wire air-spaced transmission line. For the line driven by an oscillating voltage source, standing sinusoidal current waves are set up in both wires, with current nodes (and voltage anti-nodes) at the end of the line. Now suppose the last $L/2$ length of the line is opened out. For such an antenna, the time-averaged Poynting flux at radius $r>>L$ is
+$$\langle N(r,\theta)\rangle=\frac{\mu_0cI_0^2}{8\pi^2r^2\sin^2\theta}\bigg[\cos\frac{kL}{2}-\cos\frac{kL\cos\theta}{2}\bigg]^2$$
+This has resonant behaviour with $L$. $L=\lambda/2$ is called the half-wave antenna which has power gain
+$$G_{\lambda/2}(\theta)=\frac{4\pi\cos^2(\pi/2\cos\theta)}{2\pi(1.219)\sin^2\theta}$$
+which is maximal in the equatorial plane $\theta=\pi/2$, but is slightly more confined to the equatorial plane than the Hertzian dipole. The radiation resistance is
+$$R_r=\frac{1.219\mu_0c}{2\pi}=\frac{1.219}{2\pi}Z_0=73.1\Omega$$
+\end{eg}
+\begin{eg}[Antenna arrays]
+Consider an array of dipole antennas oriented parallel to $\mathbf{\hat{z}}$ arranged regularly along the $\mathbf{\hat{y}}$ axis with spacing $a$. If the dipoles are driven in phase at frequency $\omega=ck$, then the total $\mathbf{E}$-field at some distant point in the $xy$-plane in the $\phi$-direction will be
+$$\mathbf{E}\sim\sum_{j=1}^Ne^{-ika\sin\phi(j-1)}=\frac{1-e^{-iNka\sin\phi}}{1-e^{-ika\sin\phi}}$$
+since when the fields are combined at the observation point those form adjacent dipoles differ in phase by $-ka\sin\phi$. Hence, the Poyting flux is modified from the power gain function of the individual dipoles by the $\phi$-dependent factor. The array produces directed beams at angles depending on the ratio of the wavelength of the radiation to the dipole spacing. The widths of the beams narrows as the number of dipoles increases.\\[5pt]
+If an extra phase difference is introduced between each successive dipole by electronic means, the beam directions can be controlled. This is the basis of flat, electronically-steerable radars.\\[5pt]
+The effective area is proportional to the power gain, so these phased arrays of dipoles also act as directionally sensitive receivers, again, useful in radar applications.
+\end{eg}
+\begin{eg}[Directional antennas]
+In a Yagi-Uda antenna, we can achieve directionality in a single dipole antenna by using conducting reflectors and directional elements. The active element, the dipole itself, is mounted in line with a reflector and several `directors'. The exact dimensions and spacing are subtle to design, but the overall effect is to direct the radiated waves strongly in the forward direction - a highly directional transmitter - and therefore a highly directional and efficient receiver in widespread use.
+\end{eg} 
 \newpage
 \section{Light Scattering}
 \subsection{Polarization of Scattered Waves}
 \subsection{Various Scattering Mechanisms}
-%Rayleigh, Thomson, Raman
+\subsection{Collection of Scatterers}
 
 \newpage
 \section{Relativistic Electrodynamics}
-
+\subsection{Special Relativity Review}
+\subsection{Covariant formulation of Maxwell's equations}
+\subsection{Transformation of fields}
+\subsection{Quantum Stuff}
 \newpage
 \section{Radiation}
+\subsection{Uniformly moving charge}
+\subsection{Cerenkov radiation}
+\subsection{Accelerated charge}
+\subsection{Lienart-Wiechert potentials}
+\subsection{Lamor and Lienart formulae}
+\subsection{Circular motion}
+\subsubsection{Cyclotron radiation}
+\subsubsection{Synchrotron radiation}
 \end{document}
