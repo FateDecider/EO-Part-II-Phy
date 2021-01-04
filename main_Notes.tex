@@ -11,6 +11,7 @@
 %% Useful packages
 \usepackage{fancyhdr}
 \pagestyle{fancy}
+\usepackage{tensor}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{enumitem}
@@ -72,7 +73,7 @@
 \setlength{\parindent}{0cm}
 \begin{document}
 \maketitle
-\tableofcontents
+{\small\tableofcontents}
 %5 lectures from DAMTP electrodynamics, self read antenna and scattering and optics
 
 \newpage
@@ -813,11 +814,12 @@ $$\frac{\rho}{\varepsilon_0}=\boldsymbol{\nabla}\cdot\mathbf{E}=-\frac{\partial}
 From Ampere's Law,
 $$\boldsymbol{\nabla}\times(\boldsymbol{\nabla}\times\mathbf{A})=\mu_0\mathbf{J}-\mu_0\varepsilon_0\frac{\partial}{\partial t}\bigg(\frac{\partial\mathbf{A}}{\partial t}+\boldsymbol{\nabla}\phi\bigg)$$
 The left hand side is simply $\boldsymbol{\nabla}(\boldsymbol{\nabla}\cdot\mathbf{A})-\nabla^2\mathbf{A}$ as before. So re-arranging
-$$\boldsymbol{\nabla}(\boldsymbol{\nabla}\cdot\mathbf{A}+\mu_0\varepsilon_0\frac{\partial\phi}{\partial t})=\nabla^2\mathbf{A}+\mu_0\mathbf{J}-\mu_0\varepsilon_0\frac{\partial^2\mathbf{A}}{\partial t^2}$$
+$$\boldsymbol{\nabla}\bigg(\boldsymbol{\nabla}\cdot\mathbf{A}+\mu_0\varepsilon_0\frac{\partial\phi}{\partial t}\bigg)=\nabla^2\mathbf{A}+\mu_0\mathbf{J}-\mu_0\varepsilon_0\frac{\partial^2\mathbf{A}}{\partial t^2}$$
 Taking the left hand side to be zero, i.e. Lorenz gauge, we recover both desired inhomogeneous wave equations.
 \end{proof}
 \begin{defi}[d'Alembertian]
 More common to write  $\nabla^2-\frac{1}{c^2}\frac{\partial^2}{\partial t^2}$ as the d'Alembertian $\Box$.
+$$\Box:=\nabla^2-\frac{1}{c^2}\frac{\partial^2}{\partial t^2}$$
 \end{defi}
 \begin{thm}[Multipole Expansion for Current Density]
 The multipole expansion of $\mathbf{A}$ for a current-carrying loop $\mathcal{C}$ (does not need to be planar), where $|\mathbf{r}|>>|\mathbf{r'}|$, is
@@ -965,17 +967,43 @@ $$\phi(\mathbf{r},t)=\frac{1}{4\pi\epsilon_0}\int_{\mathbb{R}^3}\frac{\rho(\math
 These are the retarded potentials which allows for the propagation of information at a finite speed $c$. The potential at $\mathbf{r}$ at time $t$ depends on the source at $\mathbf{r'}$ at a time $|\mathbf{r}-\mathbf{r'}|/c$ earlier.
 \end{prop}
 \begin{proof}
-Consider a time varying charge at the origin $q(r=0,t)$. The solution for $\phi$ must be spherically symmetric and take the form 
+We solve this by performing Fourier Transform with time:
+$$A^\mu(t,\mathbf{x})=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty\tilde{A}^\mu(\omega,\mathbf{x})e^{i\omega t}d\omega,\quad J^\mu(t,\mathbf{x})=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty\tilde{J}^\mu(\omega,\mathbf{x})e^{i\omega t}d\omega$$
+such that $\Box A^\mu=-\mu_0J^\mu$ gives $(\nabla^2+k^2)\tilde{A}^\mu=-\mu_0\tilde{J}^\mu$ in Fourier space, where $k=\omega/c$. We solve this resultant equation (sourced Helmholtz equation) by finding the Green's function (see IB Methods) for $\nabla^2+k^2$, i.e. the $G(x,x')$ that satisfies
+$$(\nabla^2+k^2)G(\mathbf{x},\mathbf{x'})=\delta^{(3)}(\mathbf{x}-\mathbf{x'})\implies\tilde{A}^\mu(\omega,\mathbf{x})=-\mu_0\int\tilde{J}^\mu(\omega,\mathbf{x'})G(\mathbf{x},\mathbf{x'})d^3x'$$ 
+The solution must satisfy rotational and translational symmetry (homogeneity and isotropy), i.e. of the form $G(r)$ where $r=|\mathbf{x}-\mathbf{x'}|$. In rotational symmetry, we simply have
+$$\frac{1}{r^2}\frac{\partial}{\partial r}\bigg(r^2\frac{dG}{dr}\bigg)+k^2G=0,\quad r\neq 0$$
+For a localized source, we have $G(r)\rightarrow0$ as $r\rightarrow\infty$. We guess a decaying solution of the form $G_\pm (r)=-A\frac{e^{\pm ikr}}{r}$ where $A$ is a constant, which can be found by integrating over a ball of radius $R$ and invoke the boundary condition, i.e.
+$$\int_0^{2\pi} d\phi\int_{-1}^{+1}d\cos\theta\int_0^Rr^2\bigg[\frac{1}{r^2}\frac{\partial}{\partial r}\bigg(r^2\frac{dG}{dr}\bigg)+k^2G\bigg]dr=1$$
+As $R\rightarrow 0$, only the first term on the LHS contributes, giving the jump condition
+$$\lim_{R\rightarrow0^+}\bigg[4\pi r^2\frac{dG}{dr}\bigg]_{r=R}=1$$
+Evaluating for $G_{\pm}(r)=-Ae^{\pm ikr}/r$, then
+$$1=\lim_{R\rightarrow0^+}4\pi r^2\frac{dG}{dr}\bigg|_{r=R}=4\pi\bigg(Ae^{\pm ikr}\mp ikAe^{\pm ikr}r\bigg)\bigg|_{r=R}=A4\pi\implies A=\frac{1}{4\pi}$$
+Hence the solution will be 
+$$G_\pm(\mathbf{x},\mathbf{x'})=-\frac{1}{4\pi}\frac{e^{\pm ik|\mathbf{x}-\mathbf{x'}|}}{|\mathbf{x}-\mathbf{x'}|}$$
+In particular, we choose the negative branch solution (reason be obvious later)
+$$\tilde{A}^\mu(\omega,\mathbf{x})=\frac{\mu_0}{4\pi}\int\frac{e^{-ik|\mathbf{x}-\mathbf{x'}|}}{|\mathbf{x}-\mathbf{x'}|}\tilde{J}^\mu(\omega,\mathbf{x'})d^3x'$$
+such that
+\begin{align}
+A^\mu(t,x)&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty\tilde{A}^\mu(\omega,\mathbf{x})e^{i\omega t}d\omega\nonumber\\&=\frac{\mu_0}{4\pi}\int\int_{-\infty}^\infty\frac{1}{\sqrt{2\pi}}\frac{e^{i\omega t-i(\omega/c)|\mathbf{x}-\mathbf{x'}|}}{|\mathbf{x}-\mathbf{x'}|}\tilde{J}^\mu(\omega,\mathbf{x'})d\omega d^3x'\nonumber\\&=\frac{\mu_0}{4\pi}\int\frac{J^\mu(t_{ret},\mathbf{x'})}{|\mathbf{x}-\mathbf{x'}|}d^3x'\nonumber
+\end{align}
+where retarded time is defined by $t_{\text{ret}}=t-\frac{|\mathbf{x}-\mathbf{x'}|}{c}$, i.e. time shifted by the time taken for a light signal to pass from $\mathbf{x'}$ to $\mathbf{x}$. Desired solutions are its components.
+\end{proof}
+\begin{remarks}\leavevmode
+\begin{enumerate}
+\item Alternative argument: Consider a time varying charge at the origin $q(r=0,t)$. The solution for $\phi$ must be spherically symmetric and take the form 
 $$\phi(r,t)\sim\frac{1}{r}g(t-(r/c))$$
 which represents an outgoing wave. The solution at $\mathbf{r}$ at any time depends on the charge at a time earlier by $-r/c$, i.e. the retarded time. If the characteristic time over which the charge at the origin change sis $\tau$, then for $r<<c\tau$, the solution must be much like the static case, i.e. $\phi(\mathbf{r},t)=\frac{1}{4\pi\epsilon_0}q(t)/r$. We require continuity between the two solutions. Finally, take the superposition of such solutions since the wave equations are linear. Similar argument holds for each component of $\mathbf{A}$.
-\end{proof}
+\item The retarded potential encodes causality in that electromagnetic disturbances propagate at the speed of light and that only earlier events can influence the field at any spacetime point. This integrand is supported on a past light cone. Since the event at $t_{\text{ret}}$ and $\mathbf{x'}$ is on the past lightcone of the event at $t$ and $\mathbf{x}$, the field at any event $x^\mu$ is generated by the superposition of the fields due to currents at earlier times on the past lightcone of $x^\mu$. \item Correspondingly, for $G_+$, it is supported on a future light cone. Sources at $t+|\mathbf{x}-\mathbf{x'}|/c$ and $\mathbf{x'}$ influence the field at $t$ and $\mathbf{x}$, i.e. acausal propagation which is unphysical.
+\end{enumerate}
+\end{remarks}
 \newpage
 \section{Dipole Radiation}
 We have shown that the retarded potentials are
 $$\Phi(\mathbf{r},t)=\frac{1}{4\pi\varepsilon_0}\int_{\mathbb{R}^3}\frac{\rho(\mathbf{r'},t-|\mathbf{r}-\mathbf{r'}|/c)dV'}{|\mathbf{r}-\mathbf{r'}|},\quad \mathbf{A}(\mathbf{r},t)=\frac{\mu_0}{4\pi}\int_{\mathbb{R}^3}\frac{\mathbf{J}(\mathbf{r'},t-|\mathbf{r}-\mathbf{r'}|/c)dV'}{|\mathbf{r}-\mathbf{r'}|}$$
 If sources change at time $t$, the field will only change at a time $r/c$ after $t$, due to the retardation effects in the propagation of potential. 
 \begin{prop}
-Only accelerating charges induce radiation.
+For non-relativistic charges to induce radiation, it must not be accelerating.
 \end{prop}
 \begin{proof}
 For charge moving at constant velocity, one can find a frame in which it is stationary and therefore do not lose energy and cannot radiate.
@@ -990,16 +1018,49 @@ The Hertzian dipole is a theoretical dipole antenna that consists of an infinite
 \begin{remarks}
 Although a true Hertzian dipole cannot physically exist, very short dipole antennas can make for a reasonable approximation.
 \end{remarks}
+We shall be interested in the fields at large distances compared to the spatial extent of the charge distribution, i.e. dipole approximation.
+\begin{defi}[Dipole approximation]
+Consider the case where all charges are localized within some region of size $a$, and place the origin of spatial coordinates within this volume. Taylor expand $|\mathbf{x}-\mathbf{x'}|$:
+$$|\mathbf{x}-\mathbf{x'}|=r-\frac{\mathbf{x}\cdot\mathbf{x'}}{r}+\dots=r-\mathbf{\hat{x}}\cdot\mathbf{x'}+\dots$$
+\end{defi}
+\begin{prop}[Electric dipole approximation]
+The vector potential associated with the electric dipole radiation is
+$$\mathbf{A}(t,\mathbf{x})\approx\frac{\mu_0}{4\pi r}\mathbf{\dot{p}}(t-r/c)$$
+\end{prop}
+\begin{proof}
+Consider radiation due to a source $J^\mu$ supported in some region $V_a$ of size $a$, containing the origin. For $x'\in V_a$,
+$$|\mathbf{x}-\mathbf{x'}|=\sqrt{(\mathbf{x}-\mathbf{x'})\cdot(\mathbf{x}-\mathbf{x'})}\approx r-\mathbf{\hat{x}}\cdot\mathbf{x'}+O(a/r)$$
+In the dipole approximation $r>>a$, where $r=|x|$, then
+$$\mathbf{J}(t_{\text{ret}},\mathbf{x'})=\mathbf{J}\bigg(t-\frac{|\mathbf{x}-\mathbf{x'}|}{c},\mathbf{x'}\bigg)\approx\mathbf{J}\bigg(t-\frac{r}{c},\mathbf{x'}\bigg)+\frac{\mathbf{\hat{x}}\cdot\mathbf{x'}}{c}\mathbf{\dot{J}}\bigg(t-\frac{r}{c},\mathbf{x'}\bigg)$$
+Furthermore, if $\mathbf{J}$ oscillates at characteristic frequency $\omega$, i.e. $\mathbf{J}=\mathbf{J_0}(x)e^{i\omega t}$, then the second term is suppressed by a factor of $\frac{\omega a}{c}$ relative to the first term. We then assume the variation in $t_{\text{ret}}$ over the source is short compared to the period, i.e. sufficiently slowly-varying sources. 
+$$\mathbf{A}(t,\mathbf{x})\approx\frac{\mu_0}{4\pi r}\int\mathbf{J}\bigg(t-\frac{r}{c},\mathbf{x'}\bigg)d^3x'$$
+Recall that a point charge $q$ at point $\mathbf{x}$ gives electric dipole moment $\mathbf{p}=q\mathbf{x}$. Similarly, for a charge distribution $\rho(\mathbf{x},t)$, then $\mathbf{p}(t)=\int\rho(t,\mathbf{x})\mathbf{x}d^3x$. Apply charge conservation $\dot{\rho}+\boldsymbol{\nabla}\cdot\mathbf{J}=0$, then
+$$\mathbf{\dot{p}}(t)=\int\dot{\rho}(t,\mathbf{x})\mathbf{x}d^3x=-\int(\boldsymbol{\nabla}\cdot\mathbf{J})\mathbf{x}d^3x=\int(\mathbf{J}\cdot\boldsymbol{\nabla})\mathbf{x}d^3x=\int\mathbf{J}(t,\mathbf{x})d^3x$$
+where we integrated by parts and drop the surface term for localized source. Also, $\partial_j J_jx_i=J_j\delta_{ij}=J_i$. Hence,  $\mathbf{A}(t,\mathbf{x})\approx\frac{\mu_0}{4\pi r}\mathbf{\dot{p}}(t-\frac{r}{c})$. 
+\end{proof}
 \begin{prop}
-The fields of a Hertzian dipole are
+The fields of an electric dipole are
+$$\mathbf{B}(t,\mathbf{x})=-\frac{\mu_0}{4\pi rc}\mathbf{\hat{x}}\times\mathbf{\ddot{p}}(t-r/c),\quad\mathbf{E}(t,\mathbf{x})=\frac{\mu_0}{4\pi r}\bigg[\mathbf{\hat{x}}\times\bigg(\mathbf{\hat{x}}\times\mathbf{\ddot{p}}(t-r/c)\bigg)\bigg]$$
+In components, we have
 $$B_\phi=\frac{\mu_0\sin\theta}{4\pi}\bigg[\frac{\dot{p}}{r^2}+\frac{\ddot{p}}{rc}\bigg],\quad E_\theta=\frac{\sin\theta}{4\pi\varepsilon_0}\bigg[\frac{p}{r^3}+\frac{\dot{p}}{r^2c}+\frac{\ddot{p}}{rc^2}\bigg],\quad E_r=\frac{2\cos\theta}{4\pi\varepsilon_0}\bigg[\frac{p}{r^3}+\frac{\dot{p}}{r^2c}\bigg]$$
 where the dipole is retarded $p=p(t-r/c)$.
 \end{prop}
 \begin{proof}
-We have the two charges $q$ at O are separated by $d$ and vary harmonically in time  - so there must also be a current $I=\dot{q}=-i\omega q_0e^{-i\omega t}$ flowing between them. The dipole moment and the current are $\mathbf{p}=p_0e^{-i\omega t}\mathbf{\hat{z}}$ with $p_0=q_0d$, and $I=\dot{p}/d=-i\omega p_0e^{-i\omega t}/d$. $\omega$ is the frequency of oscillation of the dipole, and therefore that o fthe fields and any radiation it produces. The dipole's physical size is taken to be small compared to the wavelength of the expected radiaiton, i.e. $d<<\lambda=2\pi c/\omega$. This is the dipole approximation. We find the retarded potentials at the far-field limit, i.e. $r>>d$:
-$$\mathbf{A}(\mathbf{r},t)=\frac{\mu_0}{4\pi}\int\frac{\mathbf{J}(\mathbf{r'},t-r/c)dV'}{|\mathbf{r}-\mathbf{r'}|}\approx\frac{\mu_0}{4\pi r}\dot{q}(t-r/c)d\mathbf{\hat{z}}$$
-$\mathbf{A}$ is parallel to $\mathbf{\dot{p}}$, and it is in the $\mathbf{\hat{z}}$ direction. Its components in the polar coordinates are
-$$A_r=A\cos\theta,\quad A_\theta=-A\sin\theta,\quad A_\phi=0$$
+Firstly note that for some function $f(t-rc)$, its gradient is
+$$\frac{\partial}{\partial x_i}f(t-r/c)=-\frac{1}{c}f'(t-r/c)\frac{\partial r}{\partial x_i}=-\frac{x_i}{rc}f'(t-r/c)$$
+For the electric dipole radiation, the magnetic field is
+$$\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}=\frac{\mu_0}{4\pi r}(\boldsymbol{\nabla}\times\mathbf{\dot{p}}(t-\frac{r}{c}))$$
+but $\boldsymbol{\nabla}r=\mathbf{\hat{x}}$ and $\boldsymbol{\nabla}r^{-1}=-\frac{1}{r^2}\mathbf{\hat{x}}$, so
+$$\mathbf{B}=-\frac{\mu_0}{4\pi r^2}\bigg[\mathbf{\hat{x}}\times\mathbf{\dot{p}}(t-\frac{r}{c})+\frac{r}{c}\mathbf{\hat{x}}\times\mathbf{\ddot{p}}(t-\frac{r}{c})\bigg]$$
+Assuming the dipole oscillates with characteristic frequency $\omega$, the second term again scales like $\frac{r\omega}{c}$ relative to the first and will dominate provided $r>>\frac{c}{\omega}=\lambda$, hence in this regime,
+$$\mathbf{B}(t,\mathbf{x})\approx-\frac{\mu_0}{4\pi rc}\mathbf{\hat{x}}\times\mathbf{\ddot{p}}(t-\frac{r}{c})$$
+So to find $\mathbf{E}$,
+\begin{align}
+\frac{\partial\mathbf{E}}{\partial t}&=c^2(\boldsymbol{\nabla}\times\mathbf{B})=-\frac{\mu_0 c}{4\pi}\boldsymbol{\nabla}\times(\frac{\mathbf{\hat{x}}}{r}\times\mathbf{\ddot{p}}(t-\frac{r}{c})\nonumber\\&\approx\frac{\mu_0}{4\pi r}[\mathbf{\hat{x}}\times(\mathbf{\hat{x}}\times\mathbf{\ddot{p}}(t-\frac{r}{c}))]\implies\mathbf{E}(t,\mathbf{x})\nonumber\\&=\mathbf{E_{static}}(\mathbf{x})+\frac{\mu_0}{4\pi r}\bigg[\mathbf{\hat{x}}\times(\mathbf{\hat{x}}\times\mathbf{\ddot{p}}(t-\frac{r}{c}))\bigg]\nonumber
+\end{align}
+where $\mathbf{E_{static}}$ is the time-independent piece of the electric field which has the asymptotic form $\frac{Q}{4\pi\varepsilon_0r^2}\mathbf{\hat{x}}$ for $r\rightarrow\infty$, where $Q=\int\rho(\mathbf{x},t)d^3x$ is the total time-independent electric charge.\\[5pt]
+Next, we look at solving it in components: $\mathbf{A}$ is parallel to $\mathbf{\dot{p}}$, and it is in the $\mathbf{\hat{z}}$ direction. Its components in the polar coordinates are
+$$A_r=A\cos\theta,\quad A_\theta=-A\sin\theta,\quad A_\phi=0,\quad A=\frac{\mu_0}{4\pi r}\dot{p}(t-r/c)$$
 The only non-zero magnetic field component is
 $$B_\phi=-\sin\theta\frac{\partial A}{\partial r}=-\frac{\mu_0\sin\theta}{4\pi}\frac{\partial}{\partial r}\frac{\dot{p}(t-r/c)}{r}=\frac{\mu_0}{4\pi}\sin\theta\bigg(\frac{\dot{p}(t-r/c)}{r^2}+\frac{\ddot{p}(t-r/c)}{rc}\bigg)$$
 The potential at $P$ due to charges $q(t-r_+/c)$, $q(t-r_-/c)$ at distances $r_\pm$ is
@@ -1020,12 +1081,17 @@ Consider the magnitudes of various terms with $p=p_0e^{-i\omega t}$:
     \item radiation term: dominates in far field limit
     $$\frac{\ddot{p}(t-r/c)}{rc^2}\sim\frac{p_0\omega^2}{rc^2}=\frac{p_0}{r^3}\bigg(\frac{2\pi r}{\lambda}\bigg)^2\propto r^{-1}$$
 \end{itemize}
-In the far field region $r>>\lambda$, the non-zero fields are the radiation fields
+Hence, in components, the fields of the electric dipole radiation (far-field) is
 $$E_\theta=\frac{\sin\theta\ddot{p}(t-r/c)}{4\pi\varepsilon_0c^2}\frac{1}{r},\quad B_\phi=\frac{\mu_0\sin\theta\ddot{p}(t-r/c)}{4\pi c}\frac{1}{r}$$
 \begin{enumerate}
-    \item The field components are in phase with one another. The field components are proportional to each other, i.e. $E_\theta=cB_\phi$ and are orthogonal in space, i.e. $\mathbf{N}$ purely outwardly radial in far-field limit.
-    \item If the dipole consisted of two fixed charges $\pm q$ with oscillating separation, this would correspond to their acceleration.
+    \item The field components are in phase with one another. The field components are proportional to each other, i.e. $E_\theta=cB_\phi$ and are orthogonal in space, or more specifically,
+    $$\mathbf{E}=-c\mathbf{\hat{x}}\times\mathbf{B},\quad |\mathbf{E}|=c|\mathbf{B}|,\quad\mathbf{E}\cdot\mathbf{B}=0$$
+    which is a plane wave behaviour with wavevector along $\mathbf{\hat{x}}$. In this limit, the spherical wavefronts are effectively planar.
+    \item If the dipole consisted of two fixed charges $\pm q$ with oscillating separation, this would correspond to their acceleration.  Assume a source of the form $\mathbf{p}(t)=\mathbf{p_0}\sin(\omega t)\implies\mathbf{\ddot{p}}(t)=-\omega^2\mathbf{p}(t)$. Set $\mathbf{k}=k\mathbf{\hat{x}}$ with $k=\omega/c$. Then, 
+    $$\mathbf{\ddot{p}}(t-\frac{r}{c})=-\omega^2\mathbf{p_0}\sin(\omega t-\mathbf{k}\cdot\mathbf{x})$$
     \item The radiation is linearly polarized in the direction of $E_\theta$, and vertically polarized in the equatorial plane $\theta=\pi/2$.
+    \item To sum up the various approximations, we have assumed $r>>a$ (dipole approximation), $\omega<<c/a$ (slowly-varying source) and $r>>c/\omega$ (far-field limit), which gives us the overall condition:
+    $$r>>\lambda>>a$$
 \end{enumerate}
 \end{remarks}
 \begin{prop}
@@ -1039,7 +1105,7 @@ Result follows from its angular dependence.
 \end{proof}
 \begin{remarks}\leavevmode
 \begin{enumerate}
-\item The angular distribution of the radiated power of the Hertzian dipole is cylindrically symmetric. Maximum power is radiated in the equatorial plane of the dipole, and zero along its pole axes.
+\item The angular distribution of the radiated power of the Hertzian dipole is cylindrically symmetric. The radiation is maximal in the equatorial plane of the dipole and there is no radiation along its pole axes.
 \item The Poynting flux associated with the induction fields is not purely radial and since it falls off like $1/r^4$, it cannot represent a net outward energy flux, and merely redistributes energy within the fields close to the dipole.
 \end{enumerate}
 \end{remarks}
@@ -1064,6 +1130,18 @@ $$\langle\ddot{p}(t-r/c)^2\rangle=\frac{1}{2}\omega^4p_0^2$$
 where the retardation is irrelevant when time-averaging over a number of cycles. Result follows.
 \end{proof}
 \subsection{Multipole expansion in the far field}
+\begin{prop}[Multipole moments of the charge and current distribution]
+$$\frac{d}{dt}\int\rho x_jx_k\dots x_ld^3\mathbf{x}=\int[(J_jx_k\dots x_l)+\dots+(x_jx_k\dots J_l)]d^3\mathbf{x}$$
+\end{prop}
+\begin{proof}
+Since $\frac{\partial\rho}{\partial t}+\boldsymbol{\nabla}\cdot\mathbf{J}=0$, we have
+$$\int_S(x_jx_k\dots x_l)\bigg(\boldsymbol{\nabla}\cdot\mathbf{J}+\frac{\partial\rho}{\partial t}\bigg)d^3\mathbf{x}=0$$
+Hence,
+\begin{align}
+\frac{d}{dt}\int\rho x_jx_k\dots x_ld^3\mathbf{x}&=-\int(x_jx_k\dots x_l)\boldsymbol{\nabla}\cdot\mathbf{J}d^3\mathbf{x}\nonumber\\&=\int\mathbf{J}\cdot\boldsymbol{\nabla}(x_jx_k\dots x_l)d^3\mathbf{x}\nonumber\\&=\int[(J_jx_k\dots x_l)+\dots+(x_jx_k\dots J_l)]d^3\mathbf{x}\nonumber
+\end{align}
+where we used the generalization of the divergence theorem, and dropped the surface term since it vanishes for a localized charge distribution.
+\end{proof}
 \begin{prop}
 For a generic sinusoidal current distribution $\mathbf{J}(\mathbf{r},t)=\mathbf{J}(\mathbf{r})e^{-i\omega t}$, the vector potential in the far-field limit can be approximated as a sum:
 $$\mathbf{A}(\mathbf{r})=\frac{\mu_0}{4\pi}\frac{e^{ikr}}{r}\sum_n\frac{(-ik)^n}{n!}\int\mathbf{J}(\mathbf{r'})(\mathbf{n}\cdot\mathbf{r'})^ndV'$$
@@ -1219,23 +1297,661 @@ In a Yagi-Uda antenna, we can achieve directionality in a single dipole antenna 
 \newpage
 \section{Light Scattering}
 \subsection{Polarization of Scattered Waves}
+\begin{prop}
+The degree of polarization of the radiation scattered through angle $\alpha$ is
+$$P=\frac{1-\cos^2\alpha}{1+\cos^2\alpha}$$
+\end{prop}
+\begin{proof}
+Consider radiation scattered through angle $\alpha$ for two orthogonal planes of polarization of the incident field.
+\begin{enumerate}
+    \item For $\mathbf{E}$ in the scattering plane, the polar angle is $\pi/2-\alpha$ and the reradiated flux is
+    $$N_1=\frac{\mu_0\langle\ddot{p}_z^2\rangle}{16\pi^2r^2c}\sin^2(\pi/2-\alpha)$$
+    \item For $\mathbf{E}$ perpendicular to the scattering plane, the polar angle is $\pi/2$ and the scattered flux is
+    $$N_2=\frac{\mu_0\langle\ddot{p}_x^2\rangle}{16\pi^2r^2c}$$
+\end{enumerate}
+If the incoming radiation is unpolarized (an incoherent equal superposition of both cases): 
+$$\langle\ddot{p}_x^2\rangle=\langle\ddot{p}_z^2\rangle=\frac{1}{2}\langle\mathbf{\ddot{p}}^2\rangle$$
+But $N_2>N_1$, so write $N_2=N_1+(N_2-N_1)$. The first term combined with the mutually incoherent flux $N_1$ polarized in the perpendicular direction corresponds to an unpolarized beam of flux $2N_1$. The second term $N-2-N_1$ is the only remaining polarized flux in this description.
+The degree of polarization is
+$$P=\frac{I_{\text{pol}}}{I_{\text{tot}}}=\frac{N_2-N_1}{2N_1+(N-2-N_1)}=\frac{N_2-N_1}{N_1+N_2}=\frac{1-\cos^2\alpha}{1+\cos^2\alpha}$$
+\end{proof}
+\begin{remarks}\leavevmode
+\begin{enumerate}
+\item The scattered radiation is partially polarized even if the incident radiation is unpolarized.
+\item No scattered flux is produced in the direction parallel to the induced dipole moment, which accounts physically for the Brewster condition when the reflected and refracted beams at an interface are perpendicular.
+\end{enumerate}
+\end{remarks}
 \subsection{Various Scattering Mechanisms}
+An incident electromagnetic wave will cause a free charge, such as an electron, to oscillate and the acceleration that accompanies the oscillation will cause the charge to radiate. In this manner, the incident radiation is scattered into other directions.
+\begin{defi}[Thomson scattering]
+Thomson scattering describes the classical scattering of radiation from a free electron. The incident fields are weak enough not to induce relativistic motions.
+\end{defi}
+\begin{defi}[Cross-section]
+The cross-section is the ratio of radiated (scattered) power to this incident flux.
+\end{defi}
+\begin{prop}
+The Thomson cross-section is 
+$$\sigma_T=\frac{\mu_0^2e^4}{6\pi m_e^2}=6.65\times10^{-29}m^2$$
+\end{prop}
+\begin{proof}
+In the frame in which the electron is at rest (on average), the equation of motion of the electron in the incident electromagnetic wave is $m_e\mathbf{\ddot{x}}=-e\mathbf{E}$. Assuming the oscillation amplitude is small compared to the wavelength, i.e. $eE_0/m_ec\omega<<1$ (equivalently, this is the non-relativistic limit), then for an incident wave at angular frequency $\omega$, the RHS of the equation of motion is evaluated at the average position of the electron. The oscillatng electric dipole moment will be $\mathbf{\ddot{p}}=e^2\mathbf{E}/m_e$. It follows that the time-averaged radiation power is
+$$\bigg\langle\frac{dE}{dt}\bigg\rangle=\frac{\mu_0}{6\pi c}\langle|\mathbf{\ddot{p}}|^2\rangle=\frac{\mu_0}{6\pi c}\frac{e^4E_0^2}{2m_e^2}$$
+The time-averaged magnitude of the Poynting vector of the incident radiation, in terms of the electric field strength, is
+$$\langle|\mathbf{N}|\rangle=\frac{E_0^2}{2\mu_0c}$$
+The Thomson cross-section is
+$$\sigma_T=\frac{\langle dE/dt\rangle}{\langle|\mathbf{N}|\rangle}=\frac{\mu_0e^4E_0^2}{6\pi c 2m_e^2}\frac{2\mu_0c}{E_0^2}=\frac{\mu_0^2e^4}{6\pi m_e^2}$$
+\end{proof}
+\begin{remarks}
+The Thomas cross-section is the effective geometric cross-section of the electron to scattering. This is independent of frequency. We may also define the classical electron radius (radius of a uniform extended charge with rest-mass energy being purely electrostatic) to be
+$$\frac{e^2}{4\pi\varepsilon_0r_e}=m_ec^2\implies r_e=2.8\times10^{-15}m$$
+and so we have $\sigma_T=8\pi r_e^2/3$.
+\end{remarks}
+\begin{eg}
+Thomson scattering is important in plasma diagnosis, incoherent scattering from the atmosphere, and the scattering of light in astrophysical plasmas such as those surrounding a black hole and in the solar corona.
+\end{eg}
+\begin{defi}[Rayleigh scattering]
+Rayleigh scattering is a scattering of long wavelength radiation (larger than the physical size of scatterer) from charges bound within systems that have no net charge. 
+\end{defi}
+\begin{prop}
+The Rayleigh cross-section is
+$$\sigma_R=\frac{\mu_0^2\alpha^2\omega^4}{6\pi}$$
+\end{prop}
+\begin{proof}
+For bound charges, provided that the frequency of the incident wave is small compared to any resonant frequency, the bound charges will collectively displace following the applied force from the incident wave, in turn inducing an oscillating electric dipole moment of the form $\mathbf{p}=\alpha\mathbf{E}$, where $\mathbf{E}$ is the incident electric field at the position of the small scatterer, and $\alpha$ is the polarizability.\\[5pt]
+The wavelength of the scattered radiation is the same as that of the incident radiation and is large compared to the size of the scatterer. We are thus in the dipole limit. Since $\mathbf{\ddot{p}}=-\alpha\omega^2\mathbf{E}$, the time-averaged radiation power is
+$$\bigg\langle\frac{dE}{dt}\bigg\rangle=\frac{\mu_0}{6\pi c}\langle|\mathbf{\ddot{p}}|^2\rangle=\frac{\mu_0}{6\pi c}\frac{\alpha^2\omega^4E_0^2}{2}$$
+Hence, the Rayleigh cross-section is
+$$\sigma_T=\frac{\langle dE/dt\rangle}{\langle|\mathbf{N}|\rangle}=\frac{\mu_0\alpha^2\omega^4E_0^2}{6\pi c(2)}\frac{2\mu_0c}{E_0^2}=\frac{\mu_0^2\alpha^2\omega^4}{6\pi}$$
+\end{proof}
+\begin{remarks}
+The Rayleigh cross-section is inversely proportional to $\lambda^4$. Hence, scattering is enhanced at short wavelengths. The sky appears blue if blue is scattered to the eyes. During sunset, the sky appears red since blue is scattered away from us, due to the angle of the Sun.
+\end{remarks}
+\begin{defi}[Raman scattering]
+Raman scattering is the inelastic scattering of photons by matter, meaning that there is an exchange of energy and a change in the light's direction. Typically this involves vibrational energy being gained by a molecule as incident photons from a visible laser are shifted to lower energy.
+\end{defi}
+\begin{prop}
+There are two types of Raman scattered light - Stokes and anti-Stokes with frequencies $\omega_0-\omega_k$ and $\omega_0+\omega_k$ respectively.
+\end{prop}
+\begin{proof}
+Consider the polarization response of an optically anisotropic molecular system, in which the molecular polarizability tensor $\alpha$ is not constant, but depends on the molecular conformation, i.e. on a normal mode coordinate $Q=Q_0\cos(\omega_kt+\delta_k)$ associated with a specific molecular vibration of frequency $\omega_k$ and phase factor $\delta _k$. Write
+$$\alpha=\alpha_0+\frac{\partial\alpha_0}{\partial Q}Q:=\alpha_0+\alpha_1Q$$
+The induced electric dipole moment $P$ is related to the total electric field $E$ experienced by the dipoles in the medium through
+$$P=\alpha_0\cdot E+\alpha_1 Q\cdot E:=P^0+P^1$$
+For $E=E_0\cos\omega_0t$, we have $P^0=\alpha_0\cdot E_0\cos\omega_0t$ which corresponds to the Rayleigh scattered light, and
+$$P^1=\alpha_1E_0Q\cos\omega_0t\cos(\omega_kt+\delta_k)=\frac{1}{2}\alpha_1E_0Q[\cos((\omega_0-\omega_k)t-\delta_k)+\cos((\omega_0+\omega_k)t+\delta_k)]=P^1(\omega_0-\omega_k)+P^1(\omega_0+\omega_k)$$
+\end{proof}
+\begin{remarks}
+The ratio of the scattering cross-sections for Raman and Rayleigh scattering $\propto|\alpha_1|^2/|\alpha_0|^2\sim0.04$, i.e. significantly weaker.
+\end{remarks}
+\begin{eg}
+There are extremely effective methods for enhancing the Raman scattering. These are based on fundamental electrodynamic phenomena that enhance the amplitude of the electric field at the location of the molecules that are to be probed, for example by assembling the molecules on the surface of a small metallic nanoparticle. These techniques are called surface enhanced Raman scattering and they can enhance the Raman scattering by up to 10 to 11 orders of magnitude over what is observed in a bulk sample.
+\begin{itemize}
+    \item In the vicinity of a non-planar metal particle there can be significant electric field enhancements. Consider the well known Clausius-Mosotti equation for the polarizability of a sphere with radius a made from a material with dielectric function $\varepsilon(\omega)$ surrounded by vacuum.
+    $$\alpha=4\pi a^3\varepsilon_0\frac{\varepsilon(\omega)-1}{\varepsilon(\omega)+2}$$
+    In principle, we can achieve a resonance condition of $\varepsilon(\omega)=-2$ when the electric field on the surface of the metal particle becomes very large. Physically this condition corresponds to the excitation of so-called surface plasmon modes in the metal.
+    \item Further field enhancements can be achieved by bringing the metal particles within nanometre distances. The electric field in the gap between the particles can become so large that single molecule detection by Raman scattering becomes possible. This is one of the key techniques in the modern field of nano-plasmonics.
+
+\end{itemize}
+\end{eg}
+\newpage
 \subsection{Collection of Scatterers}
+\begin{defi}[Multiple scatterings]
+For particles with scattering cross-section $\sigma$ and mean separation $d$ occupying a volume of linear dimension $L$, the probability of a single scattering event is $\sim(\sigma/L^2)\times (N\sim L^3/d^3)$. Hence, it is valid to ignore multiple scattering when $\sigma L/d^3<<1$.
+\end{defi}
+The resultant field depends on the interference of the coherent radiation scattered from individual particles.
+\begin{prop}\leavevmode
+\begin{enumerate}
+    \item For random scatterers, the scattered power is simply the sum of those scattered by the individual molecules, i.e. no interference.
+    \item When the particle positions are correlated, interference plays a crucial role.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+Consider $N$ identical scatterers at positions $\mathbf{r_j}$, $j=1,\dots N$, coherently illuminated by a plane wave with wavevector $\mathbf{k_i}$. At a distant observation point B, let the electric field of the radiation scattered from a particle at the origin O be $\mathbf{\tilde{E}}_0e^{-i\omega t}$. The additional phase accumulated by a wave scattered from a particle at $\mathbf{r_j}$ is $(\mathbf{k_i}-\mathbf{k_s})\cdot\mathbf{r_j}$, where $\mathbf{k_s}$ is the wavevector of the scattered radiation. With the scattering wavevector defined as $\mathbf{q}:=\mathbf{k_i}-\mathbf{k_s}$, the total field at point B is then
+$$\mathbf{\tilde{E}_{\text{tot}}}=\mathbf{\tilde{E}}e^{-i\omega t}\sum_{j=1}^Ne^{i\mathbf{q}\cdot\mathbf{r_j}}$$
+The total time averaged radiated power is then
+$$P_{\text{tot}}=\frac{|\mathbf{\tilde{E}_{\text{tot}}|^2}}{2Z_0}=P_1(\mathbf{q})\bigg|\sum_{j=1}^Ne^{i\mathbf{q}\cdot\mathbf{r_j}}\bigg|^2,\quad P_1(\mathbf{q})=\frac{|\mathbf{\tilde{E}}|^2}{2Z_0}$$
+where $P-1$ is the `form factor', i.e. the power that would be scattered from a single scatterer in the direction $\mathbf{k_s}=\mathbf{k_i}-\mathbf{q}$. $P_1(\mathbf{q})$ generally has a relatively weak dependence on $\mathbf{q}$, and the angular dependence (via $\mathbf{q}$) of the scattering is dominated by the `structure factor' $\mathcal{F}(\mathbf{q})$ caused by the interference:
+$$\mathcal{F}(\mathbf{q})=\bigg|\sum_{j=1}^Ne^{i\mathbf{q}\cdot\mathbf{r_j}}\bigg|^2=|\tilde{n}(\mathbf{q})|^2$$
+where $|\sum_{j=1}^Ne^{i\mathbf{q}\cdot\mathbf{r_j}}|$ gives the modulus of the Fourier transform of $\sum_{j=1}^N\delta(\mathbf{r}-\mathbf{r_j})=n(\mathbf{r})$ which is the particle density (depends on the positional correlations of the scattering centres).
+\begin{enumerate}
+    \item For uncorrelated particle positions, each $e^{i\mathbf{q}\cdot\mathbf{r_j}}$ is a phasor with unit length and an independent random phase (i.e. direction). The sum of thes ephasors has the form of a random walk in the complex plane, so the mean squared end-to-end distance is equal to the squared step length times the number of steps. So, on average $P_{\text{tot}}=NP_1$, where $N=|\sum_{j=1}^Ne^{i\mathbf{q}\cdot\mathbf{r_j}}|^2$.
+    \item If $n(\mathbf{r})$ has peaks corresponding to the crystal structure, molecular correlations in liquids, or density variations of a certain size, then so will $\mathcal{F}(\mathbf{q})=|\tilde{n}(\mathbf{q})|^2$. These density variations produce strong scattering at $\mathbf{q}$.
+\end{enumerate}
+\end{proof}
+\begin{eg}[Critical Opalescence]
+Density fluctuations on a length scale (same as visible light) appear in liquids close to the liquid/gas critical point, or in liquid mixtures close to a phase-separation, leading to strong scattering of the visible light. This is called critical opalescence.
+\end{eg}
 
 \newpage
 \section{Relativistic Electrodynamics}
+\begin{remarks}
+The wave equation is not invariant under Galilean transformation, but it is invariant under Lorentz transformation.
+\end{remarks}
 \subsection{Special Relativity Review}
+\begin{defi}[Postulates of special relativity]\leavevmode
+\begin{enumerate}
+    \item The laws of physics are the same in all inertial frames.
+    \item Light signals in vacuum propagate rectilinearly and with the same speed $c$ in all inertial frames.
+\end{enumerate}
+\end{defi}
+\begin{defi}[Events]
+Events in spacetime are given the space-time coordinates $x^\mu=(ct,\mathbf{x})$ for $\mu=0,1,2,3$ in some inertial frame $S$.
+\end{defi}
+Two inertial frames $S$ and $S'$ are related by a Lorentz transformation.
+\begin{defi}[Lorentz Transform]
+Consider a 4-vector $X^\mu=(x^0,x^1,x^2,x^3)$, then Lorentz transform is defined to relate the 4-vector $X'^\mu$ in frame $S'$ to that in frame $S$ in the following way
+$$X'^\mu:=\tensor*{\Lambda}{*_{}^{\mu}_{\nu}} X^\nu$$
+where the Lorentz transform is a rank-2 tensor.
+\end{defi}
+\begin{prop}[Preservation of Minkowski Metric]
+The Lorentz transform is said to preserve the Minkowski metric $\eta$, i.e.
+$$\Lambda^T\eta\Lambda=\eta$$
+where the Minkowski metric is defined as
+$$\eta_{\mu\nu}:=\begin{pmatrix}1&0&0&0\\0&-1&0&0\\0&0&-1&0\\0&0&0&-1\\\end{pmatrix}$$
+\end{prop}
+\begin{proof}
+$$\tensor*{\Lambda}{*_{}^{\mu}_{\rho}}\eta_{\mu\nu}\tensor*{\Lambda}{*_{}^{\nu}_{\sigma}}=\tensor*{\Lambda}{*_{}^{\mu}_{\rho}}\eta_{\mu\sigma}=\eta_{\rho\sigma}$$
+\end{proof}
+\begin{cor}
+Lorentz Transformations form the Lorentz group.
+\end{cor}
+\begin{proof}
+We will prove the closure operation. The rest is a trivial exercise.
+$$\Lambda_2^T\Lambda_1^T\eta\Lambda_1\Lambda_2=\Lambda_2^T\eta\Lambda_2=\eta$$
+where $\Lambda_1,\Lambda_2$ are elements of the Lorentz group. Since $\Lambda_1\Lambda_2$ also preserves the Minkowski metric, it is also an element of the Lorentz Group.
+\end{proof}
+\begin{defi}[Inner Product under Minkowski Metric]
+The inner product of two 4-vectors $X^\mu$, $Y^\nu$ under the Minkowski Metric is defined as
+$$X^\mu Y^\nu\eta_{\mu\nu}$$
+which is a scalar, and is known as Lorentz-invaraint (invariant to Lorentz transform).
+\end{defi}
+\begin{remarks}
+The quantity $c^2t^2-x^2-y^2-z^2$ is Lorentz invariant. This corresponds to a light cone, centred at the origin, in Minkowski space. The light cone ($\mathbb{R}^3$ surface embedded in $\mathbb{R}^4$ space-time) consists of trajectories of light rays extending out from the origin (represents the present time at the current location), into the future and the past. Material particles move at less than the speed of light, and hence have trajectories inside the light cone.
+\end{remarks}
+\begin{remarks}
+We only consider Lorentz transformations that exclude space inversion or time reversal, i.e. restricted Lorentz transformations $\Lambda$ satisfy $\det\Lambda=+1$ and $\tensor*{\Lambda}{*_{}^{0}_{0}}\geq0$. So, such transformations form a Lorentz group SO(3,1), which includes all rotations and boosts. 
+\end{remarks}
+\begin{defi}[Definitions in Relativistic Kinematics]
+The 4-position vector is defined to be
+$$X^\mu:=(ct,x,y,z)^T$$
+where the proper time $\tau$ (observers along this worldline will measure $\tau$ as the time) parameterizes time-like trajectories. Then, the 4-velocity vector is defined to be
+$$U^\mu:=\frac{dX^\mu}{d\tau}=\bigg(c\frac{dt}{d\tau},\frac{dx}{d\tau},\frac{dy}{d\tau},\frac{dz}{d\tau}\bigg)^T=\frac{dt}{d\tau}\bigg(c,\frac{dx}{dt},\frac{dy}{dt},\frac{dz}{dt}\bigg)^T$$
+where $\frac{dt}{d\tau}$ can be shown to be equal to $\gamma$. Similarly, the 4-acceleration vector is defined as
+$$\mathcal{A}^\mu:=\frac{d}{d\tau}U^\mu$$
+\end{defi}
+\begin{defi}[Proper Time]
+Proper time $\tau$ along a time-like world line is defined as the time as measured by a clock following that line. It is independent of coordinates, and is a Lorentz scalar.\\[5pt]
+The proper time interval between two events on a world line is the change in proper time. Proper time itself is fixed only up to an arbitrary additive constant, namely the setting of the clock at some event along the world line. The proper time interval between two events depends not only on the events but also the world line connecting them, and hence on the motion of the clock between the events. It is expressed as an integral over the world line $P$, i.e.
+$$\tau=\int_P\frac{1}{c}\sqrt{\eta_{\mu\nu}dx^\mu dx^\nu}=\int_P\sqrt{dt^2-(dx/c)^2-(dy/c)^2-(dz/c)^2}=\int\sqrt{1-\frac{u^2}{c^2}}dt=\int\frac{dt}{\gamma}$$
+where $\gamma=\frac{1}{\sqrt{1-u^2/c^2}}$ is the Lorentz factor. Then, by fundamental theorem of calculus, $\frac{d\tau}{dt}=\frac{1}{\gamma}$.
+\end{defi}
+\begin{prop}
+The 4-acceleration is orthogonal to the 4-velocity.
+\end{prop}
+\begin{proof}
+We first evaluate $\frac{d^2t}{d\tau^2}$:
+$$\frac{d^2t}{d\tau^2}=\frac{d}{d\tau}\frac{dt}{d\tau}=\gamma\frac{d}{dt}\gamma=\gamma\bigg(1-\frac{u^2}{c^2}\bigg)^{-1.5}\frac{-1}{2c^2}(-2\mathbf{u}\cdot\frac{d\mathbf{u}}{dt})=\frac{\gamma^4}{c^2}\mathbf{u}\cdot\mathbf{a}$$
+where $\mathbf{u}$, $\mathbf{a}$ are the corresponding quantities in position space $\mathbb{R}^3$. Hence,
+$$\mathcal{A}^\mu=\frac{d}{d\tau}(c\gamma,\gamma\mathbf{u})^T=\bigg(c\frac{d^2t}{d\tau^2},\mathbf{u}\frac{d^2t}{d\tau^2}+\gamma\frac{dt}{d\tau}\mathbf{a}\bigg)^T=\bigg(\frac{\gamma^4}{c}\mathbf{u}\cdot\mathbf{a},\frac{\mathbf{u}(\mathbf{u}\cdot\mathbf{a})\gamma^4}{c^2}+\gamma^2\mathbf{a}\bigg)^T$$
+Since the scalar product of a four-vector with itself is Lorentz-invariant, then $U^\mu U^\nu\eta_{\mu\nu}$ is a constant. Upon differentiating with respect to $\tau$,
+$$2\frac{dU^\mu}{d\tau}U^\nu\eta_{\mu\nu}=0\implies\mathcal{A}^\mu U^\nu\eta_{\mu\nu}=0$$
+which has the form of a inner product under Minkowski metric, hence $\mathcal{A}^\mu$ is orthogonal to $U^\nu$.
+\end{proof}
+\begin{defi}[Co-vector]
+The corresponding co-vector (said to be a covariant vector) of a 4-vector (said to be a contravariant vector) is defined to be
+$$X_\mu:=\eta_{\mu\nu}X^\nu$$
+The Minkowski metric $\eta_{\mu\nu}$ is said to lower the index. Similarly, we can raise the metric via
+$$X^\nu=\eta^{\mu\nu}X_\nu$$
+We recall the two forms of the Minkowski metric are
+$$\eta_{\mu\nu}=\begin{pmatrix}1&0&0&0\\0&-1&0&0\\0&0&-1&0\\0&0&0&-1\\\end{pmatrix},\quad\eta^{\mu\nu}=\begin{pmatrix}-1&0&0&0\\0&1&0&0\\0&0&1&0\\0&0&0&1\\\end{pmatrix}$$
+such that 
+$$\eta_{\mu\nu}\eta^{\nu\rho}=\tensor*{\delta}{*_{}^{\mu}_{\rho}}=\begin{pmatrix}1&0&0&0\\0&1&0&0\\0&0&1&0\\0&0&0&1\\\end{pmatrix}$$
+We can verify that
+$$X^\mu=\eta^{\mu\rho}X_{\rho}=\eta^{\mu\rho}\eta_{\rho\sigma}X^\sigma=\tensor*{\delta}{*_{}^{\mu}_{\sigma}} X^\sigma=X^\mu$$
+If the 4-vector is $X^\mu=(ct,\mathbf{x})^T$, then $X_\mu=(ct,-\mathbf{x})^T$.
+\end{defi}
+\begin{remarks}[Lorentz Transform of Covariant vector and Contravariant vectors]
+Under the action of Lorentz Transform, the contravariant and covariant vectors transform like
+$$X^\mu\mapsto X'^\mu=\tensor*{\Lambda}{*_{}^{\mu}_{\nu}}X^\nu,\quad X_\mu\mapsto X'_\mu=\tensor*{\Lambda}{*_{}^{\nu}_{\mu}} X_\nu$$
+A tensor of type $(p,q)$ transforms under Lorentz transformation:
+$$\tensor*{(T')}{*_{}^{\mu_1'\dots\mu_p'}_{\nu_1'\dots\nu_q'}}=\tensor*{\Lambda}{*_{}^{\mu_1'}_{\mu_1}}\tensor*{\Lambda}{*_{}^{\mu_2'}_{\mu_2}}\dots\tensor*{\Lambda}{*_{}^{\mu_p'}_{\mu_p}}\tensor*{\Lambda}{*_{}^{\nu_1}_{\nu_1'}}\dots\tensor*{\Lambda}{*_{}^{\nu_q}_{\nu_q'}}\tensor*{T}{*_{}^{\mu_1\dots\mu_p}_{\nu_1\dots\nu_q}}$$
+\end{remarks}
 \subsection{Covariant formulation of Maxwell's equations}
-\subsection{Transformation of fields}
-\subsection{Quantum Stuff}
+Special Relativity demands us to write all physical laws covariantly in terms of Lorentz scalars, vectors, and tensors. 
+\begin{defi}[Derivative and Image under Lorentz Transform]
+Under Lorentz Transform, the derivative $\partial_\mu:=\frac{\partial}{\partial x^\mu}$ transforms like
+$$\partial_\mu\mapsto\tensor*{\Lambda}{*_{}^{\nu}_{\mu}}\partial_\nu$$
+\end{defi}
+\begin{defi}[4-Current]
+The 4-current is defined to be
+$$J^\mu:=(c\rho,\mathbf{J})^T$$
+\end{defi}
+\begin{prop}[Co-variant Form of Equation of Continuity]
+The equation of continuity in co-variant form is
+$$\partial_\mu J^\mu=0$$
+\end{prop}
+\begin{proof}
+$$\frac{\partial}{\partial(ct)}(c\rho)+\boldsymbol{\nabla}\cdot\mathbf{J}=0$$
+\end{proof}
+\begin{eg}
+Consider a situation with charge, $\rho\neq0$ and no current, $\mathbf{J}=0$, then under Lorentz Transform
+$$J'^\mu=\tensor*{\Lambda}{*_{}^{\mu}_{\nu}} J^\nu=(\gamma c\rho,-\gamma\rho\mathbf{v})^T$$
+Thus, currents are just moving charges.
+\end{eg}
+\begin{remarks}
+Electric charge is experimentally determined to be Lorentz invariant. The 4-current density is thus a physical 4-vector. Consider a macroscopic charge $Q$ occupying a volume $V_0$ in its inertial rest frame. The charge density here will be $\rho_0=Q_0/V_0$ and current density will be zero. In $S$, in which the charge is moving at speed $u$, the volume occupied by the charge will be $V=V_0/\gamma$. The corresponding charge density is $\rho=\gamma\rho_0$ and current density is $(\gamma c\rho_0,\gamma\rho_0\mathbf{\dot{r}})=\rho_0\frac{d}{d\tau}(ct,\mathbf{r})=\rho_0\frac{dX}{d\tau}$, where $X$ is the position 4-vector.
+\end{remarks}
+\begin{cor}
+Applying Lorentz transformation to the 4-current density gives
+$$c\rho'=\gamma(c\rho-\boldsymbol{\beta}\cdot\mathbf{J}),\quad\mathbf{J'}=\gamma(\mathbf{J_\parallel}-\beta c\rho)+\mathbf{J_\perp}$$
+\end{cor}
+\begin{defi}[4-Potential]
+The 4-potential is defined to be
+$$A^\mu:=(\phi/c,\mathbf{A})^T$$
+\end{defi}
+\begin{prop}
+The 4-potential is unique up to a gauge transform where $\Lambda$ is the gauge, a function of space and time.
+\end{prop}
+\begin{prop}[Field Strength Tensor]
+We propose that we can store the 6 components of $\mathbf{E}$ and $\mathbf{B}$ with a rank 2 antisymmetric tensor, $F_{\mu\nu}$ (known as the Field Strength Tensor) such that two of the Maxwell's Equations are succinctly expressed as
+$$\partial_\mu F^{\mu\nu}=\mu_0J^\nu$$
+where $\mu$ is the spatial index and $\nu$ is the line index. Note that raising the spatial index changes the sign but raising the line index does not change the sign, i.e. $F^{10}=-F_{10}$. This tensor's definition:
+$$F_{\mu\nu}:=\partial_\mu A_\nu-\partial_\nu A_\mu=-F_{\nu\mu}$$
+such that the tensor has the explicit form (line index counts the row while spatial index counts the column)
+$$F_{\mu\nu}=\begin{pmatrix}0&E_x/c&E_y/c&E_z/c\\-E_x/c&0&-B_z&B_y\\-E_y/c&B_z&0&-B_x\\-E_z/c&-B_y&B_x&0\\\end{pmatrix},\quad F^{\mu\nu}=\eta^{\mu\rho}\eta^{\nu\sigma}F_{\rho\sigma}=\begin{pmatrix}0&-E_x/c&-E_y/c&-E_z/c\\E_x/c&0&-B_z&B_y\\E_y/c&B_z&0&-B_x\\E_z/c&-B_y&B_x&0\\\end{pmatrix}$$
+where the metric convention is $\eta=\diag(+1,-1,-1,-1)$. Alternatively, could write 
+$$B_k=\varepsilon_{\mu\nu k}\partial_\mu A_\nu,\quad\mu\neq\nu\neq k,~\mu,\nu,k=1,2,3\implies B_i=-\frac{1}{2}\varepsilon_{ijk}F^{jk}$$
+$$E_k/c=-\partial_{ct}A_k-\partial_k(\phi/c),\quad k=1,2,3\implies F_{0\nu}=\partial_{ct}A_\nu-\partial_\nu(\phi/c)=E_\nu/c,~\nu=1,2,3$$
+\end{prop}
+\begin{proof}
+For $A_\mu=(\phi/c,-\mathbf{A})^T$, we have for example
+$$F_{12}=\partial_x(-A_y)-\partial_y(-A_x)=-B_z,\quad F_{23}=\partial_y(-A_z)-\partial_z(-A_y)=-B_x$$
+$$F_{01}=\partial_{ct}(-A_x)-\partial_x(\phi/c)=E_x/c,\quad
+F_{02}=\partial_{ct}(-A_y)-\partial_y(\phi/c)=E_y/c,\quad F_{03}=\partial_{ct}(-A_z)-\partial_z(\phi/c)=E_z/c$$
+where we identify $B_k=\varepsilon_{ijk}\partial_iA_j$. 
+Thus, obtaining the desired form of $F_{\mu\nu}$. We can obtain $F^{\mu\nu}$ using the Minkowski metric. Next, we show $\partial_\mu F^{\mu\nu}=\mu_0J^\nu$ does give the Maxwell's equations. For index $\nu=0$, we recover the Gauss' Law, i.e. $\boldsymbol{\nabla}\cdot\mathbf{E}=\rho/\epsilon_0$:
+$$\partial_\mu F^{\mu0}=\partial_0F^{00}+\partial_1F^{10}+\partial_2F^{20}+\partial_3F^{30}=\frac{1}{c}\boldsymbol{\nabla}\cdot\mathbf{E}=\frac{1}{c}\frac{\rho}{\epsilon_0}=\mu_0c\rho=\mu_0J^0$$
+We have used $F^{i0}=-F_{i0}$ and  $F_{i0}=-\frac{E_i}{c}$. For the spatial indices $\nu=i=1,2,3$, we expect to recover the Ampere-Maxwell's Law, i.e. $\boldsymbol{\nabla}\times\mathbf{B}=\mu_0\mathbf{J}+\mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}$.
+$$\partial_\mu F^{\mu i}=\partial_0F^{0i}+\partial_1F^{1i}+\partial_2F^{2i}+\partial_3F^{3i}=-\frac{1}{c^2}\frac{\partial}{\partial t}E_i+\varepsilon_{jki}\partial_jB_k=\mu_0J^i$$
+where by enumeration, $\partial_0F^{0i}=\partial_0F_{i0}=-\frac{\partial}{\partial(ct)}\frac{E_i}{c}$, $\partial_1F^{1i}=\partial_1F_{i1}=\partial_xB_z-\partial_xB_y$, and so on. We thus identify the total summation $\partial_jF^{ji}$ to simply by $\boldsymbol{\nabla}\times\mathbf{B}$.
+\end{proof}
+\begin{remarks}\leavevmode
+\begin{enumerate}
+    \item $F$ is anti-symmetric, i.e. $F_{\mu\nu}=-F_{\mu\nu}$
+    \item $F^{\mu\nu}$ is a second-order tensor of type (2,0) which transforms as
+$$F^{\mu\nu}\rightarrow F'^{\mu\nu}=\tensor*{\Lambda}{*_{}^{\mu}_{\alpha}}\tensor*{\Lambda}{*_{}^{\nu}_{\beta}} F^{\alpha\beta}$$
+under a Lorentz transformation $\Lambda\in\text{SO}(3,1)$.
+\item $F$ is invariant under gauge transform, i.e.
+$$F\rightarrow \partial_\mu(A_\nu+\partial_\nu\chi)-\partial_\nu(A_\mu+\partial_\mu\chi)=\partial_\mu A_\nu-\partial_\nu A_\mu=F_{\mu\nu}$$
+\end{enumerate}
+\end{remarks}
+\begin{prop}[Dual Tensor]
+We propose that we can store the 6 components of $\mathbf{E}$ and $\mathbf{B}$ with another rank 2 antisymmetric tensor, $G_{\mu\nu}$ (known as the Dual Tensor) such that the remaining two Maxwell's Equations are succinctly expressed as
+$$\partial_\mu G^{\mu\nu}=0$$
+where $\mu$ is the spatial index and $\nu$ is the line index. Note that raising the spatial index changes the sign but raising the line index does not change the sign, i.e. $G^{10}=-G_{10}$. This tensor is defined from the Field Strength Tensor
+$$G^{\mu\nu}:=\frac{1}{2}\varepsilon^{\mu\nu\rho\sigma}F_{\rho\sigma}$$
+where $\varepsilon^{\mu\nu\rho\sigma}$ is the rank-4 alternating tensor, which gives $1$ or $-1$ for even and odd permutations of 0123 respectively. The dual tensor has the explicit form
+$$G^{\mu\nu}=\begin{pmatrix}0&-B_x&-B_y&-B_z\\B_x&0&E_z/c&-E_y/c\\B_y&-E_z/c&0&E_x/c\\B_z&E_y/c&-E_x/c&0\\\end{pmatrix}$$
+Observe that $G$ is obtained from $F$ by mapping $\mathbf{E}\mapsto c\mathbf{B}$ and $\mathbf{B}\mapsto -\mathbf{E}/c$
+\end{prop}
+\begin{proof}
+Having establish $F_{\mu\nu}$, we get
+$$G^{01}=\frac{1}{2}\varepsilon^{01jk}F_{jk}=\frac{1}{2}\varepsilon^{0123}F_{23}+\frac{1}{2}\varepsilon^{0132}F_{32}=\varepsilon^{0123}F_{23}=-B_x$$
+where $\varepsilon^{0123}=-\varepsilon^{0132}$ and $F_{23}=-F_{32}$. Similarly, $G^{02}=-B_y$ and $G^{03}=-B_z$. Also,
+$$G^{12}=\frac{1}{2}\varepsilon^{12jk}F_{jk}=\frac{1}{2}\varepsilon^{1203}F_{03}+\frac{1}{2}\varepsilon^{1230}F_{30}=-\varepsilon^{1203}F_{03}=-E_y/c$$
+Similarly, $G^{11}=E_z/c$. Thus, obtaining the desired form of $G_{\mu\nu}$. By using a similar procedure as before, we proceed to show that $\partial_\mu G^{\mu\nu}=0$ do gives the remaining two Maxwell's equations:
+$$\partial_\mu G^{\mu0}=\partial_0G^{00}+\partial_1G^{10}+\partial_2G^{20}+\partial_3G^{30}=\boldsymbol{\nabla}\cdot\mathbf{B}=0$$
+which is the Gauss' Law for magnetism. For $i=1,2,3$, we recover the Faraday's Law
+$$\partial_\mu G^{\mu i}=\partial_0G^{0i}+\partial_1G^{1i}+\partial_2G^{2i}+\partial_3G^{3i}=-\frac{1}{c}\frac{\partial}{\partial t}B_i-\frac{\partial E_k/c}{\partial j}+\frac{\partial E_j/c}{\partial k}=-\frac{1}{c}\frac{\partial}{\partial t}\mathbf{B}-(\boldsymbol{\nabla}\times\mathbf{E})=0$$
+as expected. Essentially, this means there is no magnetic analogue of charge and current.
+\end{proof}
+\begin{cor}
+Interestingly, when $\varepsilon^{\mu\nu\rho\sigma}$ is subjected to a Lorentz transformation, we recover $\det(
+\Lambda)$ and hence invariant under proper Lorentz Transformations where by definition $\det(\Lambda)=1$.
+\end{cor}
+\begin{proof}
+By definition of the determinant of a 4 by 4 matrix.
+$$\epsilon'^{\mu\nu\rho\sigma}=\tensor*{\Lambda}{*_{}^{\mu}_{a}}\tensor*{\Lambda}{*_{}^{\nu}_{b}}\tensor*{\Lambda}{*_{}^{\rho}_{c}}\tensor*{\Lambda}{*_{}^{\sigma}_{d}}\varepsilon^{abcd}=\det(\Lambda)$$
+\end{proof}
+\begin{thm}[Lorentz Transform of Field Tensor]
+Under Lorentz Transform,
+$$F^{\mu\nu}=\tensor*{\Lambda}{*_{}^{\mu}_{\rho}}\tensor*{\Lambda}{*_{}^{\nu}_{\sigma}} F^{\rho\sigma}$$
+We can thus obtain the Lorentz Transformation equations for electric and magnetic fields. In the direction parallel to the Lorentz transformation,
+$$E_\parallel=E_\parallel', \quad B_\parallel=B_\parallel'$$
+In the direction orthogonal to Lorentz transformation,
+$$E_\perp'=\gamma(E_\perp+v\times B_\perp),\quad B_\perp'=\gamma(B_\perp-v\times E_\perp)$$
+\end{thm}
+\begin{proof}
+Without loss of generality, let the Lorentz transform be
+$$\tensor*{\Lambda}{*_{}^{\mu}_{\nu}}=\begin{pmatrix}
+\gamma &-\gamma v/c&0&0\\
+-v\gamma/c&\gamma&0&0\\
+0&0&1&0\\
+0&0&0&1\\
+\end{pmatrix}$$
+Then we recover the desired equations where $\perp$ directions are $y$ and $z$ and $\parallel$ direction is $x$.
+$$-\frac{E_x'}{c}=F'^{01}=\tensor*{\Lambda}{*_{}^{0}_{\rho}}\tensor*{\Lambda}{*_{}^{1}_{\sigma}}F^{\rho\sigma}=\tensor*{\Lambda}{*_{}^{0}_{0}}\tensor*{\Lambda}{*_{}^{1}_{1}}F^{01}+\tensor*{\Lambda}{*_{}^{0}_{1}}\tensor*{\Lambda}{*_{}^{1}_{0}}F^{10}=-\frac{E_x}{c}$$
+$$-B_z'=F'^{12}=\tensor*{\Lambda}{*_{}^{1}_{\rho}}\tensor*{\Lambda}{*_{}^{2}_{\sigma}}F^{\rho\sigma}=\tensor*{\Lambda}{*_{}^{1}_{0}}\tensor*{\Lambda}{*_{}^{2}_{2}}F^{02}+\tensor*{\Lambda}{*_{}^{1}_{1}}\tensor*{\Lambda}{*_{}^{2}_{2}}F^{12}=-\gamma(B_z-(v/c^2)E_y)$$
+$$-\frac{E_y'}{c}=F'^{02}=\tensor*{\Lambda}{*_{}^{0}_{\rho}}\tensor*{\Lambda}{*_{}^{1}_{\sigma}}F^{\rho\sigma}=\tensor*{\Lambda}{*_{}^{0}_{0}}\tensor*{\Lambda}{*_{}^{2}_{2}}F^{02}+\tensor*{\Lambda}{*_{}^{0}_{1}}\tensor*{\Lambda}{*_{}^{2}_{2}}F^{12}=-\frac{\gamma}{c}(E_y-vB_x)$$
+are some examples, with the remaining obtained by permutations.
+\end{proof}
+\begin{prop}[Lorentz Scalars]
+The following two quantities are said to be Lorentz scalars:
+$$\frac{1}{2}F_{\mu\nu}F^{\mu\nu}=-\frac{E^2}{c^2}+B^2,\quad\frac{1}{4}G^{\mu\nu}F_{\mu\nu}=-\frac{1}{c}\mathbf{E}\cdot\mathbf{B}$$
+These quantities are the same in all inertial frames of references.
+\end{prop}
+\begin{proof}
+We have $F_{ii}F^{ii}=0$ $\forall i=0,1,2,3$ and $F_{0i}F^{0i}=-|\mathbf{E}|^2/c^2$ and $F_{12}F^{12}=F_{13}F^{13}=F_{23}F^{23}=|\mathbf{B}|^2$. Hence,
+$$F_{\mu\nu}F^{\mu\nu}=0+2(-|\mathbf{E}|^2/c^2+|\mathbf{B}|^2)$$
+Similarly, $G^{ii}G_{ii}=0$ $\forall i=0,1,2,3$ and $G^{01}F_{01}=-B_xE_x/c=G^{10}F_{10}=G^{23}F_{23}=G^{32}F_{32}$ and similar for the rest of the indices. Hence, $G^{\mu\nu}F_{\mu\nu}=-4\mathbf{E}\cdot\mathbf{B}/c$.
+\end{proof}
+Previously, we have shown the following result. Now, we demonstrate this using index notation.
+\begin{cor}
+$$\Box A=\mu_0J$$
+where $A$ and $J$ are 4-vectors, and $\Box:=\partial_\mu\partial^\mu$ is Lorentz-invariant.
+\end{cor}
+\begin{proof}
+Consider the 4-vector potential $A_\mu(x)$ generated by an arbitrary source $J_\mu(x)$. The Maxwell's equations are $\partial_\mu F^{\mu\nu}=-\mu_0J^\nu$, where the field strength tensor is $F^{\mu\nu}=\partial^\mu A^\nu-\partial^\nu A^\mu$, then
+$$-\mu_0J^\nu=\partial_\mu(\partial^\mu A^\nu-\partial^\nu A^\mu)=\eta^{\mu\nu}\partial_\mu\partial_\mu A^\nu-\partial_\mu\partial^\nu A^\mu$$
+Since the partial derivatives are symmetric, we can thus obtain
+$$\Box A^\mu-\partial^\mu(\partial_\nu A^\nu)=-\mu_0J^\mu$$
+where $\Box=\eta^{\mu\nu}\partial_\mu\partial_\nu=\nabla^2-\frac{1}{c^2}\frac{\partial^2}{\partial t^2}$ is the wave operator. It is very convenient to choose the Lorentz gauge $\partial_\mu A^\mu=0$. It is always possible to make this gauge choice: starting in some general gauge, we make a transformation $A^\mu\rightarrow A^\mu+\partial^\mu\chi$ with $\chi$ chosen to satisfy $\Box\chi=-\partial_\mu A^\mu$. In this Lorenz gauge, we simply have the sourced wave equation to be
+$$-\mu_0J^\mu=\Box A^\mu-\partial^\mu(\partial_\nu A^\nu)=\Box A^\mu$$
+\end{proof}
+\begin{remarks}[Magnetism as a relativistic effect]
+Consider a neutral current-carrying wire and a charge $q$ moving parallel to it at a velocity $u$. Take $S$ as the rest frame of the wire and $S'$ as the rest frame of the carriers in the wire moving with velocity $v$ with respect to $S$. Now consider separately the forces on $q$ arising from the positive background charge and the negative carriers.
+\begin{itemize}
+    \item In $S$, the stationary positive background charge in the wire is $\rho_+=+ne$ and they produce a force on $q$ to be $f_y^+=qneA/2\pi r\varepsilon_0$.
+    \item In $S$, the charge neutrality of the wire requires $\rho_=-ne$. But in $S'$, the carriers are stationary, so there is no Lorentz contraction as in $S$, and the charge density is $\rho_-'=-ne/\gamma_v$. In $S'$, this produces an electrostatic force on $q$ to be $(f_y^-)'=-qneA/2\pi r\varepsilon_0\gamma_v$. Using Lorentz transformation for forces, then in frame $S$:
+    $$f_y^-=(f_y^-)'\gamma_v(1-vu_x/c^2)=-\frac{qneA}{\gamma_v2\pi r\varepsilon_0}\gamma_v(1-vu/c^2)$$
+\end{itemize}
+So in $S$, the total force on the charge is
+$$f_y=f_y^++f_y^-=\frac{qneA}{2\pi r\varepsilon_0}-\frac{qneA}{2\pi r\varepsilon_0}\bigg(1-\frac{vu}{c^2}\bigg)=\frac{qnevAu}{2\pi rc^2\varepsilon_0}=\frac{\mu_0(-I)qu}{2\pi r}$$
+consistent with the Lorentz force result of a current-carrying wire.
+\end{remarks}
+\begin{prop}[Minkowski Force]
+Defining the Minkowski force to be
+$$\frac{d}{d\tau}P^\mu=q\tensor*{F}{*_{}^{\mu}_{\nu}}\frac{dX^\nu}{d\tau}$$
+where $P^\mu$ is the 4-momentum $P^\mu=(\varepsilon/c,\mathbf{p})$, where $\varepsilon$ is the energy and the corresponding Lorentz invariant scalar is $P^\mu P_\mu=-m^2c^2$, then we have
+$$\frac{dP^0}{d\tau}=\frac{q}{c}\gamma\mathbf{E}\cdot\mathbf{u},\quad\frac{d\mathbf{p}}{d\tau}=q\gamma(\mathbf{E}+\mathbf{v}\times\mathbf{B})$$
+where we note that $\frac{dt}{d\tau}=\gamma$.
+\end{prop}
+\begin{proof}
+We first work on the zeroth component.
+$$\frac{d}{d\tau}m\gamma c=\gamma q\mathbf{E}\cdot\mathbf{v}\frac{1}{c}$$
+which basically says the work done by the electric field increases the charged particle's kinetic energy. For the rest, we will recover the Lorentz Force Law.
+\end{proof}
+\newpage
+\subsection{Quantum Phenomena}
+\begin{prop}
+The quantum phase shift incurred by a particle with charge $q$ moving along a path $a\rightarrow b$ in the presence of an electromagnetic potential is
+$$\Delta=\frac{q}{\hbar}\int_a^b\phi dt-\frac{q}{\hbar}\int_a^b\mathbf{A}\cdot d\mathbf{r}$$
+This is Lorentz invariant.
+\end{prop}
+\begin{proof}
+Consider a frame $S'$ where $\phi$ is absent, then the phase shift is
+$$\Delta'=-\frac{q}{\hbar}\int_a^b\mathbf{A'}\cdot d\mathbf{r'}$$
+Transforming from $S'$ with $\phi'=0$ to another frame $S$ where $\phi\neq 0$:
+$$\phi'dt'-\mathbf{A'}\cdot d\mathbf{r'}=-\mathbf{A'}\cdot d\mathbf{r'}\rightarrow\phi dt-\mathbf{A}\cdot d\mathbf{r}$$
+since the inner product of the two 4-vectors $A$ and $X$ are Lorentz invariant, we must have
+$$\phi dt-A\cdot d\mathbf{r}\implies\Delta'=\Delta$$
+to be Lorentz invariant.
+\end{proof}
+\begin{defi}[Spin-orbit coupling]
+Motion through the electrostatic field of the nucleus introduces a magnetic field in the electron frame, which acts upon the electron's intrinsic magnetic moment to produce spin-orbit effects. The spin-orbit interaction Hamiltonian is
+$$H_{\text{SO}}=-\frac{1}{2}\frac{ge}{2m}\mathbf{s}\cdot\mathbf{B'}=-\frac{ge}{4mc^2}\mathbf{s}\cdot(\mathbf{u}\times\mathbf{r})\frac{1}{r}\frac{d\Phi}{dr}=\frac{ge}{4m^2c^2}\mathbf{s}\cdot\mathbf{L}\frac{1}{r}\frac{d\Phi}{dr}$$
+where $g$ is the electron $g$-factor, $\mathbf{s}$ is the electron spin operator and $\mathbf{L}$ is its orbital angular momentum. The correction factor of 1/2 included arises because of an effect called Thomas precession, which is caused by the rest frame of the electron rotating with respect to the laboratory frame.
+\end{defi}
+\begin{eg}[Mott-scattering]
+Mott proposed a double scattering experiment of electrons from heavy nuclei to prove the existence of electron spin. The spin-orbit interaction cause the scattered beam at large angle (90\degree) to be spin-polarized with the spin polarisation transverse to the scattering plane. Scattering of this beam off a second target should cause a left-right asymmetry (again due to the spin-orbit interaction). This is a basis for a family of recently discovered spin phenomena in solids that allow conversion of spin polarisation/spin currents into charge accumulation/charge currents and vice versa.
+\end{eg}
+\begin{defi}[Spin current]
+A pure spin current corresponds to spin-up and spin-down electrons flowing in opposite directions in the absence of a charge current.
+\end{defi}
+\begin{eg}[Anomalous Hall effect (AHE)]
+The difference in the concentration of majority and minority spin carriers causes a longitudinal charge current to generate a transverse voltage in the absence of a magnetic field. This is observed in ferromagnetic metals and semiconductors.
+\end{eg}
+\begin{eg}[Spin Hall effect (SHE)]
+The longitudinal charge current in a non-magnetic material is associated with the build-up of a spin polarisation along the edges of the conducting channel.
+\end{eg}
+\begin{eg}[Spintronics]
+One of the potential applications of the SHE is the switching of the magnetisation of a magnetic bit by the SHE-induced spin polarisation associated with an adjacent charge current. This allows electric control of magnetisation switching
+\end{eg}
 \newpage
 \section{Radiation}
 \subsection{Uniformly moving charge}
+We first study the fields of a uniformly moving charge.
+\begin{prop}
+The fields of a uniformly moving charge is
+$$E_\parallel=\frac{q\cos\theta}{4\pi\varepsilon_0\gamma^2r^2(1-(v/c)^2\sin^2\theta)^{3/2}},\quad E_\perp=\frac{q\sin\theta}{4\pi\varepsilon_0\gamma^2r^2(1-(v/c)^2\sin^2\theta)^{3/2}},\quad B_r=B_\theta=0,\quad B_\phi=\frac{v}{c^2}E_\perp$$
+\end{prop}
+\begin{proof}
+At the point ($x',y',z'=0$) in $S'$ the fields are just the static fields:
+$$\mathbf{E'}=\frac{q}{4\pi\varepsilon_0 r'^3}(x',y',0),\quad\mathbf{B'}=0$$
+Apply the Lorentz transformation gives the fields in $S$:
+$$E_x=E_x'=\frac{qx'}{4\pi\varepsilon_0r'^3},\quad E_y=\gamma E_y'=\frac{\gamma qy'}{4\pi\varepsilon_0r'^3},\quad E_z=0,\quad B_x=0=B_y,\quad B_z=\frac{\gamma v}{c^2}E_y'$$
+Taking the $x$-axis as the polar axis, and with $x'=\gamma x$ and $y'=y$ at $t=t'=0$:
+$$r'^2=x'^2+y'^2=\gamma^2r^2(1-\sin^2\theta)+r^2\sin^2\theta=\gamma^2r^2\bigg(1-\frac{v^2}{c^2}\sin^2\theta\bigg)$$
+Set the directions $\perp$ and $\parallel$ with respect to the $x$-axis, the direction of the charge's motion, we obtain our results.
+\end{proof}
+\begin{remarks}\leavevmode
+\begin{enumerate}
+\item There is now a magnetic field $B_\phi$ in the azimuthal direction, arising from motion of charge. 
+\item The Poynting flux is $\mathbf{N}\sim1/r^4$, i.e. no far-field radiation from a uniformly moving charge (in vacuum). $\mathbf{N}$ simply moves the field energy along with the charge itself. $\mathbf{N}$ is tangentially oriented, maximum for $\theta=\pi/2$ and zero for $\theta=0$.
+\item $\mathbf{E}$ is purely radial, i.e. $\frac{E_\perp}{E_\parallel}=\tan\theta$. The field is directed away from the origin which is the present position of the charge in $S$, rather than at some earlier time.
+\item The motion flattens the $\mathbf{E}$-field into the $zy$-plane as we increase $v$, i.e. $E_\perp\sim\frac{\gamma q}{4\pi\varepsilon_0r^2}$ grows very large while $E_\parallel\sim\frac{q}{4\pi\varepsilon_0\gamma^2r^2}$ is very small.
+\end{enumerate}
+\end{remarks}
 \subsection{Cerenkov radiation}
-\subsection{Accelerated charge}
-\subsection{Lienart-Wiechert potentials}
-\subsection{Lamor and Lienart formulae}
-\subsection{Circular motion}
-\subsubsection{Cyclotron radiation}
-\subsubsection{Synchrotron radiation}
+In our previous analysis, the charge is moving in vacuum.
+\begin{defi}[Cerenkov condition]
+When a charge particle is moving through a medium, the velocity of the charge particle can exceed the speed of light in the medium, i.e. $v>c/n$, where $n=\sqrt{\varepsilon(\omega)}$.
+\end{defi}
+Since the medium is moving in the rest frame $S'$ of the charge, the fields in $S'$ are difficult to work out. We study the Maxwell equations expressed in terms of the potentials.
+\begin{prop}
+When Cerenkov condition is satisfied, the region of space where the potentials (and fields) are non-zero is obtained by considering spheres that expand at a speed $c/n$ from points at which the particle has been, then the region of non-zero fields takes the form of a conical shape, with angle
+$$\cos\theta_C=\frac{1}{\beta n(\omega)}$$
+where $\theta_C$ is the Cerenkov angle for the emitted radiation.
+\end{prop}
+\begin{proof}
+Suppose that at $t=0$ the charge is at $x=0$. At $t=-T$, it was at $x=-vT$ and at time $t=0$ its presence at $x=-vT$ can have influenced only the region of space within a sphere of radius $(c/n)T$ centred on the point $x=-vT$. The region of space where the potentials (and fields) are non-zero is obtained by considering spheres that expand at a speed $c/n$ from points at which the particle has been. Because the region of non-zero field is growing with time, there must be energy transfer into the region of zero field - radiation. Use the Huygens construction to determine the direction of radiation propagation. Draw the tangent to the wavelets at $t=0$ emanating from points on the particle's track at earlier times. The wavelet centred on $(x=-vT,t=-T)$ has radius $cT/n$, and the wavelet from the origin has zero radius. By geometry, we have
+$$\cos\theta_c=\frac{cT/n}{vT}=\frac{1}{\beta n}$$
+\end{proof}
+\begin{remarks}
+In principle, the Cerenkov radiation of different frequencies will be emitted at different angles. The Cerenkov radiation is not emitted uniformly in frequency, but in frequency bands in which $\varepsilon(\omega)>\beta^{-2}$. Radiation is only emitted in the shaded frequency region in which $\varepsilon(\omega)>1/\beta^2$, giving it a blueish glow.
+\end{remarks}
+\begin{eg}
+Cerenkov radiation is observed in
+\begin{itemize}
+    \item particle showers as cosmic rays enter the atmosphere
+    \item the bluish glow surrounding water-cooled nuclear reactors
+    \item Cerenkov particle detectors - tanks of liquid surrounded by photodetectors.
+\end{itemize}
+\end{eg}
+\subsection{Lienard-Wiechert potentials}
+\begin{remarks}
+A uniformly moving charge does not radiate, except under Cerenkov conditions. But consider a charged particle accelerating or decelerating in vaccuum. When the charge is suddenly decelerated, for a distant observer, the field still emanates from the point the charge would have moved to had it continued in uniform motion. But for a near observer, the field would emanate from the true position. The field develops a transverse kink that propagates out at the speed of light, corresponding to a radiative electromagnetic field.
+\end{remarks}
+We first demonstrate the following result, necessary for later:
+\begin{defi}[Past light cone]
+$$w_x^-=\{y\in\mathbb{R}^{3,1}:~y^0<x^0,~\eta_{\mu\nu}(x^\mu-y^\mu)(x^\nu-y^\nu)=0\}$$
+\end{defi}
+\begin{prop}
+The Lorentz-invariant integration of the 4-vector current over the past lightcone of the event $x^\mu$ is covariant.
+\end{prop}
+\begin{proof}
+Let 
+$$f(y^0)=\eta_{\mu\nu}(x^\mu-y^\mu)(x^\nu-y^\nu)=|\mathbf{x}-\mathbf{y}|^2-(x^0-y^0)^2=(|\mathbf{x}-\mathbf{y}|-x^0+y^0)(|\mathbf{x}-\mathbf{y}|+x^0-y^0)$$
+Recall that for a function $f(y)$ with zeroes at points $\mathbf{y}=\mathbf{y_i^*}$, for $i=1,...,l$. We have 
+$$\int_{-\infty}^\infty\delta(f(y))g(y)dy=\sum_{i=1}^l\frac{g(y^*)_i}{|f'(y_l^*)|}=\sum_{i=1}^l\int_{-\infty}^\infty\delta(y-y_i^*)g(y)dy$$
+for an arbitrary test function $g(y)$. Hence,
+$$\delta(f(y))=\sum_{i=1}^l\frac{\delta(y-y_i^*)}{|f'(y_i^*)|}$$
+Now apply to $f(y^0)=\eta_{\mu\nu}(x^\mu-y^\mu)(x^\nu-y^\nu)$ defined above, then $f$ vanishes at $y^0=y_{\pm}^0=x^0\pm|\mathbf{x}-\mathbf{y}|$. At these points, we have
+$$f'(y^0)|_{y^0=y^0_{\pm}}=\pm 2|\mathbf{x}-\mathbf{y}|$$
+and hence
+$$\delta(\eta_{\mu\nu}(x^\mu-y^\mu)(x^\nu-y^\nu))=\frac{\delta(y^0-x^0+|\mathbf{x}-\mathbf{y}|)}{2|\mathbf{x}-\mathbf{y}|}+\frac{\delta(y^0-x^0-|\mathbf{x}-\mathbf{y}|)}{2|\mathbf{x}-\mathbf{y}|}$$
+Pick out first term with Heaviside step function $H(x^0-y^0)$ to be $+1$ for $x^0>y^0$ and 0 for $x^0<y^0$, to get
+$$\delta(\eta_{\mu\nu}(x^\mu-y^\mu)(x^\nu-y^\nu))\Theta(x^0-y^0)=\frac{\delta(y^0-x^0+|\mathbf{x}-\mathbf{y}|)}{2|\mathbf{x}-\mathbf{y}|}$$
+This is Lorentz invariant since the delta function is non-zero only for null-separated $x^\mu$ and $y^\mu$, and the temporal ordering of such events is Lorentz invariant. Rewriting $A^\mu(t,\mathbf{x})=\frac{\mu_0}{4\pi}\int\frac{J^\mu(t_{ret},\mathbf{x'})d^3x'}{|\mathbf{x}-\mathbf{y}|}$ in Lorentz covariant form:
+\begin{eqnarray}
+A^\mu(x)&=&\frac{\mu_0}{4\pi}\int\int\frac{\delta(y^0-ct_{ret})}{|\mathbf{x}-\mathbf{y}|}J^\mu(y)d^3\mathbf{y}dy^0\nonumber\\&=&\frac{\mu_0}{4\pi}\int\frac{\delta(y^0-x^0+|\mathbf{x}-\mathbf{y}|)}{|\mathbf{x}-\mathbf{y}|}J^\mu(y)d^4y\nonumber\\&=&\frac{\mu_0}{2\pi}\int\delta(\eta_{\mu\nu}(x^\mu-y^\mu)(x^\nu-y^\nu))\Theta(x^0-y^0)J^\mu(y)d^4y\nonumber\\&=&\frac{\mu_0}{2\pi}\int_{w_x^-}J^\mu(y)d^3y\nonumber
+\end{eqnarray}
+where $d^4y=d^3\mathbf{y}dy^0$ is a Lorentz-invariant measure.
+\end{proof}
+We now consider radiation from a single point charge moving arbitrarily and relax the assumption of non-relativistic motion.
+\begin{prop}
+Consider a relativistic point particle of charge $q$, moving along a worldline $y^\mu(\tau)$ in spacetime, where $\tau$ is proper time. The Lienard-Weichert potential in covariant form is
+$$A^\mu(x)=\frac{\mu_0qc}{4\pi}\frac{\dot{y}^\mu(\tau_*)}{|R^\nu(\tau_*)\dot{y}_\nu(\tau_*)|}$$
+\end{prop}
+\begin{proof}
+The current 4-vector for a point particle can be written covariantly as
+$$J^\mu(x)=qc\int\delta^{(4)}(z-y(\tau))\dot{y}^\mu(t)d\tau$$
+and hence the retarded potential is
+$$A^\mu(x)=\frac{\mu_0qc}{4\pi}\int\delta^{(4)}(z-y(\tau))\dot{y}^\mu(\tau)\frac{\delta(x^0-z^0-|\mathbf{x}-\mathbf{z}|)}{|\mathbf{x}-\mathbf{z}|}d\tau d^4z=\frac{\mu_0qc}{4\pi}\int\dot{y}^\mu(\tau)\frac{\delta(x^0-y^0(\tau)-|\mathbf{x}-\mathbf{y}(\tau)|)d\tau}{|\mathbf{x}-\mathbf{y}(\tau)|}$$
+We want to write this covariantly. Previously, we showed that 
+$$\frac{\delta(x^0-y^0(\tau)-|\mathbf{x}-\mathbf{y}(\tau)|)}{|\mathbf{x}-\mathbf{y}(\tau)|}=2\Theta(R^0(\tau))\delta(\eta_{\mu\nu}R^\mu(\tau)R^\nu(\tau))$$
+where $R^\mu(\tau)=x^\mu-y^\mu(\tau)$. This picks the unique value of proper time when the charge's worldline intersects the past lightcone of $x^\mu$. Using $\frac{d}{d\tau}[\eta_{\mu\nu}R^\mu(\tau)R^\nu(\tau)]=-2\eta_{\mu\nu}R^\mu(\tau)\dot{y}^\nu(\tau)$ and a delta function identity, we have
+$$\delta(\eta_{\mu\nu}R^\mu(\tau)R^\nu(\tau))\Theta(R^0(\tau))=\frac{1}{2}\frac{\delta(\tau-\tau^*)}{|R^\mu(\tau_*)\dot{y}_\mu(\tau_*)|}$$
+Thus, the Lienard-Weichart potential (valid for arbitrary source) is 
+\begin{eqnarray}
+A^\mu(x)&=&\frac{\mu_0qc}{4\pi}\int\frac{\dot{y}^\mu(\tau)\delta(x^0-y^0(\tau)-|\mathbf{x}-\mathbf{y}(\tau)|)d\tau}{|\mathbf{x}-\mathbf{y}(\tau)|}\nonumber\\&=&\frac{\mu_0qc}{2\pi}\int\dot{y}^\mu(\tau)\Theta(R^0(\tau))\delta(\eta_{\mu\nu}R^\mu(\tau)R^\nu(\tau))d\tau\nonumber\\&=&\frac{\mu_0qc}{4\pi}\int\dot{y}(\tau)\frac{\delta(\tau-\tau^*)d\tau}{|R^\nu(\tau_*)\dot{y}_\nu(\tau^*)|}\nonumber\\&=&\frac{\mu_0qc}{4\pi}\frac{\dot{y}^\mu(\tau_*)}{|R^\nu(\tau_*)\dot{y}_\nu(\tau_*)|}\nonumber
+\end{eqnarray}
+\end{proof}
+\begin{cor}
+If we were to pick some inertial frame, then the Lieinard-Weichart potential is written as
+$$\phi(t,\mathbf{x})=\frac{q}{4\pi\varepsilon_0R(\tau_*)(1-\mathbf{\hat{R}}(\tau_*)\cdot\mathbf{v}(\tau_*)/c)},\quad\mathbf{A}(t,\mathbf{x})=\frac{\mu_0q\mathbf{v}(\tau_*)}{4\pi R(\tau_*)(1-\mathbf{\hat{R}}(\tau_*)\cdot\mathbf{v}(\tau_*)/c)}$$
+\end{cor}
+\begin{proof}
+We have $\dot{y}^\mu(\tau_*)=\gamma(\tau_*)(c,\mathbf{v}(\tau_*))$, where $\mathbf{v}(\tau_*)$ is the 3-velocity at proper time $\tau_*$ and $\gamma(\tau_*)$ is the associated Lorentz factor. Furthermore, $R^\mu(\tau_*)=(c\Delta t(\tau_*),\mathbf{R}(\tau_*))$, where $\Delta t(\tau_*)$ is the time difference between the current event and the time the charge intersected the past light cone, and the separation vector is  $\mathbf{R}(\tau_*)=\mathbf{x}-\mathbf{y}(\tau_*)$. Note that $c\Delta t(\tau_*)=|\mathbf{R}(\tau_*)|=R(\tau_*)$. We have
+$$R^\nu\dot{y}_\nu=\gamma(c^2\Delta t-Rv)\implies|R^\nu(\tau_*)\dot{y}_\nu(\tau_*)|=c\gamma(\tau_*)R(\tau_*)(1-\mathbf{\hat{R}}(\tau_*)\cdot\mathbf{v}(\tau_*)/c)$$
+Plug all of these into the Lienard-Weichart potential and write out the space-time components. 
+\end{proof}
+\begin{remarks}
+If we adopt an inertial rest frame at $\tau_*$, the Lienard-Weichert potentials simplify to
+$$\mathbf{A}(t,\mathbf{x})=0,\quad\phi(t,\mathbf{x})=\frac{q}{4\pi\varepsilon_0R_{\text{rest}}(\tau_*)}$$
+where $R_{\text{rest}}(\tau_*)$ is the distance between the observation point and $y^\mu(\tau_*)$ in this rest frame. As expected for a stationary point charge. In the frame where the charge is not at rest at $\tau_*$, but moving non-relativistically, the vector potential is approximately $\mathbf{A}(t,\mathbf{x})\approx\frac{\mu_0q\mathbf{v}(\tau_*)}{4\pi R(\tau_*)}$, consistent with the dipole approximation.
+\end{remarks}
+\begin{prop}
+The electromagnetic field strength tensor of the Lienard potential is
+$$F_{\mu\nu}=-\frac{\mu_0qc}{4\pi(cR_{\text{rest}})}\bigg(\frac{R_\mu\ddot{y}_\nu-R_\nu\ddot{y}_\mu}{(cR_{\text{rest}})}+\frac{(R_\mu\dot{y}_\nu-R_\nu\dot{y}_\mu)}{(cR_{\text{rest}})^2}(c^2+R^\alpha\ddot{y}_\alpha)\bigg)$$
+\end{prop}
+\begin{proof}
+The field strength tensor is defined as $F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu$. Take the spacetime derivative of the Lienard potential:
+$$\partial_\mu A_\nu=\frac{\mu_0qc}{4\pi}\partial_\mu\bigg[\frac{\dot{y}_\nu(t_*)}{|R^\beta\dot{y}_\beta|}\bigg]=\frac{\mu_0qc}{4\pi}\bigg[\frac{(\partial_\mu\dot{y}_\nu(\tau_*)}{|R^\beta\dot{y}_\beta|}-\frac{\dot{y}_\nu(\tau_*)}{|R^\beta\dot{y}_\beta|^2}\partial_\mu(R^\beta(\tau_*)\dot{y}_\beta(\tau_*))\bigg]$$
+where we need $R^\alpha=x^\alpha-y^\alpha(\tau_*)$, $\dot{y}^\nu(\tau_*)\dot{y}_\nu(\tau_*)=-c^2$, $0=\eta_{\alpha\beta}R^\alpha(\tau_*)R^\beta(\tau_*)$ and the following derivative results:
+$$\partial_\mu\dot{y}_\nu(\tau_*)=\ddot{y}_\nu(\tau_*)\partial_\mu\tau_*$$
+\begin{align}
+    \partial_\mu[R^\nu(\tau_*)\dot{y}_\nu(\tau_*)]&=[\delta^\nu_\mu-\dot{y}^\nu(\tau_*)\partial_\mu\tau_*]\dot{y}_\nu(\tau_*)+R^\nu(\tau_*)\ddot{y}_\nu(\tau_*)\partial_\mu\tau_*\nonumber\\&=\partial_\mu\tau_*\bigg(R^\nu(\tau_*)\ddot{y}_\nu(\tau_*)-\dot{y}^\nu(\tau_*)\dot{y}_\nu(\tau_*)+\dot{y}_\mu(\tau_*)\bigg)\nonumber\\&=\partial_\mu\tau_*\bigg[c^2+R^\nu(\tau_*)\ddot{y}_\nu(\tau_*)\bigg]+\dot{y}_\mu(\tau_*)\nonumber
+\end{align}
+$$0=\eta_{\alpha\beta}(\partial_\mu(x^\alpha-y^\alpha(\tau_*)))R^\beta(\tau_*)=\eta_{\alpha\beta}(\delta^\alpha_\mu-\dot{y}^\alpha(\tau_*)\partial_\mu\tau_*)R^\beta(\tau_*)\implies\partial_\mu\tau_*=\frac{R_\mu(\tau_*)}{R^\nu(\tau_*)y_\nu(\tau_*)}$$
+Combining all the results, we have
+\begin{align}
+    \partial_\mu A_\nu&=\frac{\mu_0qc}{4\pi}\bigg[\ddot{y}_\nu(\tau_*)\frac{R_\mu}{|R^\beta y_\beta|^2}-\frac{\dot{y}_\nu(\tau_*)}{|R^\beta\dot{y}_\beta|^3}R_\mu(c^2+R^\beta(\tau_*)\ddot{y}_\beta(\tau_*))-\frac{\dot{y}_\nu(\tau_*)\dot{y}_\mu(\tau_*)}{|R^\beta\dot{y}_\beta|^2}\bigg]\nonumber\\&=\frac{\mu_0qc}{4\pi(cR_{\text{rest}})}\bigg[\frac{R_\mu\ddot{y}_\nu}{cR_{\text{rest}}}-\frac{\dot{y}_\nu\dot{y}_\mu}{cR_{\text{rest}}}-\frac{\dot{y}_\nu R_\mu}{(cR_{\text{rest}})^2}(c^2+R^\beta(\tau_*)\ddot{y}_\beta(\tau_*))\bigg]\nonumber
+\end{align}
+where $-R^\mu(\tau_*)\dot{y}_\mu(\tau_*)=cR_{\text{rest}}$. Anti-symmetrize the result ($\mu\leftrightarrow\nu$) to find the desired $F_{\mu\nu}$.
+\end{proof}
+\newpage
+\begin{remarks}\leavevmode
+\begin{enumerate}
+    \item The term with $1/R$ dependence depends on the 4-acceleration, while the term with $1/R^2$ dependence depends on the 4-velocity. The former describes radiation while the latter describes the field generated from a charge moving uniformly with the same velocity at $\tau_*$.
+    \item The electric and magnetic fields can be obtained by noting that the 4-acceleration in a general inertial frame is
+    $$\ddot{y}^\mu=\gamma^2\bigg(\frac{\gamma^2}{c}\mathbf{v}\cdot\mathbf{a},\frac{\gamma^2}{c^2}(\mathbf{a}\cdot\mathbf{v})\mathbf{v}+\mathbf{a}\bigg)$$
+    Then the fields are
+    $$\mathbf{E}(t,\mathbf{x})=\frac{q}{4\pi\varepsilon_0(1-\mathbf{v}\cdot\mathbf{\hat{R}}/c)^3}\bigg(\frac{\mathbf{\hat{R}}-\mathbf{v}/c}{\gamma^2R^2}+\frac{\mathbf{\hat{R}}\times[(\mathbf{\hat{R}}\times[(\mathbf{\hat{R}}-\mathbf{v}/c)\times\mathbf{a}]}{Rc^2}\bigg),\quad\mathbf{B}(t,\mathbf{x})=\frac{1}{c}\mathbf{\hat{R}}(\tau_*)\times\mathbf{E}(t,\mathbf{x})$$
+    \item The angular dependence of the electric field is given by $\mathbf{\hat{R}}\times[(\mathbf{\hat{R}}-\mathbf{v}/c)\times\mathbf{a}]$. Due to the $v/c$ correction, the angular dependence is more complicated than for the dipole radiation. However, it does simplify to those derived in the dipole approximation in the non-relativistic limit.
+\end{enumerate}
+\end{remarks}
+\begin{eg}[Fields of charge in uniform motion]
+Consider a charge $q$ moving with velocity $\mathbf{v}$ such that its position at time $t$ is $\mathbf{y}(t)=\mathbf{v}t$. The potentials at $(ct,\mathbf{x})$ are generated at the earlier time $t_*$, such that the spatial separation $\mathbf{R}=\mathbf{x}-\mathbf{v}t_*$ and temporal separation $\Delta t=t-t_*$ satisfies $c\Delta t=|\mathbf{x}-\mathbf{v}t_*|$. The charge's current position is $\mathbf{r}=\mathbf{x}-\mathbf{v}t$, and so $c\Delta r=|\mathbf{r}+\mathbf{v}\Delta t|$ and $\mathbf{R}=\mathbf{r}+\mathbf{v}\Delta t$. Solve for $\Delta t$ to find:
+$$c\Delta t=|\mathbf{r}+\mathbf{v}\Delta t|\implies c\Delta t/\gamma^2=\mathbf{r}\cdot\mathbf{v}/c+\sqrt{(\mathbf{r}\cdot\mathbf{v})^2/c^2+r^2/\gamma^2},\quad\Delta t>0$$
+Since $R=c\Delta t$,
+$$R-\mathbf{R}\cdot\mathbf{v}/c=R-\mathbf{r}\cdot\mathbf{v}/c-v^2\Delta t/c=c\Delta t/\gamma^2-\mathbf{r}\cdot\mathbf{v}/c=\sqrt{(\mathbf{r}\cdot\mathbf{v})^2/c^2+r^2/\gamma^2}$$
+Hence, the potentials are
+$$\phi(t,\mathbf{x})=\frac{\gamma q}{4\pi\varepsilon_0\sqrt{r^2+\gamma^2(\mathbf{r}\cdot\mathbf{v})^2/c^2}},\quad\mathbf{A}(t,\mathbf{x})=\frac{\mu_0\gamma q\mathbf{v}}{4\pi\sqrt{r^2+\gamma^2(\mathbf{r}\cdot\mathbf{v})^2/c^2}}$$
+Compute the fields, where $\mathbf{r}=\mathbf{x}-\mathbf{v}t$:
+$$\mathbf{E}=-\frac{\partial\mathbf{A}}{\partial t}-\boldsymbol{\nabla}\phi=\frac{q\gamma\mathbf{r}}{4\pi\varepsilon_0[\gamma^2(\mathbf{r}\cdot\mathbf{v})^2/c^2+r^2]^{3/2}},\quad\mathbf{B}=\mathbf{v}\times\mathbf{E}/c^2$$
+The $E$-field is radially out of the current position of the charge, and the magnetic field is azimuthal. For $\mathbf{r}$ along the direction of motion, the field is smaller by a factor of $1/\gamma^2$ than for a charge at rest at the current position, while perpendicular to this the field is enhanced by a factor of $\gamma$. The field lines are thus concentrated close to the plane perpendicular to the motion for a rapidly moving particle.
+\end{eg}
+\subsection{Larmor and Lienard formulae}
+\begin{prop}
+For a point particle following a trajectory $\mathbf{x}(t)$, the dipole is $\mathbf{p}(t)=q\mathbf{x}(t)$. The power radiated through a sphere of radius $R$ (centre at $\mathbf{x}(t-R/c)$ is
+$$P(t)=\frac{\mu_0}{6\pi c}|\mathbf{\ddot{p}}(t-R/c)|^2=\frac{\mu_0q^2}{6\pi c}|\mathbf{a}(t-R/c)|^2$$
+where $\mathbf{a}$ is the acceleration. The dipole approximation is valid for $v=|\mathbf{\dot{x}}|<<c$. This is the radiation emitted by the acceleration of charges.
+\end{prop}
+\begin{eg}
+Consider the example of the instability of the classical Hydrogen atom. The equation of motion is
+$$m_e\mathbf{\ddot{x}}=-\frac{e^2}{4\pi\varepsilon_0r^2}\mathbf{\hat{x}},\quad r=|\mathbf{x}|$$
+The electron moves in the Coulomb field of the nucleus. So,
+$$P(t)=\frac{\mu_0}{6\pi c}\bigg(\frac{e^3}{4\pi\varepsilon_0m_er^2}\bigg)^2$$ For simplicity, we assume the electron moves in a classical orbit, then the energy is
+$$E=\frac{1}{2}m_e|\mathbf{\dot{x}}|^2-\frac{e^2}{4\pi\varepsilon_0r}=-\frac{e^2}{4\pi\varepsilon_02r}\implies\frac{dE}{dt}=\frac{e^2\dot{r}}{8\pi\varepsilon_0r^2}$$
+which is the negative power $-P$. The radius $r(t)$ decreases as energy is lost during the emission, at a rate
+$$\dot{r}=-\frac{\mu_0e^4}{12\pi^2c\varepsilon_0m_e^2r^2}$$
+hence the time taken for the electron to fall to the centre is
+$$T=\int_0^tdt=\int_{r_0}^0\frac{1}{\dot{r}}dr=\frac{4\pi^2c\varepsilon_0m_e^2r_0^3}{\mu_0e^4}\approx10^{-11}s$$
+for $r_0=5\times10^{-11}$m. Hence, the classical atom is unstable.
+\end{eg}
+\begin{prop}[Relativistic Larmor formula or Lienard formula]
+The rate at which energy is radiated by an arbitrarily moving point charge is
+$$\frac{dE}{dt}=\frac{\mu_0q^2\gamma^4}{6\pi c}[a^2+\gamma^2(\mathbf{a}\cdot\mathbf{v}/c)^2]$$
+\end{prop}
+\begin{proof}
+In the instantaneous rest frame of the charge particle, the radiation part of the electric field on the forward lightcone through $y^\mu(\tau_*)$ is
+$$E(t,\mathbf{x})=\frac{q}{4\pi\varepsilon_0R_{\text{rest}}c^2}\mathbf{\hat{R}}\times(\mathbf{\hat{R}}\times\mathbf{a_{\text{rest}}})$$
+where $\mathbf{a_{\text{rest}}}$ is the 3-acceleration in the instantaneous rest frame. The Poynting vector is
+$$\mathbf{N}=\frac{1}{\mu_0}\mathbf{E}\times\mathbf{B}=\frac{1}{c\mu_0}\mathbf{E}\times(\mathbf{\hat{R}}\times\mathbf{E})=\frac{|\mathbf{E}|^2\mathbf{\hat{R}}}{c\mu_0}$$
+which is radial. The radiated power is obtained by integrating over a spherical surface of radius $R_{\text{rest}}$ at time $t$ (a section through the forward lightcone corresponding to a constant time surface in the instantaneous rest frame). Since the charge is at rest at $\tau_*$, the radiation emitted in proper time $d\tau$ around $\tau_*$ crosses this spherical surface in time $dt=d\tau$. The energy radiated in the instantaneous rest frame in proper time $d\tau$ is
+$$dE_{\text{rest}}=\int\mathbf{N}\cdot d\mathbf{S}d\tau=\frac{R_{\text{rest}}^2d\tau}{c\mu_0}\int|\mathbf{E}|^2d\Omega$$
+Taking the rest-frame acceleration to be along the $z$-axis, we have
+$$|\mathbf{\hat{R}}\times(\mathbf{\hat{R}}\times\mathbf{a_{\text{rest}}})|=\sin\theta|\mathbf{a_{\text{rest}}}|$$
+so that integrating over solid angle, we have $\frac{dE_{\text{rest}}}{d\tau}=\frac{\mu_0q^2|\mathbf{a_{\text{rest}}}|^2}{6\pi c}$. This is equivalent to obtaining the result from the dipole approximation in the instantaneous rest frame by relating $\mathbf{\ddot{p}}\rightarrow q\mathbf{a_{\text{rest}}}$. Now consider the 4-momentum radiated in time $d\tau$. Since equal power is emitted along $\mathbf{\hat{R}}$ and $-\mathbf{\hat{R}}$ in the instantaneous rest frame, the total 3-momentum of the radiation is zero. We have the 4-momentum vector to be
+$$dP^\mu=d\tau\bigg(\frac{1}{c}\frac{dE_{\text{rest}}}{d\tau},\vec{0}\bigg)$$
+in the rest frame. Lorentz transforming to an inertial frame in which the charge has velocity $\mathbf{v}(\tau_*)$ at $\tau_*$, then
+$$\frac{dE'}{c}=dP'^0=\gamma(\tau_*)dP^0=\frac{\gamma(\tau_*)d\tau}{c}\frac{dE_{\text{rest}}}{d\tau}$$
+The time elapsed nbetween the events $y^\mu(\tau_*)$ and $y^\mu(\tau_*+d\tau)$ in the general frame is $dt'=\gamma(\tau_*)d\tau$ by time dilation, hence
+$$\frac{dE'}{dt'}=\frac{dE_{\text{rest}}}{d\tau}$$
+i.e. the rate at which energy is radiated by the accelerated charge is Lorentz invariant and so the instantaneous power radiated in a general inertial frame is $\frac{dE}{dt}=\frac{\mu_0q^2a_\mu a^\mu}{6\pi c}$, where $a^\mu$ is the acceleration 4-vector.
+\end{proof}
+\subsection{Examples of radiation}
+\begin{remarks}
+In a general frame, the energy per solid angle per coordinate time at the source is
+$$\frac{dE}{dtd\Omega}=\frac{1}{c\mu_0}\bigg(1-\frac{\mathbf{v}\cdot\mathbf{\hat{R}}}{c}\bigg)|\mathbf{E}|^2R^2=\frac{\mu_0q^2}{(4\pi)^2c}\frac{|\mathbf{\hat{R}}\times[(\mathbf{\hat{R}}-\mathbf{v}/c)\times\mathbf{a}]|^2}{(1-\mathbf{v}\cdot\mathbf{\hat{R}}/c)^5}$$
+Clearly, it is simpler to work in the instantaneous rest frame.
+\end{remarks}
+\begin{eg}[Bremsstrahlung radiation]
+Suppose a particle is travelling in a straight line, with velocity $\mathbf{v}$ parallel to acceleration $\mathbf{a}$. When it decelerates, it emits radiation. The observer's position is at $\mathbf{x}$, the radiation is emitted from the retarded point on the particle's trajectory $\mathbf{r}(t')$. So, $\mathbf{R}(t')=\mathbf{x}-\mathbf{r}(t')$ and $\mathbf{\hat{R}}\cdot\mathbf{v}=v\cos\theta$. Since $\mathbf{v}\times\mathbf{a}=\boldsymbol{0}$, the angular dependence has a simple form
+$$\frac{dE}{dtd\Omega}=\frac{q^2a^2}{16\pi\varepsilon_0c^3}\frac{\sin^2\theta}{(1-(v/c)\cos\theta)^5}$$
+For $v<<c$, the radiation is largest in the direction $\theta\approx\pi/2$, i.e. perpendicular to the direction of travel. But, at relativistic speeds, the radiation is beamed in the forward direction in two lobes, one on either side of the particle's trajectory. By the relativistic Larmor formula, the total power emiited is $P=q^2\gamma^6a^2/6\pi\varepsilon_0c^3$.
+\end{eg}
+\begin{eg}[Cyclotron and Synchrotron radiation]
+Consider a particle of charge $q$ and mass $m$ moving in a circle with speed $v$ perpendicular to a magnetic field $B$. The acceleration has magnitude $=\omega_Bv=\frac{qBv}{\gamma m}$ and is perpendicular to $\mathbf{v}$. The total instantaneous power radiated is $dE/dt=\frac{\mu_0}{6\pi c}(q^2B\gamma v/m)^2$, proportional to the square of the 3-momentum of the particle.\\[5pt]
+Set $\mathbf{\hat{R}}=\sin\theta\cos\phi\mathbf{\hat{x}}+\sin\theta\sin\phi\mathbf{\hat{y}}+\cos\theta\mathbf{\hat{z}}$, the angular dependence of the emitted radiation is
+$$\frac{dE}{dtd\Omega}=\frac{q^2a^2}{16\pi\varepsilon_0c^3}\frac{1}{(1-(v/c)\cos\theta)^3}\bigg(1-\frac{\sin^2\theta\cos^2\phi}{\gamma^2(1-(v/c)\cos\theta)^2}\bigg)$$
+At non-relativistic speeds, $v<<c$, the angular dependence takes the simpler form $(1-\sin^2\theta\cos^2\phi)$. This is the cyclotron radiation. In the relativistic limit, $v\rightarrow c$, the radiation is beamed mostly in the forward direction. This is the cyclotron radiation. The total power, for either case, is $P=q^2\gamma^4a^2/6\pi\varepsilon_0c^3$.\\[5pt]
+The factors of $1-\mathbf{v}\cdot\mathbf{\hat{R}}/c$ in the denominator of the emitted power results in it to be concentrated (beamed) into a narrow range of solid angles around the instantaneous velocity. For a relativistic power with $\gamma>>1$, the cone has opening angle $\sim1/\gamma$. Only observers in the plane of the particle's orbit will observe significant radiation. Due to the beaming, the periodic observed radiation will be received in short pulses. Each pulse is emitted with duration $\Delta t_*$ at source such that the particle moves through an angle equal to twice the opening angle of the beamed radiation pattern, i.e. $\omega_B\Delta t_s=2/\gamma$. The duration of the pulse is $\Delta t\approx1/\gamma^3\omega$, i.e. a broad frequency spectrum of radiation up to $\gamma^3$ times its orbital frequency $\omega_B$.
+\end{eg}
+\newpage
+\begin{remarks}[Cyclotron radiation]
+For cyclotron radiation, the dipole approximation holds ($\lambda=2\pi c/\omega_B>>v/\omega_B=R$), and the circular motion cna be described by the superposition of two perpendicular Hertzian dipoles oscillating in quadrature. The fields of the individual dipoles can be superposed. Since the two dipoles here are $\pi/2$ out of phase, the time-averaged Poynting fluxes add, i.e. $\langle P\rangle=2\frac{\omega_B^4p_0^2}{12\pi\varepsilon_0c^3}$. The polarisation state of the radiation depends on the direction of emission.
+\begin{itemize}
+    \item in the equatorial plane (the plane of the circular orbit) only one component of the circular dipole is effective, so the radiation is plane-polarized in that plane;
+    \item in the polar directions, both components contribute equally in amplitude but $\pi/2$ out of phase, so the radiation is circularly polarized;
+    \item in other directions, the radiation is elliptically polarized.
+\end{itemize}
+\end{remarks}
+\begin{remarks}[Synchrotron radiation]
+The characteristic wavelength emitted $\lambda_s<<R\rightarrow c/\omega_B$, so the rotating dipole picture in frame $S$ do not apply. The radiated fields are not harmonically time-varying as for the cyclotron case. A continuum of frequencies centred on $c/\lambda_s$ is emitted. In the instantaneous rest frame, $\boldsymbol{\alpha}$ is constant, not oscillatory. The previous picture in the instantaneous rest frame still holds, and the instantaneous radiated power is given by the Larmor formula
+$$P=\frac{\mu_0e^2|\boldsymbol{\alpha}|^2}{6\pi c}$$
+The angular distribution of the radiated power in the instantaneous rest frame $S'$ is
+$$G(\theta',\phi')\propto1-\sin^2\theta'\cos^2\phi'$$
+In the laboratory frame $S$, the angular distribution of the radiated power depends on the relative orientation between $\boldsymbol{\beta}$ and $\boldsymbol{\dot{\beta}}$. The factor $1-\boldsymbol{\beta}\cdot\mathbf{n}$ in the denominator results in a strong forward focusing of the emitted radiation in a direction $\mathbf{n}\parallel\boldsymbol{\beta}$. 
+\begin{itemize}
+    \item As $\beta$ increases, the radiated power becomes more closely confined to the forward direction, the direction of motion, and the rearward lobe becomes relatively weaker.
+    \item At highly relativistic speeds $\gamma>>1$, the angle separating the rearward and forward lobes $\rightarrow1/\gamma$. So a stationary observer receives radiation only when the angle between the observer's line of sight to the particle and the particle's velocity is $<1/\gamma$, i.e. when the observer's line of sight is approximately tangential to the particle's circular path.
+\end{itemize}
+Radiation emitted by a relativistic charged particle reaches a stationary observer O only from the sector AB (of length $2R/\gamma$) of the particle's orbit. O first receives radiation from the point A (source moving towards observer), emitted at time $t_A$, at a time $t_A+\frac{d+R/\gamma}{c}$. The end of the pulse, emitted at time $t_B=t_A+2R/\gamma v$, is detected at time $t_B+\frac{d-R/\gamma}{c}$. The duration $\Delta t$ of the pulse is
+$$\Delta t\sim\frac{1}{c}\bigg(d-\frac{R}{\gamma}-d-\frac{R}{\gamma}\bigg)+\frac{2R}{\gamma v}=\frac{2}{\gamma\omega_B}\bigg(1-\frac{v}{c}\bigg)\sim\frac{1}{\gamma^3\omega_B}$$
+\end{remarks}
+\begin{eg}
+Synchrotron radiation produces significant energy loss and thus limits the energy that can be reached in circular accelerators. For high $\gamma$, $\nu_s>>\omega_B\rightarrow c/R$ producing hard X-rays and a broad continuum at lower frequencies. Synchrotrons are thus used as a powerful source of highly collimated X-rays for spectroscopy and diffraction studies. 
+\end{eg}
 \end{document}

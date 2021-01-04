@@ -299,7 +299,7 @@ A star ejects atomic hydrogen in the form of a thin luminous gaseous shell. A Mi
 \end{figure}
 \end{qns}
 \begin{ans}
-The power spectrum $P(\omega)$ is related to the Fourier transform of the visibility $\mathcal{F}[V(\tau)]$ where $\tau$ is related to the path difference $c\tau$. If the shell of the star is not expanding, the power spectrum will just be a Gaussian due to thermal broadening with linewidth $2.36\sigma$, where $\sigma=\frac{\omega_0}{c}\sqrt{\frac{k_BT}{m}}$. The expansion causes an overall shift in frequency due to the Doppler effect $\Delta\omega=\frac{\omega_0v}{c}$ where $v$ is the velocity of the expansion. This is manifested in the power spectrum by a shift in $\omega$-space, i.e. convolve the centred Gaussian with a pair of delta functions $\delta(\omega_0-\Delta\omega)+\delta(\omega_0+\Delta\omega)$. The power spectrum is then
+By the Wiener-Khinchine theorem, the power spectrum $P(\omega)$ is related to the Fourier transform of the visibility $\mathcal{F}[V(\tau)]$ where $\tau$ is related to the path difference $c\tau$. If the shell of the star is not expanding, the power spectrum will just be a Gaussian due to thermal broadening with linewidth $2.36\sigma$, where $\sigma=\frac{\omega_0}{c}\sqrt{\frac{k_BT}{m}}$. The expansion causes an overall shift in frequency due to the Doppler effect $\Delta\omega=\frac{\omega_0v}{c}$ where $v$ is the velocity of the expansion. This is manifested in the power spectrum by a shift in $\omega$-space, i.e. convolve the centred Gaussian with a pair of delta functions $\delta(\omega_0-\Delta\omega)+\delta(\omega_0+\Delta\omega)$. The power spectrum is then
 $$P(\omega)\sim e^{-\omega^2/2\sigma}*\bigg[\delta(\omega_0-\Delta\omega)+\delta(\omega_0+\Delta\omega)\bigg]$$
 giving a visibility profile of
 $$V(\tau)\sim e^{-\sigma^2\tau^2/2}\cos(\Delta\omega~\tau)$$
@@ -376,7 +376,9 @@ The general procedure is to first check $\mathbf{B}$ satisfies $\boldsymbol{\nab
 \begin{enumerate}[label=(\alph*)]
 \item We see that this given magnetic field is not physical: 
 \begin{align}
-    \boldsymbol{\nabla}\cdot\mathbf{B}&=B_0b\bigg[\frac{\partial}{\partial x}\bigg(\frac{(x-y)z}{r^3}\bigg)+\frac{\partial}{\partial y}\bigg(\frac{(x-y)z}{r^3}\bigg)+\frac{\partial}{\partial z}\bigg(\frac{x^2-y^2}{r^3}\bigg)\bigg]\nonumber\\&=B_0b\bigg[\frac{z}{r^3}-\frac{3x^2z}{r^4}+\frac{3xyz}{r^4}-\frac{3xzy}{r^4}-\frac{z}{r^3}+\frac{3y^2z}{r^4}-\frac{3x^2z}{r^4}-\frac{3y^2z}{r^4}\bigg]\nonumber\\&=B_0b\bigg(-\frac{6x^2z}{r^4}\bigg)\neq 0\nonumber
+    \boldsymbol{\nabla}\cdot\mathbf{B}&=B_0b\bigg[\frac{\partial}{\partial x}\bigg(\frac{(x-y)z}{r^3}\bigg)+\frac{\partial}{\partial y}\bigg(\frac{(x-y)z}{r^3}\bigg)+\frac{\partial}{\partial z}\bigg(\frac{x^2-y^2}{r^3}\bigg)\bigg]\nonumber\\
+    &=B_0b\bigg[\frac{z}{r^3}-\frac{3x^2z}{r^5}+\frac{3xyz}{r^5}-\frac{z}{r^3}-\frac{3xzy}{r^5}+\frac{3y^2z}{r^5}+\frac{x-y}{r^3}-\frac{3z^2x}{r^5}+\frac{3z^2y}{r^5}\bigg]\nonumber\\
+    &=B_0b\bigg[-\frac{3x^2z}{r^5}+\frac{3y^2z}{r^5}+\frac{x-y}{r^3}-\frac{3z^2x}{r^5}+\frac{3z^2y}{r^5}\bigg]\neq 0\nonumber
 \end{align}
 \item This field is physical!
 $$\boldsymbol{\nabla}\cdot\mathbf{B}=B_0b^2\bigg[\frac{1}{r}\frac{\partial}{\partial r}\bigg(\frac{r^2z}{(b^2+z^2)^2}\bigg)+\frac{\partial}{\partial z}\bigg(\frac{1}{b^2+z^2}\bigg)\bigg]=B_0b^2\bigg[\frac{1}{r}\frac{2rz}{(b^2+z^2)^2}-\frac{2z}{(b^2+z^2)^2}\bigg]=0$$
@@ -422,15 +424,20 @@ A magnetic dipole at the origin lies in the x-y-plane and is rotating at constan
 \end{qns}
 \begin{ans}\leavevmode
 \begin{enumerate}[label=(\alph*)]
-\item We have $\mathbf{n}$ to be the unit vector, pointing in the direction from the origin to the point of interest. The magnetic dipole is
+\item We have $\mathbf{n}$ to be the unit vector in spherical coordinates, pointing in the direction from the origin to the point of interest. Due to axial symmetry, we have $\phi=0$, and so
+$$\mathbf{n}=\begin{pmatrix}\sin\theta\\0\\\cos\theta\\\end{pmatrix}$$
+The magnetic dipole is
 $$\mathbf{m}=\begin{pmatrix}m_0\cos\omega t\\m_0\sin\omega t\\0\\\end{pmatrix}$$
 The magnetic vector potential that corresponds to magnetic dipole radiation is
 $$\mathbf{A}=\frac{ik\mu_0}{4\pi}(\mathbf{n}\times\mathbf{m})\frac{e^{ikr}}{r}$$
 The magnetic and electric fields are
 $$\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}=\frac{\mu_0k^2}{4\pi}[(\mathbf{n}\times\mathbf{m})\times\mathbf{n}]\frac{e^{ikr}}{r},\quad\mathbf{E}=\frac{iZ_0}{k\mu_0}\boldsymbol{\nabla}\times\mathbf{B}=-\frac{Z_0k^2}{4\pi}(\mathbf{n}\times\mathbf{m})\frac{e^{ikr}}{r}$$
-\textcolor{red}{stuck}
-\item \textcolor{red}{stuck}
-
+We have
+$$\mathbf{E}(r,t)\propto(\mathbf{n}\times\mathbf{m})=\begin{pmatrix}\mathbf{\hat{x}}&\mathbf{\hat{y}}&\mathbf{\hat{z}}\\\sin\theta&0&\cos\theta\\m_0\cos\omega t&m_0\sin\omega t&0\\\end{pmatrix}=\begin{pmatrix}-m_0\cos\theta\sin\omega t\\m_0\cos\theta\cos\omega t\\m_0\sin\theta\sin\omega t\\\end{pmatrix}$$
+At special time points, we have
+$$\mathbf{E}(r,\omega t=0)\propto\begin{pmatrix}0\\m_0\cos\theta\\0\\\end{pmatrix},\quad\mathbf{E}(r,\omega t=\pi/2)\propto\begin{pmatrix}-m_0\cos\theta\\0\\m_0\sin\theta\\\end{pmatrix}$$
+When $\theta=\pi/2$, the radiation is linearly polarized with polarization axis along the $z$-axis. We have $\mathbf{E}(r,t)\propto(0,0,m_0\sin\omega t)$, i.e. the radiation field at a given radius is of constant amplitude.
+\item At $\theta\neq 0,\pi/2$, the radiation is elliptically polarized. Particularly, when $\theta=0$, the radiation is circularly polarized.
 \end{enumerate}
 \end{ans}
 \newpage
@@ -488,11 +495,15 @@ Estimate the number of molecules above each m$^2$ of the Earth’s surface. Henc
 [Assume that half of the radiation scattered still reaches the Earth’s surface and ignore multiple scattering.]
 \end{qns}
 \begin{ans}
+The number density profile is an exponential fall off, i.e.
+$$n=n_0e^{-mgh/k_BT},\quad n_0=\frac{N_A}{22.4\times10^{-3}m^{3}}\text{ at STP}$$
+The total number per unit area is
+$$N=n_0\int_0^\infty e^{-mgh/k_BT}dh=\frac{n_0k_BT}{mg}[e^{-mgh/k_BT}]_0^\infty=\frac{N_Ak_BT}{mg}\frac{1}{22.4\times10^{-3}m^3}=2.44\times10^{29}m^{-2}$$
 Using ideal gas law, we have
-$$\frac{N}{A}=\frac{0.5p_0h}{k_BT}=\frac{10^5(16000)}{2(1.38\times10^{-23})(288)}=2.01\times10^{29}$$
-where half of the radiation scattered reaches Earth. Since $\lambda=320 nm>>0.1 nm$ (radius of the scatterers), the type of scattering is Rayleigh scattering with cross-section $\sigma=\frac{8\pi^2\mu_0^2c^4\alpha^2}{3\lambda^4}$. The ratio of power lost to incoming power is
+$$\frac{N}{A}=\frac{0.5p_0h}{k_BT}=\frac{10^5(16000)}{2(1.38\times10^{-23})(288)}=2.01\times10^{29}\text{ atoms }m^{-2}$$
+where half of the radiation scattered reaches Earth. Since $\lambda=320 nm>>0.1 nm$ (radius of the scatterers), the type of scattering is Rayleigh scattering with cross-section $\sigma=\frac{8\pi^3\mu_0^2c^4\alpha^2}{3\lambda^4}$. The ratio of power lost to incoming power is
 \begin{align}
-    \frac{\langle P_{\text{lost}}\rangle}{\langle P_{\text{incoming}}\rangle}&=\frac{\langle P_{\text{scattered}}\rangle}{2\langle P_{\text{incoming}}\rangle}\nonumber\\&=\frac{\sigma N}{2A}\nonumber\\&=\frac{8\pi^2\mu_0^2c^4(4\pi r^3\varepsilon_0)^2}{3\lambda^4}\frac{N}{2A}\nonumber\\&=\frac{128\pi^4r^6}{3\lambda^4}\frac{N}{2A}\nonumber\\&=\frac{128\pi^4}{3}\frac{(0.1\times10^{-9})^6}{(320\times10^{-9})^4}\frac{1}{2}(2\times10^{29})\nonumber\\&=0.04\nonumber
+    \frac{\langle P_{\text{lost}}\rangle}{\langle P_{\text{incoming}}\rangle}&=\frac{\langle P_{\text{scattered}}\rangle}{2\langle P_{\text{incoming}}\rangle}\nonumber\\&=\frac{\sigma N}{2A}\nonumber\\&=\frac{8\pi^3\mu_0^2c^4(4\pi r^3\varepsilon_0)^2}{3\lambda^4}\frac{N}{2A}\nonumber\\&=\frac{128\pi^5r^6}{3\lambda^4}\frac{N}{2A}\nonumber\\&=\frac{128\pi^5}{3}\frac{(0.1\times10^{-9})^6}{(320\times10^{-9})^4}\frac{1}{2}(2.44\times10^{29})\nonumber\\&=0.15\nonumber
 \end{align}
 where $\alpha=4\pi r^3\varepsilon_0$ for a perfectly conducting sphere.
 \end{ans}
@@ -500,75 +511,211 @@ where $\alpha=4\pi r^3\varepsilon_0$ for a perfectly conducting sphere.
 Estimate the degree of polarization of the overhead sky at noon on a clear spring day (say March 21) in Cambridge.
 \end{qns}
 \begin{ans}
-The degree of polarization is
-$$P=\frac{I_{\text{pol}}}{I_{\text{tot}}}$$
-\textcolor{red}{stuck}
+At Cambridge, the latitude is $\phi=+53\degree$. At Equinox (Mar 21), we may ignore Earth's axial tilt. We are also given that the Sun is overhead and so sunlight arriving parallel to the equator, is scattered by the atmosphere through an angle $52$ degrees. The degree of polarization is
+$$\frac{I_{\text{max}}-I_{\text{min}}}{I_{\text{max}}+I_{\text{min}}}=\frac{1-\cos^2\phi}{1+\cos^2\phi}=0.454$$
+where $\phi$ is the latitude of the observer. 
 \end{ans}
 \newpage
 \section{Problem Sheet 3}
-\subsection*{Relativistic Electrodynamics and Radiation}
-\begin{qns}
-
+\subsection*{Relativistic Electrodynamics}
+\begin{qns}[4-vector]\leavevmode
+\begin{enumerate}[label=(\roman*)]
+\item Prove that the inner product $\mathbf{A}\cdot\mathbf{B}$ of two 4-vectors $\mathbf{A}$ and $\mathbf{B}$ is Lorentz invariant.
+\item Prove that if $\mathbf{A}\cdot\mathbf{B}$ is Lorentz invariant and $\mathbf{A}$ is a 4-vector, then $\mathbf{B}$ is also a 4-vector.
+\end{enumerate}
 \end{qns}
 \begin{ans}
+For this question, we explicitly demonstrate this using the convention for the Minkowski metric $\eta=\diag(+1,-1,-1,-1)$. The results will still hold even with the other convention choice.
+\begin{enumerate}[label=(\roman*)]
+\item The inner product of two four-vectors is explicitly given as
+$$A\cdot B=A_0B_0-A_1B_1-A_2B_2-A_3B_3$$
+The transformation of these four-vectors follow the Lorentz transformation:
+$$\Lambda=\begin{pmatrix}\gamma&-\gamma\beta&0&0\\-\gamma\beta&\gamma&0&0\\0&0&1&0\\0&0&0&1\\\end{pmatrix},\quad A'=\Lambda A=\begin{pmatrix}\gamma A_0-\gamma\beta A_1\\-\gamma\beta A_0+\gamma A_1\\A_2\\A_3\\\end{pmatrix},\quad B'=\Lambda B=\begin{pmatrix}\gamma B_0-\gamma\beta B_1\\-\gamma\beta B_0+\gamma B_1\\B_2\\B_3\\\end{pmatrix}$$
+so the inner product transforms like
+\begin{align}
+A'\cdot B'&=(\gamma A_0-\gamma\beta A_1)(\gamma B_0-\gamma\beta B_1)-(-\gamma\beta A_0+\gamma A_1)(-\gamma\beta B_0+\gamma B_1)-A_2B_2-A_3B_3\nonumber\\&=A_0B_0\gamma^2(1-\beta^2)-A_1B_1\gamma^2(-\beta^2+1)-A_2B_2-A_3B_3\nonumber\\&=A\cdot B\nonumber
+\end{align}
+Hence, the inner product is invariant under Lorentz transformation.
+\item Similarly, suppose $A\cdot B=A'\cdot B$, but we are only given that $A$ is a 4-vector and thus its transformation is given by the Lorentz transformation. We have
+$$A\cdot B=A_0B_0-A_1B_1-A_2B_2-A_3B_3$$
+$$A'\cdot B'=(\gamma A_0-\gamma\beta A_1)B_0'-(\gamma A_1-\gamma\beta A_0)B_1'-A_2B_2'-A_3B_3'$$
+Comparing coefficients give:
+$$B_3=B_3',\quad B_2=B_2',\quad -B_1=-\gamma\beta B_0'-\gamma B_1',\quad B_0=\gamma B_0'+\gamma\beta B_1'\implies B'=\Lambda B$$
+\end{enumerate}
+\end{ans}
+\newpage
+\begin{qns}[Maxwell's equations, relativistic kinematics]
+In the standard arrangement of co-ordinate frames, a slab of non-dispersive medium with refractive index $n$ is at rest in $S'$ and has thickness $d$ in the Oz' direction. In the laboratory frame $S$ the slab moves along the x-axis with speed $v = \beta c$.
+\begin{enumerate}[label=(\roman*)]
+\item Show that, for light moving through the slab parallel to its motion, the refractive index as determined in $S$ is:
+$$n_v=\frac{n+\beta}{n\beta+1}\approx n-(n^2-1)\beta \text{ for small }\beta$$
+\item Show that a ray of light falling on the slab at normal incidence in $S$ passes through the slab at an angle $\alpha=\sin^{-1}(\beta/n)$ to the Oz' axis as measured in $S'$. Hence show that in frame $S$ the ray is laterally displaced by a distance:
+$$a=\gamma d~\beta\frac{n^2-1}{\sqrt{n^2-\beta^2}}$$
+after passing through the slab. [$\gamma=1/\sqrt{1-\beta^2}$]
+\end{enumerate}
+\end{qns}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\roman*)]
+\item The refractive index of a medium can be obtained from the speed of the electromagnetic wave travelling in this medium. For simplicity, assume the medium is isotropic with refractive index $n$ in $S'$. The electromagnetic wave is a solution to the Maxwell's equations in this medium. For a sinusoidal solution (EM wave), we plug this to any one of the Maxwell's equation, say
+$$\boldsymbol{\nabla}\times\mathbf{E}=-\mathbf{\dot{B}}\implies ik\mathbf{E}=i\omega\mathbf{B}\implies E_x=\frac{\omega}{k}B_y=\frac{c}{n}B_y$$
+In frame $S'$, we thus have $E_x'/B_y'=c/n$. But the Maxwell's equations are covariant and must be true in all inertial frames. Hence, $E_x/B_y=c/n_v$ in frame $S$ for some $n_v$. The transverse electromagnetic fields (perpendicular to the boost in the $z$ direction) transform like
+$$E_x'=\gamma(E_x-vB_y),\quad B_y'=\gamma\bigg(B_y-\frac{v}{c^2}E_x\bigg)$$
+with
+$$\frac{c}{n}=\frac{E_x'}{B_y'}=\frac{E_x-vB_y}{B_y-(v/c^2)E_x}\implies\frac{E_x}{B_y}=\frac{c(1+n\beta)}{n+\beta}\implies n_v=\frac{n+\beta}{1+n\beta}\approx(n+\beta)(1-n\beta)=n-(n^2-1)\beta$$
+\item The ray is normal to the slab in frame $S$ but is inclined at an angle $\theta_i$ in frame $S'$. Since the slab is moving, we must have
+$$\sin\theta_i=\frac{v}{c}=\beta$$
+but staying in the rest frame of the slab, we apply Snell's Law
+$$n\sin\alpha=\sin\theta_i\implies\alpha=\sin^{-1}(\beta/n)$$
+The dimension of the slab perpendicular to the boost, i.e. its thickness, is unchanged. Since the angle of refraction is $\alpha$, then by geometry, the lateral displacement of the ray in the medium is
+$$\Delta x'=-d\tan\alpha=-\frac{\beta d}{\sqrt{n^2-\beta^2}}$$
+The time taken in frame $S'$ for the ray to travel from the top to the bottom is
+$$\Delta t'=\frac{\sqrt{d^2+(\Delta x')^2}}{c/n}=\sqrt{d^2+\frac{d^2\beta^2}{n^2-\beta^2}}\frac{n}{c}=\frac{dn^2}{c}\frac{1}{\sqrt{n^2-\beta^2}}$$
+Perform inverse Lorentz transformation to find this lateral displacement in frame $S$:
+$$\Delta x=\gamma(\Delta x'+\beta c\Delta t')=\gamma\bigg[\frac{-\beta d}{\sqrt{n^2-\beta^2}}+\frac{\beta n^2d}{\sqrt{n^2-\beta^2}}\bigg]=\frac{\gamma\beta d}{\sqrt{n^2-\beta^2}}(n^2-1)$$
+\end{enumerate}
+\end{ans}
+\newpage
+\begin{qns}[Maxwell's equations, relativistic kinematics]
+A particle with charge $q$ and rest mass $m$ moves in an electric field $\mathbf{E}$ and magnetic field $\mathbf{B}$. Show that its 4-velocity is $(\gamma c,\mathbf{\tilde{u}}c)$, where $\frac{d\mathbf{r}}{d\tau}=c\tilde{\mathbf{u}}$ and $\tau$ is the proper time measured by an observer moving with the particle. [Note that $\tilde{\mathbf{u}}$ is not the 3-velocity $\mathbf{u}$.]\\[5pt]
+Show also that the particle’s equation of motion can be written in the form
+\begin{align}
+    \frac{d\tilde{u}}{d\tau}&=\frac{q}{mc}(\gamma\mathbf{E}+c\tilde{\mathbf{u}}\times\mathbf{B})\nonumber\\
+    \frac{d\gamma}{d\tau}&=\frac{q}{mc}\mathbf{E}\cdot\mathbf{\tilde{u}}\nonumber
+\end{align}
+\end{qns}
+\begin{ans}
+The 4-position is defined as $X=(ct,\mathbf{x})$, where $\mathbf{x}$ is the 3-position. The 4-velocity is then defined to be $U=dX/d\tau$, where $\tau$ is the proper time.
+$$U=\begin{pmatrix}c\frac{dt}{d\tau}\\\frac{d\mathbf{x}}{d\tau}\\\end{pmatrix}=\begin{pmatrix}\gamma c\\\mathbf{\tilde{u}}c\\\end{pmatrix}$$
+where $dt/\gamma=d\tau$ follows from the definition of proper time. After extremizing some action (which we will omit the proof), one obtain the equation of motion in terms of the electromagnetic field strength tensor:
+\begin{align}
+m\frac{dU}{d\tau}&=qF^{\alpha\beta}U_\beta\nonumber\\
+\implies m\begin{pmatrix}c\frac{d\gamma}{d\tau}\\c\frac{d\mathbf{\tilde{u}}}{d\tau}\\\end{pmatrix}&=q\begin{pmatrix}\mathbf{E}\cdot\mathbf{\tilde{u}}\\\gamma\mathbf{E}+c\mathbf{\tilde{u}}\times\mathbf{B}\\\end{pmatrix}\nonumber
+\end{align}
+\end{ans}
+\begin{qns}[Relativistic electrodynamics]\leavevmode
+\begin{enumerate}[label=(\roman*)]
+\item A parallel plate capacitor is at rest in $S'$ with its plates perpendicular to Oy'. One
+plate at $y'=0$ has zero potential and the other at $y'=s$ is at potential $−V_0$. Write down the 4-potential between the plates in $S'$. Transform the 4-potential to the frame $S$ in which the capacitor is moving at speed $c\beta$ along the positive $x$-direction. Hence find $\mathbf{E}$ and $\mathbf{B}$ between the plates in $S$, and interpret your results.
+\item Repeat (i) when the plates are perpendicular to Ox' with the plate at $x'=0$ at zero potential and the other at $x'=s$ at potential $-V_0$.
+\end{enumerate}
+Are the results for (i) and (ii) consistent when two such perpendicularly oriented capacitors are considered together in $S'$, electrically connected in parallel?
+\end{qns}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\roman*)]
+\item In frame $S'$, the capacitor is at rest. With a uniform electric field in the $y'$ direction, the potential linearly depends on $y'$, i.e. $\phi'=-V_0y'/s$, where $\phi(y'=0)=0$ and $\phi'(y'=s)=-V_0$. Note we are only interested in the region between the plates, i.e. $0\leq y'\leq s$. The 4-potential will then be
+$$\mathcal{A}'=\begin{pmatrix}\phi/c\\\mathbf{A'}\\\end{pmatrix}=\begin{pmatrix}-\frac{V_0y'}{cs}\\\boldsymbol{0}\\\end{pmatrix}$$
+where the 3-vector potential $\mathbf{A}$ is zero since there is no currents. To find the 4-potential in frame $S$, we perform an inverse Lorentz transformation:
+$$\mathcal{A}=\Lambda^{-1}\mathcal{A}'=\begin{pmatrix}\gamma&\beta\gamma&0&0\\\beta\gamma&\gamma&0&0\\0&0&1&0\\0&0&0&1\\\end{pmatrix}\begin{pmatrix}-V_0y'/cs\\0\\0\\0\\\end{pmatrix}=\begin{pmatrix}-\gamma V_0y'/cs\\-\beta\gamma V_0y'/cs\\0\\0\\\end{pmatrix},\quad 0\leq y'\leq s$$
+The potentials are then $\phi=-\frac{\gamma V_0y}{s},~\mathbf{A}=-\frac{\beta\gamma V_0y}{cs}\mathbf{\hat{x}}$. It follows that the electromagnetic fields are
+$$\mathbf{E}=-\mathbf{\dot{A}}-\boldsymbol{\nabla}\phi=\frac{\gamma V_0}{s}\mathbf{\hat{y}},\quad\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}=\frac{\beta\gamma V_0}{cs}\mathbf{\hat{z}}\neq\boldsymbol{0}$$
+The electric field is unchanged since $y'=y$, i.e. perpendicular to the boost. In frame $S$, the magnetic field is non-zero, indicating that there is a current induced (in the $z$ direction) due to its relativistic motion, between the plates.
+\item By a similar classical electrostatics argument, the 4-potential in frame $S'$ (where the capacitor is at rest) is
+$$\mathcal{A}'=\begin{pmatrix}\frac{-V_0x'}{cs}\\\boldsymbol{0}\\\end{pmatrix}$$
+where again the 3-vector potential $\mathbf{A}$ is zero since there is no currents. To find the 4-potential in frame $S$, again perform an inverse Lorentz transformation.
+$$\mathcal{A}=\Lambda^{-1}\mathcal{A}'=\begin{pmatrix}\gamma&\beta\gamma&0&0\\\beta\gamma&\gamma&0&0\\0&0&1&0\\0&0&0&1\\\end{pmatrix}\begin{pmatrix}-V_0x'/cs\\0\\0\\0\\\end{pmatrix}=\begin{pmatrix}-\gamma V_0x'/cs\\-\beta\gamma V_0x'/cs\\0\\0\\\end{pmatrix},\quad 0\leq x'\leq s$$
+but boosting the 4-position gives $x'=\gamma(x-\beta ct)$. It follows that the potentials are
+$$\phi=-\frac{\gamma^2V_0}{s}(x-\beta ct),\quad\mathbf{A}=-\frac{\beta\gamma^2V_0}{cs}(x-\beta c)$$
+The electromagnetic fields are then
+$$\mathbf{E}=-\mathbf{\dot{A}}-\boldsymbol{\nabla}\phi=\bigg(-\frac{\beta\gamma^2V_0\beta c}{cs}+\frac{\gamma^2V_0}{s}\bigg)\mathbf{\hat{x}}=\frac{V_0}{s}\mathbf{\hat{x}}=\mathbf{E'},\quad\mathbf{B}=\boldsymbol{\nabla}\times\mathbf{A}=\boldsymbol{0}=\mathbf{B'}$$
+This is expected since the Lorentz boost is now parallel to the electric field. The longitudinal electric field is not transformed and there is no induced magnetic field or current.
+\end{enumerate}
+In (ii), there is no current flow for both capacitors. In (i), the current flow is in a direction parallel to the plates and not through the loop. Hence, for both setups, there is no current and the situation is consistent.
+\end{ans}
+\begin{qns}[Relativistic electrodynamics]
+Electric and magnetic fields, $\mathbf{E}$ and $\mathbf{B}$, as viewed in frame $S$ are such that when they are examined in frame $S'$, which is moving relative to $S$ with constant velocity $v$ along the common $x$-axis, the electric field is unaltered but the magnetic field is reversed. Show that the two fields are perpendicular in both frames and that, if $\mathbf{E} = (E_x, E_y, E_z)$, then
+$$\mathbf{B}=\frac{\gamma-1}{\gamma v}(0,-E_z,E_y)$$
+\end{qns}
+\begin{ans}
+We are given in frame $S'$ that
+$$\mathbf{E'}=\mathbf{E},\quad\mathbf{B'}=-\mathbf{B}$$
+The Lorentz boost is along the $x$ direction, so the electromagnetic fields (only the transverse ones non-trivially transform) transform like
+$$E_\parallel'=E_\parallel,\quad \mathbf{E_\perp'}=\gamma(\mathbf{E}+(\mathbf{v}\times\mathbf{B}))_\perp\implies E_x'=E_x,~E_y'=\gamma(E_y-vB_z),~E_z'=\gamma(E_z+vB_y)$$
+$$B_\parallel'=B_\parallel,\quad \mathbf{B_\perp'}=\gamma\bigg(\mathbf{B}-\frac{1}{c^2}(\mathbf{v}\times\mathbf{E})\bigg)_\perp\implies B_x'=B_x,~B_y'=\gamma\bigg(B_y+\frac{v}{c^2}E_z\bigg),~B_z'=\gamma(B_z-\frac{v}{c^2}E_y\bigg)$$
+To ensure it satisfies the given transformed fields, we have
+$$B_x=0,\quad B_z=\frac{\gamma-1}{\gamma v}E_y,\quad B_y=\frac{1-\gamma}{\gamma v}E_z,\quad E_x=E_x'$$
+The magnetic field is then $\mathbf{B}=\frac{\gamma-1}{\gamma v}(0,-E_z,E_y)$. Take the dot product:
+$$\mathbf{E}\cdot\mathbf{B}=(-E_yE_z+E_yE_z)\frac{\gamma-1}{\gamma v}=0,\quad\mathbf{E'}\cdot\mathbf{B'}=-\mathbf{E}\cdot\mathbf{B}=0$$
+i.e. the fields are perpendicular in both frames.
+\end{ans}
+\newpage
+\begin{qns}[Relativistic electrodynamics]
+A plane conducting non-magnetic sheet of uniform thickness is oriented normal to the $y$ and $y'$ axes in frames $S$ and $S'$. $S'$ moves at a constant velocity $v$ in the positive $x$-direction in $S$, and the sheet is at rest in $S'$. In $S$, there is a uniform magnetic field having components $(0, 0, B)$, and the electric field is zero. Transform these fields to $S'$ and hence deduce:
+\begin{enumerate}[label=(\alph*)]
+\item the fields $\mathbf{E'_0}$ and $\mathbf{B'_0}$ outside the sheet;
+\item the fields $\mathbf{E'_0}$ and $\mathbf{B'_0}$ inside the sheet;
+\item the surface charge density in $S'$ on either side of the sheet.
+\end{enumerate}
+Transform the results for (b) back to $S$, and hence find $\mathbf{E}$ and $\mathbf{B}$ inside the sheet. Interpret these results from the point of view of an observer at rest in $S$.
+\end{qns}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item 
 
+\item 
+
+\item
+\end{enumerate}
+\end{ans}
+\newpage
+\subsection*{Radiation}
+\begin{qns}
+Derive expressions for the fields due to a uniformly moving charge.\\[5pt]
+Two particles, each with charge $q$, are constrained to move with the same constant velocity $v$ parallel to the $x$-axis. Find the force on each due to the presence of the other when, instantaneously, one is at the origin and the other is at:
+\begin{enumerate}[label=(\alph*)]
+\item $(r, 0, 0)$;
+\item $(0, r, 0)$;
+\item $(r/\sqrt{2},r/\sqrt{2},0)$.
+\end{enumerate}
+\end{qns}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item 
+
+\item 
+
+\item
+\end{enumerate}
+\end{ans}
+\newpage
+\begin{qns}\leavevmode
+\begin{enumerate}[label=(\roman*)]
+\item  By direct substitution, show that the quantities $|\mathbf{E}|^2-c^2|\mathbf{B}|^2$ and $\mathbf{E}\cdot\mathbf{B}$ are invariant under the Lorentz Transformations.
+\item A region of space contains isotropic electromagnetic radiation of mean energy density $\langle U\rangle$. Show that an observer moving in the $x$-direction with speed $v$ through the region will measure a mean energy density $\langle U'\rangle$ and mean Poynting vector $\langle \mathbf{N'}\rangle$ given by
+\end{enumerate}
+\end{qns}
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\roman*)]
+\item 
+
+\item 
+
+\end{enumerate}
 \end{ans}
 \begin{qns}
-
+A 1 GeV electron passes into a region in which there is a transverse magnetic field of 1 T. Estimate the typical frequency of the synchrotron radiation emitted, and the fractional loss of energy per orbit.
 \end{qns}
 \begin{ans}
 
 \end{ans}
 \newpage
 \begin{qns}
-
+A particle of charge $q$ and rest mass $m$ is placed in an electromagnetic plane wave described by
+$$E_y=cB_0\sin[\omega(t-x/c)],\quad E_x=E_z=0$$
+$$B_z=B_0\sin[\omega(t-x/c)],\quad B_x=B_y=0$$
+If the wave is `strong' (i.e. $qB_0/m\omega > 1$) it attains relativistic speeds and the force on it arising from the wave’s magnetic field cannot be ignored. Applying the results of Q.27, write down the equations of motion.\\[5pt]
+If the particle is introduced at rest at $x = t = \tau = 0$, show that
+\begin{enumerate}[label=(\alph*)]
+\item $\tilde{u}_x=0$;
+\item $\tilde{u}_x=\gamma-1$;
+\item$(t-x/c)=\tau$, where $x$ refers to the particle's position at time $\tau$.
+\end{enumerate}
+Find the maximum energy $E_{\text{max}}$ attained by the particle and sketch its motion.
 \end{qns}
-\begin{ans}
-
-\end{ans}
-\begin{qns}
-
-\end{qns}
-\begin{ans}
-
-\end{ans}
-\newpage
-\begin{qns}
-
-\end{qns}
-\begin{ans}
-
-\end{ans}
-\begin{qns}
-
-\end{qns}
-\begin{ans}
-
-\end{ans}
-\newpage
-\begin{qns}
-
-\end{qns}
-\begin{ans}
-
-\end{ans}
-\begin{qns}
-
-\end{qns}
-\begin{ans}
-
-\end{ans}
-\newpage
-\begin{qns}
-
-\end{qns}
-\begin{ans}
-
-\end{ans}
-\begin{qns}
-
-\end{qns}
-\begin{ans}
-
+\begin{ans}\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item 
+\item 
+\item
+\end{enumerate}
 \end{ans}
 \end{document}
